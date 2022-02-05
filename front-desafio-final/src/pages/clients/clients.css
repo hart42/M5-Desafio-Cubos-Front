@@ -4,18 +4,14 @@ body{
     background-color: #F8F8F9;
 }
 
-.container-clientes{
-    position: absolute;
-    top: 20vh;
-    left: 15vw;
-}
-
 .clientes-section-superior{
     width: 75vw;
 
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    margin-left: -0.5vw;
 }
 
 .titulo-section-superior{
