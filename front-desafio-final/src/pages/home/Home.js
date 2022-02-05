@@ -8,6 +8,9 @@ function Home() {
         <main>
             <Header titulo='Resumo das cobranças' classname='home-header' />
             <Menu />
+            <div className="conteudo">
+                Ola
+            </div>
         </main>
     );
 }
