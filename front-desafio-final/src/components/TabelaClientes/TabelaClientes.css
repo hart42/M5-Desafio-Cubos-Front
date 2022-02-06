@@ -5,7 +5,7 @@
     box-sizing: border-box;
     max-height: 80vh;
     width: 75vw;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     background: #FFFFFF;
     border-radius: 30px;
@@ -25,6 +25,10 @@
 
     border-bottom: 1px solid #EFF0F6;
     padding: 18px;
+}
+
+.linhas-tabela-clientes:last-child{
+    border-bottom: none;
 }
 
 .cabecalho-tabela-clientes p, .linhas-tabela-clientes p{

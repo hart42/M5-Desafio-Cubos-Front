@@ -3,12 +3,13 @@ import iconFiltroRosa from '../../assets/icon-filtro-rosa.svg';
 import iconLupa from '../../assets/icon-lupa.svg';
 import Layout from '../../components/Layout/Layout';
 import ModalAddCliente from '../../components/ModalAddCliente/ModalAddCliente';
+import ModalFeedbackClients from '../../components/ModalFeedbackClients/ModalFeedbackClients';
 import TabelaClientes from '../../components/TabelaClientes/TabelaClientes';
 import useGlobal from '../../hooks/useGlobal';
 import './clients.css';
 
 function Clients() {
-    const { abrirModalAddCliente, setAbrirModalAddCliente } = useGlobal()
+    const { abrirModalAddCliente, setAbrirModalAddCliente, abrirModalFeedbackAddCliente } = useGlobal()
     return (
         <main>
             <Layout titulo='Cliente' classe='cliente-header'>
@@ -30,7 +31,7 @@ function Clients() {
 
                 <TabelaClientes />
                 {abrirModalAddCliente && <ModalAddCliente />}
-
+                {abrirModalFeedbackAddCliente && <ModalFeedbackClients class='visible-modal-feedback-addclientes' />}
             </Layout>
         </main>
     );

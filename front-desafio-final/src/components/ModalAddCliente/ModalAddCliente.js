@@ -10,7 +10,7 @@ const defaultValuesForm = { nome: '', email: '', cpf: '', telefone: '', endereco
 
 
 function ModalAddCliente() {
-    const { setAbrirModalAddCliente } = useGlobal()
+    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente } = useGlobal()
     const [form, setForm] = useState(defaultValuesForm);
     const [errors, setErrors] = useState([])
 
@@ -23,7 +23,6 @@ function ModalAddCliente() {
 
     function handleSubmit(event) {
         event.preventDefault();
-
         setErrors(validarFormulario(form))
 
         if (Object.keys(validarFormulario(form)).length !== 0) {
@@ -37,6 +36,8 @@ function ModalAddCliente() {
             telefone: form.telefone
         };
 
+        setAbrirModalAddCliente(false)
+        setAbrirModalFeedbackAddCliente(true)
         console.log(body)
     }
 
@@ -51,7 +52,7 @@ function ModalAddCliente() {
             objErrors.cpf = 'Este campo deve ser preenchido'
         }
 
-        if (values.cpf.length != 11 && values.cpf.length > 0) {
+        if (values.cpf.length !== 11 && values.cpf.length > 0) {
             objErrors.cpfValido = 'CPF inválido'
         }
 
@@ -65,7 +66,7 @@ function ModalAddCliente() {
             objErrors.email = 'Este campo deve ser preenchido'
         }
 
-        const emailExiste = listaClientes.filter(cliente => cliente.email == values.email)
+        const emailExiste = listaClientes.filter(cliente => cliente.email === values.email)
         if (emailExiste.length > 0) {
             objErrors.emailExiste = 'E-mail já cadastrado'
         }
