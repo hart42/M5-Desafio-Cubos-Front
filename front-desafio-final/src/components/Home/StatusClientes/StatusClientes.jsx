@@ -26,21 +26,24 @@ export default function ClientesHome(props) {
     return (
         <div className="card-clientes-home">
             <div className="topo-tabela-clientes">
-
+                <span className='clientes-home-esquerdo'><img src={props.icone} alt="" /> <p>{props.titulo}</p></span>
+                <span>numero</span>
             </div>
-            <div className="cabecalho-tabela-clientes">
-
+            <div className="cabecalho-tabela-clientes-home">
+                <p>Cliente</p>
+                <p>Data de Venc.</p>
+                <p>Valor</p>
             </div>
             {lista && lista.map((item) => {
                 return (
-                    <div className="linha-tabela-clientes">
+                    <div className="linha-tabela-clientes-home">
                         <p className='nome-cliente'>{item.nome}</p>
                         <p>{item.vencimento}</p>
-                        <p>{item.valor}</p>
+                        <p className='valor-cliente'>R$ {item.valor},00</p>
                     </div>
                 )
             })}
-            <div className="final-tabela-clientes">
+            <div className="final-tabela-clientes-home">
                 <p>Ver Todos</p>
             </div>
         </div>

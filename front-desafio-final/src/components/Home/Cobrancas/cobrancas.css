@@ -7,11 +7,11 @@
   flex-direction: column;
   align-items: center;
 
-  outline: 1px solid red;
-
   border-radius: 30px;
 
   box-sizing: border-box;
+
+  box-shadow: 0px 4px 4px rgba(172, 217, 197, 0.25);
 }
 .titulo-tabela {
   display: flex;
@@ -29,9 +29,6 @@
   font-weight: 600;
   font-size: 18px;
   line-height: 130%;
-
-  display: flex;
-  align-items: center;
 
   color: #3f3f55;
 }
@@ -95,7 +92,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.linha-tabela p.nome-cliente {
+.linha-tabela p.nome-cliente,
+p.valor-cliente {
   justify-content: left;
 }
 .final-tabela {

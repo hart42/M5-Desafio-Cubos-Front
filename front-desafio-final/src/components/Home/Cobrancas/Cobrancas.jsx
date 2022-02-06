@@ -40,7 +40,7 @@ export default function CobrancasHome(props) {
                     <div className="linha-tabela">
                         <p className='nome-cliente'>{item.nome}</p>
                         <p>{item.id_cobranca}</p>
-                        <p>{item.valor}</p>
+                        <p className='valor-cliente'>R$ {item.valor},00</p>
                     </div>
                 )
             })}
