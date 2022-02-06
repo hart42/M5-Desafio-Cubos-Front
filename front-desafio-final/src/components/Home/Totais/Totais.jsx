@@ -3,7 +3,7 @@ import './totais.css'
 export default function Totais(props) {
     return(
         <div className="card" style={{
-            backgroundColor: props
+            backgroundColor: props.cor
         }}>
             <span className="icone">
                 <img src={props.icone} alt="" />
