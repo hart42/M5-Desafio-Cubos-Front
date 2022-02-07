@@ -1,0 +1,5 @@
+.conteudoDaPagina{
+    position: absolute;
+    top: 20vh;
+    left: calc(15.5vw);
+}

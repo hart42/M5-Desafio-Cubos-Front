@@ -1,5 +1,6 @@
 import Header from '../Header/Header';
 import Menu from '../menu/Menu';
+import './Layout.css'
 
 export default function Layout(props) {
     return (
@@ -9,6 +10,6 @@ export default function Layout(props) {
             <div className="conteudoDaPagina">
                 {props.children}
             </div>
-        </div>  
+        </div>
     )
 }

@@ -2,6 +2,7 @@ import './TabelaClientes.css'
 import iconCriarCobranca from '../../assets/icon-criarcobranca-rosa.svg'
 import iconOrdenar from '../../assets/icon-ordenar.svg'
 import { useState } from 'react';
+import listaClientes from '../../mockado/listaClienteTeste'
 
 
 function TabelaClientes() {
@@ -18,14 +19,20 @@ function TabelaClientes() {
                 <p>Criar Cobrança</p>
             </div>
 
-            <div className="linhas-tabela-clientes">
-                <p>Jeremy Paule</p>
-                <p>888.888.888.88</p>
-                <p>Jeremy_paule@gmail.com</p>
-                <p>99 99999 9999</p>
-                <p><span className={status === 'inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>Inadimplente</span></p>
-                <p><img src={iconCriarCobranca} alt="" /></p>
-            </div>
+            {listaClientes.map((cliente) => {
+                return (
+                    <div className="linhas-tabela-clientes">
+                        <p>{cliente.nome}</p>
+                        <p>{cliente.cpf}</p>
+                        <p>{cliente.email}</p>
+                        <p>{cliente.telefone}</p>
+                        <p><span className={cliente.status === 'Inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>{cliente.status}</span></p>
+                        <p><img src={iconCriarCobranca} alt="" /></p>
+                    </div>
+                )
+            })}
+
+
         </section>
     );
 }

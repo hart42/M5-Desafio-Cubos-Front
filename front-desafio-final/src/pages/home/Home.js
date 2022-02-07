@@ -9,6 +9,10 @@ import cobrancaPrevista from '../../assets/home/cobrancaPrevista.svg';
 import cobrancaVencida from '../../assets/home/cobrancaVencida.svg';
 import clienteInadimplente from '../../assets/home/clientesInadimplentes.svg';
 import clientesEmDia from '../../assets/home/clienteEmDia.svg'
+import Layout from '../../components/Layout/Layout';
+
+
+
 
 function Home() {
     return (
