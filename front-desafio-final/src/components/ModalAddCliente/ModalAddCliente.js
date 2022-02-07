@@ -152,13 +152,13 @@ function ModalAddCliente() {
                         </div>
                     </div>
                     <div className='dividir-label'>
-                        <div className='label-modalAddCliente'>
+                        <div className='label-modalAddCliente label-dif-maior'>
                             <label htmlFor='cidade'>Cidade</label>
                             <input type='text' name='cidade' placeholder='Digite a Cidade'
                                 value={form.cidade}
                                 onChange={(e) => handleChange(e.target)} />
                         </div>
-                        <div className='label-modalAddCliente'>
+                        <div className='label-modalAddCliente label-dif-menor'>
                             <label htmlFor='UF'>UF</label>
                             <input type='text' name='UF' placeholder='Digite a UF'
                                 value={form.uf}
