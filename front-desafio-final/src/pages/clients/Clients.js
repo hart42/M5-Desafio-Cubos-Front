@@ -1,22 +1,18 @@
 import iconClienteCinza from '../../assets/icon-cliente-cinza.svg';
 import iconFiltroRosa from '../../assets/icon-filtro-rosa.svg';
 import iconLupa from '../../assets/icon-lupa.svg';
-import Header from '../../components/Header/Header';
-import Menu from '../../components/menu/Menu';
+import Layout from '../../components/Layout/Layout';
 import ModalAddCliente from '../../components/ModalAddCliente/ModalAddCliente';
+import ModalFeedbackClients from '../../components/ModalFeedbackClients/ModalFeedbackClients';
 import TabelaClientes from '../../components/TabelaClientes/TabelaClientes';
 import useGlobal from '../../hooks/useGlobal';
 import './clients.css';
 
 function Clients() {
-    const { abrirModalAddCliente, setAbrirModalAddCliente } = useGlobal()
+    const { abrirModalAddCliente, setAbrirModalAddCliente, abrirModalFeedbackAddCliente } = useGlobal()
     return (
         <main>
-            <Header titulo='Clientes' classname='cliente-header' />
-            <Menu />
-
-            <div className='container-clientes'>
-
+            <Layout titulo='Cliente' classe='cliente-header'>
                 <section className='clientes-section-superior'>
                     <div className="titulo-section-superior">
                         <img src={iconClienteCinza} alt="" />
@@ -35,8 +31,8 @@ function Clients() {
 
                 <TabelaClientes />
                 {abrirModalAddCliente && <ModalAddCliente />}
-
-            </div>
+                {abrirModalFeedbackAddCliente && <ModalFeedbackClients class='visible-modal-feedback-addclientes' />}
+            </Layout>
         </main>
     );
 }

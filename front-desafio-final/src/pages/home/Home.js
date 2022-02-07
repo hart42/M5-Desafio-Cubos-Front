@@ -1,13 +1,14 @@
 import './home.css';
-import Menu from '../../components/menu/Menu'
-import Header from '../../components/Header/Header'
+import Layout from '../../components/Layout/Layout';
+
 
 
 function Home() {
     return (
         <main>
-            <Header titulo='Resumo das cobranças' classname='home-header' />
-            <Menu />
+            <Layout titulo='Resumo das cobranças' classe='home-header'>
+                <p>ola</p>
+            </Layout>
         </main>
     );
 }

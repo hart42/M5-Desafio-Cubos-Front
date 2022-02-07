@@ -3,13 +3,14 @@ import iconClienteCinza from '../../assets/icon-cliente-cinza.svg';
 import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
 import './ModalAddCliente.css';
+import listaClientes from '../../mockado/listaClienteTeste'
 
 const defaultValuesForm = { nome: '', email: '', cpf: '', telefone: '', endereco: '', complemento: '', cep: '', bairro: '', cidade: '', uf: '' };
 
 
 
 function ModalAddCliente() {
-    const { setAbrirModalAddCliente } = useGlobal()
+    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente } = useGlobal()
     const [form, setForm] = useState(defaultValuesForm);
     const [errors, setErrors] = useState([])
 
@@ -22,36 +23,59 @@ function ModalAddCliente() {
 
     function handleSubmit(event) {
         event.preventDefault();
+        setErrors(validarFormulario(form))
 
-        setErrors(validarFormulario(defaultValuesForm))
-
-        if (!form.email || !form.cpf || !form.nome) {
+        if (Object.keys(validarFormulario(form)).length !== 0) {
             return;
         }
 
         const body = {
             nome: form.nome,
             email: form.email,
-            senha: form.cpf
+            senha: form.cpf,
+            telefone: form.telefone
         };
+
+        setAbrirModalAddCliente(false)
+        setAbrirModalFeedbackAddCliente(true)
+        console.log(body)
     }
 
     function validarFormulario(values) {
-        const arrayErrors = {}
+        const objErrors = {}
 
         if (!values.nome) {
-            arrayErrors.nome = 'Este campo deve ser preenchido'
+            objErrors.nome = 'Este campo deve ser preenchido'
         }
 
-        if (!values.senha) {
-            arrayErrors.senha = 'Este campo deve ser preenchido'
+        if (!values.cpf) {
+            objErrors.cpf = 'Este campo deve ser preenchido'
         }
+
+        if (values.cpf.length !== 11 && values.cpf.length > 0) {
+            objErrors.cpfValido = 'CPF inválido'
+        }
+
+        const cpfExiste = listaClientes.filter(cliente => cliente.cpf == values.cpf)
+        if (cpfExiste.length > 0) {
+            objErrors.cpfExiste = 'CPF já cadastrado'
+        }
+
 
         if (!values.email) {
-            arrayErrors.email = 'Este campo deve ser preenchido'
+            objErrors.email = 'Este campo deve ser preenchido'
         }
 
-        return arrayErrors
+        const emailExiste = listaClientes.filter(cliente => cliente.email === values.email)
+        if (emailExiste.length > 0) {
+            objErrors.emailExiste = 'E-mail já cadastrado'
+        }
+
+        if (!values.telefone) {
+            objErrors.telefone = 'Este campo deve ser preenchido'
+        }
+
+        return objErrors
     }
 
     return (
@@ -79,6 +103,8 @@ function ModalAddCliente() {
                             value={form.email}
                             onChange={(e) => handleChange(e.target)} />
                         {errors.email && <span className="erro-form">{errors.email}</span>}
+                        {errors.emailExiste && <span className="erro-form">{errors.emailExiste}</span>}
+
                     </div>
                     <div className='dividir-label'>
                         <div className='label-modalAddCliente'>
@@ -86,12 +112,17 @@ function ModalAddCliente() {
                             <input type='number' name='cpf' placeholder='Digite o CPF'
                                 value={form.cpf}
                                 onChange={(e) => handleChange(e.target)} />
+                            {errors.cpf && <span className="erro-form">{errors.cpf}</span>}
+                            {errors.cpfValido && <span className="erro-form">{errors.cpfValido}</span>}
+                            {errors.cpfExiste && <span className="erro-form">{errors.cpfExiste}</span>}
+
                         </div>
                         <div className='label-modalAddCliente'>
                             <label htmlFor='telefone'>Telefone*</label>
-                            <input type='text' name='telefone' placeholder='Digite o telefone'
+                            <input type='number' name='telefone' placeholder='Digite o telefone'
                                 value={form.telefone}
                                 onChange={(e) => handleChange(e.target)} />
+                            {errors.telefone && <span className="erro-form">{errors.telefone}</span>}
                         </div>
                     </div>
                     <div className='label-modalAddCliente'>

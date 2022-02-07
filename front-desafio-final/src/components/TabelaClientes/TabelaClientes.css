@@ -5,12 +5,14 @@
     box-sizing: border-box;
     max-height: 80vh;
     width: 75vw;
-    overflow-y: scroll;
+    overflow-y: auto;
 
     background: #FFFFFF;
     border-radius: 30px;
     margin-top: 30px;
     padding: 20px 15px;
+
+    margin-left: -0.5vw;
 }
 
 .cabecalho-tabela-clientes, .linhas-tabela-clientes{
@@ -23,6 +25,10 @@
 
     border-bottom: 1px solid #EFF0F6;
     padding: 18px;
+}
+
+.linhas-tabela-clientes:last-child{
+    border-bottom: none;
 }
 
 .cabecalho-tabela-clientes p, .linhas-tabela-clientes p{
@@ -53,7 +59,7 @@
     color: #747488;
 }
 
-.cliente-inadimplente{
+.linhas-tabela-clientes .cliente-inadimplente{
     font-weight: 600;
 
     color: #971D1D;
@@ -61,6 +67,16 @@
     border-radius: 8px;
 
     padding: 3px;
+}
+
+.linhas-tabela-clientes span.cliente-em-dia{
+    font-weight: 600;
+
+    color: #1FA7AF;
+    background: #EEF6F6;;
+    border-radius: 8px;
+
+    padding: 3px 25px;
 }
 
 .linhas-tabela-clientes p:last-child{
