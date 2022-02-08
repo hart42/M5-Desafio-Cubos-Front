@@ -33,7 +33,7 @@ function Header({ titulo, classname }) {
 
             <div className='user-header'>
                 <div className='user-image'>LR</div>
-                <p className='user-nome'>Lorena</p>
+                <p className='user-nome'>{usuarioLogado.nome}</p>
                 <img src={iconSetaBaixoVerde} className='icon-seta-header' alt='' onClick={() =>
                     abrirOpcoesPerfil ? setAbrirOpcoesPerfil(false) : setAbrirOpcoesPerfil(true)} />
             </div>
