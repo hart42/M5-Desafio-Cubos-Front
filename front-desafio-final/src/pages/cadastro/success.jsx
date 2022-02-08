@@ -1,38 +1,8 @@
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
 import CustomButton from '../../components/button';
-
-import './cadastro.css';
 import InitialPage from '../../components/Layout/initialPage';
 
-export const right = (
-  <div className="telacastro">
-    <Box
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '35ch' }
-      }}
-      noValidate
-      autoComplete="off"
-    >
-      <div className="form-inputs">
-        <TextField
-          required
-          id="outlined-required"
-          label="Nome"
-          defaultValue="Nome"
-        />
-        <TextField
-          required
-          id="outlined-required"
-          label="Email"
-          defaultValue="Email"
-        />
-      </div>
-    </Box>
-  </div>
-);
+import './cadastro.css';
 export const left = (
   <div className="bradcrumbsUL">
     <ul>
@@ -46,7 +16,13 @@ export const left = (
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <circle cx="16" cy="16.5" r="16" fill="#0E8750" />
+              <circle
+                cx="16"
+                cy="16.5"
+                r="15.5"
+                fill="#F0F0F5"
+                stroke="#0E8750"
+              />
             </svg>
             <svg
               width="8"
@@ -56,7 +32,13 @@ export const left = (
               xmlns="http://www.w3.org/2000/svg"
               className="svgPoint"
             >
-              <circle cx="3.9998" cy="3.50005" r="3.2" fill="#F0F0F5" />
+              <circle
+                cx="3.9998"
+                cy="3.50005"
+                r="2.7"
+                fill="#0E8750"
+                stroke="#0E8750"
+              />
             </svg>
           </div>
           <div className="bradText">
@@ -148,13 +130,7 @@ export const left = (
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              <circle
-                cx="16"
-                cy="16.5"
-                r="15.5"
-                fill="#F0F0F5"
-                stroke="#0E8750"
-              />
+              <circle cx="16" cy="16.5" r="16" fill="#0E8750" />
             </svg>
             <svg
               width="8"
@@ -164,13 +140,7 @@ export const left = (
               xmlns="http://www.w3.org/2000/svg"
               className="svgPoint"
             >
-              <circle
-                cx="3.9998"
-                cy="3.50005"
-                r="2.7"
-                fill="#0E8750"
-                stroke="#0E8750"
-              />
+              <circle cx="3.9998" cy="3.50005" r="3.2" fill="#F0F0F5" />
             </svg>
           </div>
           <div className="bradText">
@@ -185,23 +155,32 @@ export const left = (
   </div>
 );
 
-export const title = (
-  <div className="divtitlePageCadastro">
-    <h1 className="titlePageCadastro">Adicione seus dados</h1>
+export const actions = (
+  <div className="customButtonDivCadastro">{CustomButton('Ir para Login')}</div>
+);
+
+export const right = (
+  <div className="pagesuccess">
+    <svg
+      width="600"
+      height="513"
+      viewBox="0 0 600 513"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <rect y="0.5" width="600" height="512" rx="30" fill="#F0F0F5" />
+    </svg>
   </div>
 );
 
-export const actions = (
-  <div className="customButtonDivCadastro">{CustomButton('Continuar')}</div>
+export const title = (
+  <div className="divtitlePageSuccess">
+    <h1 className="titlePageSuccess">Cadastro realizado com sucesso!</h1>
+  </div>
 );
 
-export const textWithLink = (
-  <span className="spanLinkTextCadastro">
-    Já possui uma conta? Faça seu <a href="#"> Login</a>
-  </span>
-);
-function Cadastro() {
-  return InitialPage(left, right, title, actions, textWithLink);
+function Success() {
+  return InitialPage(left, right, title, actions);
 }
 
-export default Cadastro;
+export default Success;

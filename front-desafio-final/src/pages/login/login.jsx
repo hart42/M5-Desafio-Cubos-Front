@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './login.css';
-import InitialPage from '../../components/layout/initialPage';
-import InputAdornments from '../../components/formLogin';
+import InitialPage from '../../components/Layout/initialPage';
+import InputAdornments from '../../components/Login/formLogin';
 import CustomButton from '../../components/button';
 
 export const left = (
