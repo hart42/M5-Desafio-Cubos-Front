@@ -42,23 +42,34 @@ function Home() {
                 </div>
                 <div className="cobrancas">
                     <Cobrancas
-                        titulo={'Cobranças Pagas'}
+                    titulo={'Cobranças Pagas'}
+                    corBack={'#EEF6F6'}
+                    fontColor={'#1FA7AF'}
+                    
                     />
                     <Cobrancas
-                        titulo={'Cobranças Vencidas'}
+                    titulo={'Cobranças Vencidas'}
+                    corBack={'#FFEFEF'}
+                    fontColor={'#971D1D'}
                     />
                     <Cobrancas
-                        titulo={'Cobranças Previstas'}
+                    titulo={'Cobranças Previstas'}
+                    corBack={'#FCF6DC'}
+                    fontColor={'#C5A605'}
                     />
                 </div>
                 <div className="resumo-clientes">
                     <ClientesHome
-                        titulo={'Clientes Inadimplentes'}
-                        icone={clienteInadimplente}
+                    titulo={'Clientes Inadimplentes'}
+                    icone={clienteInadimplente}
+                    corBack={'#FFEFEF'}
+                    fontColor={'#971D1D'}
                     />
                     <ClientesHome
-                        titulo={'Clientes em Dia'}
-                        icone={clientesEmDia}
+                    titulo={'Clientes em Dia'}
+                    icone={clientesEmDia}
+                    corBack={'#EEF6F6'}
+                    fontColor={'#1FA7AF'}
                     />
                 </div>
             </div>
