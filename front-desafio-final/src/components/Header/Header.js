@@ -37,7 +37,8 @@ function Header({ titulo, classname }) {
             </div>
             {editaUsuario && 
             <EditaUsuario
-            setEditaUsuario={setEditaUsuario} 
+            setEditaUsuario={setEditaUsuario}
+            setAbrirOpcoesPerfil={setAbrirOpcoesPerfil} 
             />}
         </div>
     );

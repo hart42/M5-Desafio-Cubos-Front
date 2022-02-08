@@ -13,7 +13,7 @@ const usuarios = {
 
 
 
-export default function EditaUsuario({setEditaUsuario}) {
+export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil}) {
 
     const [usuarioLogado, setUsuarioLogado] = useState(usuarios);
     const [novaSenha, setNovaSenha] = useState('');
@@ -24,8 +24,9 @@ export default function EditaUsuario({setEditaUsuario}) {
         if(novaSenha !== confirmaSenha) {
             return console.log('As senhas precisam ser iguais em ambos os campos!')
         }
-        console.log(usuarioLogado)
-        setEditaUsuario(false)
+        console.log(usuarioLogado);
+        setAbrirOpcoesPerfil(false)
+        setEditaUsuario(false);
     }
 
     return (
