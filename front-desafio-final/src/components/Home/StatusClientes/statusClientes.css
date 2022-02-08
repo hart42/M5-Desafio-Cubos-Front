@@ -38,6 +38,17 @@
 
   padding: 10px 30px;
 }
+.clientes-home-direito {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-sizing: border-box;
+
+  border-radius: 8px;
+
+  padding: 0px 10px;
+}
 .clientes-home-esquerdo {
   display: flex;
   align-items: center;

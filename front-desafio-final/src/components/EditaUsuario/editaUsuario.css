@@ -117,3 +117,12 @@
 
   color: #f8f8f9;
 }
+.icone-senha-edita {
+  width: 30px;
+  height: 30px;
+
+  position: relative;
+
+  top: -33px;
+  right: -90%;
+}

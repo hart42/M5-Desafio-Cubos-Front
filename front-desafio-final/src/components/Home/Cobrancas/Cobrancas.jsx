@@ -29,6 +29,10 @@ export default function CobrancasHome(props) {
         <div className="card-cobrancas">
             <div className="titulo-tabela">
                 <span>{props.titulo}</span>
+                <span className='cobrancas-home-direito' style={{width: '50px',
+                height: '20px', backgroundColor: props.corBack, color: props.fontColor}}>
+                    {lista.length < 10 && '0'}{lista.length}
+                </span>
             </div>
             <div className="cabecalho-tabela">
                 <p>Cliente</p>

@@ -27,7 +27,10 @@ export default function ClientesHome(props) {
         <div className="card-clientes-home">
             <div className="topo-tabela-clientes">
                 <span className='clientes-home-esquerdo'><img src={props.icone} alt="" /> <p>{props.titulo}</p></span>
-                <span>numero</span>
+                <span className='clientes-home-direito' style={{width: '50px',
+                height: '20px', backgroundColor: props.corBack, color: props.fontColor}}>
+                    {lista.length < 10 && '0'}{lista.length}
+                </span>
             </div>
             <div className="cabecalho-tabela-clientes-home">
                 <p>Cliente</p>
