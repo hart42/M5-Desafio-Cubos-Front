@@ -1,12 +1,16 @@
 import './TabelaClientes.css'
+import { useEffect } from 'react'
 import iconCriarCobranca from '../../assets/icon-criarcobranca-rosa.svg'
 import iconOrdenar from '../../assets/icon-ordenar.svg'
-import { useState } from 'react';
-import listaClientes from '../../mockado/listaClienteTeste'
+import useGlobal from '../../hooks/useGlobal';
 
 
 function TabelaClientes() {
-    const [status, setStatus] = useState('inadimplente')
+    const { handleCarregarClientes, clientes } = useGlobal()
+
+    useEffect(() => {
+        handleCarregarClientes()
+    }, [])
 
     return (
         <section className='tabela-clientes'>
@@ -19,15 +23,16 @@ function TabelaClientes() {
                 <p>Criar Cobrança</p>
             </div>
 
-            {listaClientes.map((cliente) => {
+            {clientes.map((cliente) => {
                 return (
                     <div className="linhas-tabela-clientes">
                         <p>{cliente.nome}</p>
                         <p>{cliente.cpf}</p>
                         <p>{cliente.email}</p>
                         <p>{cliente.telefone}</p>
-                        <p><span className={cliente.status === 'Inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>{cliente.status}</span></p>
-                        <p><img src={iconCriarCobranca} alt="" /></p>
+                        {/* <p><span className={cliente.status === 'Inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>{cliente.status}</span></p> */}
+                        <p ><span className='cliente-inadimplente'>Inadimplente</span></p>
+                        <p><img src={iconCriarCobranca} alt="" onClick={() => handleCarregarClientes()} /></p>
                     </div>
                 )
             })}

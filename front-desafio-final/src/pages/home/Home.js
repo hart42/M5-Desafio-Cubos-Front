@@ -21,44 +21,44 @@ function Home() {
             <Menu />
             <div className="conteudo">
                 <div className="topo">
-                    <Totais 
-                    valor={30000}
-                    titulo={'Cobranças Pagas'}
-                    cor={'#EEF6F6'}
-                    icone={cobrancaPaga}
+                    <Totais
+                        valor={30000}
+                        titulo={'Cobranças Pagas'}
+                        cor={'#EEF6F6'}
+                        icone={cobrancaPaga}
                     />
-                    <Totais 
-                    valor={7000}
-                    titulo={'Cobranças Vencidas'}
-                    cor={'#FFEFEF'}
-                    icone={cobrancaVencida}
+                    <Totais
+                        valor={7000}
+                        titulo={'Cobranças Vencidas'}
+                        cor={'#FFEFEF'}
+                        icone={cobrancaVencida}
                     />
-                    <Totais 
-                    valor={10000}
-                    titulo={'Cobranças Previstas'}
-                    cor={'#FCF6DC'}
-                    icone={cobrancaPrevista}
+                    <Totais
+                        valor={10000}
+                        titulo={'Cobranças Previstas'}
+                        cor={'#FCF6DC'}
+                        icone={cobrancaPrevista}
                     />
                 </div>
                 <div className="cobrancas">
                     <Cobrancas
-                    titulo={'Cobranças Pagas'}
+                        titulo={'Cobranças Pagas'}
                     />
                     <Cobrancas
-                    titulo={'Cobranças Vencidas'}
+                        titulo={'Cobranças Vencidas'}
                     />
                     <Cobrancas
-                    titulo={'Cobranças Previstas'}
+                        titulo={'Cobranças Previstas'}
                     />
                 </div>
                 <div className="resumo-clientes">
                     <ClientesHome
-                    titulo={'Clientes Inadimplentes'}
-                    icone={clienteInadimplente}
+                        titulo={'Clientes Inadimplentes'}
+                        icone={clienteInadimplente}
                     />
                     <ClientesHome
-                    titulo={'Clientes em Dia'}
-                    icone={clientesEmDia}
+                        titulo={'Clientes em Dia'}
+                        icone={clientesEmDia}
                     />
                 </div>
             </div>
