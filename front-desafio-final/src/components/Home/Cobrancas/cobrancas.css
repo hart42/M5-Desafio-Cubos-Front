@@ -3,6 +3,8 @@
 .card-cobrancas {
   width: 360px;
 
+  background-color: #fff;
+
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -1,11 +1,14 @@
 import './Header.css';
 import { useState } from 'react';
-import iconSetaBaixoVerde from '../../assets/icon-seta-baixo-verde.svg'
-import iconEditar from '../../assets/icon-editar.svg'
-import iconSair from '../../assets/icon-sair.svg'
+import iconSetaBaixoVerde from '../../assets/icon-seta-baixo-verde.svg';
+import iconEditar from '../../assets/icon-editar.svg';
+import iconSair from '../../assets/icon-sair.svg';
+import EditaUsuario from '../EditaUsuario/EditaUsuario';
 
 function Header({ titulo, classname }) {
-    const [abrirOpcoesPerfil, setAbrirOpcoesPerfil] = useState(false)
+    const [abrirOpcoesPerfil, setAbrirOpcoesPerfil] = useState(false);
+    const [editaUsuario, setEditaUsuario] = useState(false);
+
 
     return (
         <div className='header'>
@@ -22,7 +25,9 @@ function Header({ titulo, classname }) {
 
             <div className={abrirOpcoesPerfil ? 'modal-opcoes-perfil' : 'modal-none'} >
                 <div>
-                    <img src={iconEditar} alt='' className='icon-modal-opcoes' />
+                    <img src={iconEditar} alt='' className='icon-modal-opcoes' 
+                    onClick={() => setEditaUsuario(true)}
+                    />
                     <p>Editar</p>
                 </div>
                 <div>
@@ -30,6 +35,10 @@ function Header({ titulo, classname }) {
                     <p>Sair</p>
                 </div>
             </div>
+            {editaUsuario && 
+            <EditaUsuario
+            setEditaUsuario={setEditaUsuario} 
+            />}
         </div>
     );
 }
