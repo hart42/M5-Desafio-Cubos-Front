@@ -1,21 +1,16 @@
 import { useState } from 'react';
 import './editaUsuario.css';
+import useGlobal from '../../hooks/useGlobal';
 import mostraSenha from '../../assets/header/mostraSenha.svg';
 import naoMostraSenha from '../../assets/header/naoMostraSenha.svg';
 
-const usuarios = {
-        nome: 'Cristiano Ronaldo',
-        email: 'cr7@gmail.com',
-        cpf: '04567890134',
-        telefone: '34556789',
-        senha: '',
-    }
 
 
 
-export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil}) {
+export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usuario}) {
 
-    const [usuarioLogado, setUsuarioLogado] = useState(usuarios);
+    const { handleEditarUsuario } = useGlobal()
+    const [usuarioLogado, setUsuarioLogado] = useState(usuario);
     const [novaSenha, setNovaSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
     const [mostraSenhaInput, setMostraSenhaInput] = useState(false);
@@ -24,8 +19,21 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil}) {
         if(novaSenha !== confirmaSenha) {
             return console.log('As senhas precisam ser iguais em ambos os campos!')
         }
+
+        const senhaEnviada = novaSenha.trim() !== '' && novaSenha;
+
+        const body = {
+            nome: usuarioLogado.nome,
+            email: usuarioLogado.email,
+            senha: senhaEnviada,
+            cpf: usuarioLogado.cpf,
+            telefone: usuarioLogado.telefone
+        }
+
         console.log(usuarioLogado);
-        setAbrirOpcoesPerfil(false)
+
+        handleEditarUsuario(body);
+        setAbrirOpcoesPerfil(false);
         setEditaUsuario(false);
     }
 
@@ -53,7 +61,9 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil}) {
                             CPF*
                             <input type="number" name='cpf' placeholder='Digite seu CPF'
                             value={usuarioLogado.cpf}
-                            onChange={(e) => setUsuarioLogado({...usuarioLogado, cpf: e.target.value})}/>
+                            onChange={(e) => {
+                                setUsuarioLogado({...usuarioLogado, cpf: e.target.value});
+                            }}/>
                         </label>
                         <label htmlFor="telefone">
                             Telefone*

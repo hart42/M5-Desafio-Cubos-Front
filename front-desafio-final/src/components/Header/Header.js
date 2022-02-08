@@ -1,13 +1,28 @@
 import './Header.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import useGlobal from '../../hooks/useGlobal';
 import iconSetaBaixoVerde from '../../assets/icon-seta-baixo-verde.svg';
 import iconEditar from '../../assets/icon-editar.svg';
 import iconSair from '../../assets/icon-sair.svg';
 import EditaUsuario from '../EditaUsuario/EditaUsuario';
 
+
 function Header({ titulo, classname }) {
+
+    const [usuarioLogado, setUsuarioLogado] = useState();
+    const { handleObeterUsuario } = useGlobal()
     const [abrirOpcoesPerfil, setAbrirOpcoesPerfil] = useState(false);
     const [editaUsuario, setEditaUsuario] = useState(false);
+
+    async function usuarioFecth() {
+        const usuarioDoFetch = await handleObeterUsuario()
+        setUsuarioLogado(usuarioDoFetch);
+        console.log(usuarioLogado);
+    }
+
+    useEffect(() => {
+        usuarioFecth()
+    },[])
 
 
     return (
@@ -18,7 +33,7 @@ function Header({ titulo, classname }) {
 
             <div className='user-header'>
                 <div className='user-image'>LR</div>
-                <p className='user-nome'>Lorena</p>
+                <p className='user-nome'>{usuarioLogado.nome}</p>
                 <img src={iconSetaBaixoVerde} className='icon-seta-header' alt='' onClick={() =>
                     abrirOpcoesPerfil ? setAbrirOpcoesPerfil(false) : setAbrirOpcoesPerfil(true)} />
             </div>
@@ -38,7 +53,8 @@ function Header({ titulo, classname }) {
             {editaUsuario && 
             <EditaUsuario
             setEditaUsuario={setEditaUsuario}
-            setAbrirOpcoesPerfil={setAbrirOpcoesPerfil} 
+            setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
+            usuario={usuarioLogado} 
             />}
         </div>
     );
