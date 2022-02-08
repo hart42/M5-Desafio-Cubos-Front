@@ -21,23 +21,23 @@ function Home() {
             <Menu />
             <div className="conteudo">
                 <div className="topo">
-                    <Totais 
-                    valor={30000}
-                    titulo={'Cobranças Pagas'}
-                    cor={'#EEF6F6'}
-                    icone={cobrancaPaga}
+                    <Totais
+                        valor={30000}
+                        titulo={'Cobranças Pagas'}
+                        cor={'#EEF6F6'}
+                        icone={cobrancaPaga}
                     />
-                    <Totais 
-                    valor={7000}
-                    titulo={'Cobranças Vencidas'}
-                    cor={'#FFEFEF'}
-                    icone={cobrancaVencida}
+                    <Totais
+                        valor={7000}
+                        titulo={'Cobranças Vencidas'}
+                        cor={'#FFEFEF'}
+                        icone={cobrancaVencida}
                     />
-                    <Totais 
-                    valor={10000}
-                    titulo={'Cobranças Previstas'}
-                    cor={'#FCF6DC'}
-                    icone={cobrancaPrevista}
+                    <Totais
+                        valor={10000}
+                        titulo={'Cobranças Previstas'}
+                        cor={'#FCF6DC'}
+                        icone={cobrancaPrevista}
                     />
                 </div>
                 <div className="cobrancas">
