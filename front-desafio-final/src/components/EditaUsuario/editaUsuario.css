@@ -175,3 +175,6 @@
 .card-sucesso img {
   margin-bottom: 30px;
 }
+.botao-aplicar {
+  cursor: pointer;
+}
