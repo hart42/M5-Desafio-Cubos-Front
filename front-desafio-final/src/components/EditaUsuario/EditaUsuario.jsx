@@ -7,7 +7,7 @@ import naoMostraSenha from '../../assets/header/naoMostraSenha.svg';
 
 
 
-export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usuario}) {
+export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usuario, usuarioFecth}) {
 
     const { handleEditarUsuario } = useGlobal()
     const [usuarioLogado, setUsuarioLogado] = useState(usuario);
@@ -33,6 +33,7 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
         console.log(usuarioLogado);
 
         handleEditarUsuario(body);
+        usuarioFecth()
         setAbrirOpcoesPerfil(false);
         setEditaUsuario(false);
     }

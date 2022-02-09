@@ -33,7 +33,7 @@ function Header({ titulo, classname }) {
 
             <div className='user-header'>
                 <div className='user-image'>LR</div>
-                <p className='user-nome'>{usuarioLogado.nome}</p>
+                <p className='user-nome'>{usuarioLogado ? usuarioLogado.nome : 'Usuário'}</p>
                 <img src={iconSetaBaixoVerde} className='icon-seta-header' alt='' onClick={() =>
                     abrirOpcoesPerfil ? setAbrirOpcoesPerfil(false) : setAbrirOpcoesPerfil(true)} />
             </div>
@@ -55,6 +55,8 @@ function Header({ titulo, classname }) {
             setEditaUsuario={setEditaUsuario}
             setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
             usuario={usuarioLogado} 
+            usuarioFecth={usuarioFecth}
+            setUsuarioLogado={setUsuarioLogado}
             />}
         </div>
     );
