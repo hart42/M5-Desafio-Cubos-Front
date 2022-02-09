@@ -3,24 +3,62 @@ import './editaUsuario.css';
 import useGlobal from '../../hooks/useGlobal';
 import mostraSenha from '../../assets/header/mostraSenha.svg';
 import naoMostraSenha from '../../assets/header/naoMostraSenha.svg';
-
-
+import sucessoImg from '../../assets/header/sucesso.svg';
+import btnFechar from '../../assets/header/close.svg'
 
 
 export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usuario, usuarioFecth}) {
 
-    const { handleEditarUsuario } = useGlobal()
+    const [sucesso, setSucesso] = useState(false);
+    const { handleEditarUsuario } = useGlobal();
     const [usuarioLogado, setUsuarioLogado] = useState(usuario);
     const [novaSenha, setNovaSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
     const [mostraSenhaInput, setMostraSenhaInput] = useState(false);
+    const [camposPreenchidos, setCamposPreenchidos] = useState({
+        nome: true,
+        email: true,
+        cpf: true,
+        telefone: true,
+    });
+    const [senhasIguais, setSenhasIguais] = useState(true);
 
-    function handleAplicar() {
+    async function handleAplicar() {
+
+        setSenhasIguais(true);
+
+        setCamposPreenchidos({
+            nome: true,
+            email: true,
+            cpf: true,
+            telefone: true,
+        });
+
         if(novaSenha !== confirmaSenha) {
-            return console.log('As senhas precisam ser iguais em ambos os campos!')
+            return setSenhasIguais(false);
         }
 
-        const senhaEnviada = novaSenha.trim() !== '' && novaSenha;
+        if (!usuarioLogado.nome) {
+            return setCamposPreenchidos({...camposPreenchidos, nome: false});
+        } else {
+            setCamposPreenchidos({...camposPreenchidos, nome: true});
+        }
+        if (!usuarioLogado.email) {
+            return setCamposPreenchidos({...camposPreenchidos, email: false});
+        } else {
+            setCamposPreenchidos({...camposPreenchidos, email: true});
+        }
+        if (!usuarioLogado.cpf) {
+            return setCamposPreenchidos({...camposPreenchidos, cpf: false});
+        } else {
+            setCamposPreenchidos({...camposPreenchidos, cpf: true});
+        }
+        if (!usuarioLogado.telefone) {
+            return setCamposPreenchidos({...camposPreenchidos, telefone: false});
+        } else {
+            setCamposPreenchidos({...camposPreenchidos, telefone: true});
+        };
+        const senhaEnviada = novaSenha.trim();
 
         const body = {
             nome: usuarioLogado.nome,
@@ -30,19 +68,32 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
             telefone: usuarioLogado.telefone
         }
 
-        console.log(usuarioLogado);
+        const resposta = await handleEditarUsuario(body);
 
-        handleEditarUsuario(body);
+        if(resposta.status === 200) {
+            setSucesso(true);
+            setTimeout(() => {
+                setEditaUsuario(false)
+            }, 2000);
+            
+        } else {
+            return
+        }
+
+        setAbrirOpcoesPerfil(false)
         usuarioFecth()
-        setAbrirOpcoesPerfil(false);
-        setEditaUsuario(false);
     }
 
     return (
         <div className="modal-edita-usuario">
-            <div className="card-edita-usuario">
+            {!sucesso ? (
+                <div className="card-edita-usuario">
                 <div className="topo-edita-usuario">
-                    <span>Edite seu cadastro</span>
+                    <span className='titulo-modal-editar'>Edite seu cadastro</span>
+                    <img 
+                    className='btnFechar' 
+                    src={btnFechar} alt="botão de fechar"
+                    onClick={() => setEditaUsuario(false)} />
                 </div>
                 <div className="formulario-edita-usuario">
                     <label htmlFor="nome">
@@ -50,12 +101,18 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
                         <input type="text" id='nome' placeholder='Digite seu nome'
                         value={usuarioLogado.nome}
                         onChange={(e) => setUsuarioLogado({...usuarioLogado, nome: e.target.value})}/>
+                        {!camposPreenchidos.nome && (
+                            <span className='campo-faltando-edicao'>O campo nome é obrigatório</span>
+                        )}
                     </label>
                     <label htmlFor="email">
                         <span>E-mail*</span>
                         <input type="email" name="email" id="email" placeholder='Digite seu e-mail'
                         value={usuarioLogado.email}
                         onChange={(e) => setUsuarioLogado({...usuarioLogado, email: e.target.value})}/>
+                        {!camposPreenchidos.email && (
+                            <span className='campo-faltando-edicao'>O campo e-mail é obrigatório</span>
+                        )}
                     </label>
                     <div className="cpf-telefone">
                         <label htmlFor="cpf">
@@ -65,6 +122,9 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
                             onChange={(e) => {
                                 setUsuarioLogado({...usuarioLogado, cpf: e.target.value});
                             }}/>
+                            {!camposPreenchidos.cpf && (
+                            <span className='campo-faltando-edicao'>O campo cpf é obrigatório</span>
+                        )}
                         </label>
                         <label htmlFor="telefone">
                             Telefone*
@@ -72,9 +132,13 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
                             placeholder='Digite seu telefone'
                             value={usuarioLogado.telefone}
                             onChange={(e) => setUsuarioLogado({...usuarioLogado, telefone: e.target.value})}/>
+                            {!camposPreenchidos.telefone && (
+                            <span className='campo-faltando-edicao'>O campo telefone é obrigatório</span>
+                        )}
                         </label>
                     </div>
-                    <label htmlFor="nova-senha">
+                    <label htmlFor="nova-senha"
+                    className='posicao-relativa'>
                         <span>Nova Senha</span>
                         <input type={!mostraSenhaInput ? ("password") : ("text")} name="nova-senha" id="nova-senha" placeholder='Digite uma nova senha'
                         onChange={(e) => setNovaSenha(e.target.value)}/>
@@ -83,8 +147,13 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
                         ) :
                         (<img className='icone-senha-edita' src={naoMostraSenha} alt="" 
                         onClick={() => setMostraSenhaInput(true)}/>)}
+                        {!senhasIguais && (
+                            <span className="absoluto-edita campo-faltando-edicao">
+                                As senhas precisam ser idênticas!
+                            </span>
+                        )}
                     </label>
-                    <label htmlFor="confirma-senha">
+                    <label htmlFor="confirma-senha" className='posicao-relativa'>
                         <span>Confirmar Senha</span>
                         <input type={!mostraSenhaInput ? ("password") : ("text")} name="confirma-senha" id="confirma-senha" placeholder='Confirme sua nova senha'
                         onChange={(e) => setConfirmaSenha(e.target.value)}/>
@@ -93,12 +162,24 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
                         ) :
                         (<img className='icone-senha-edita' src={naoMostraSenha} alt="" 
                         onClick={() => setMostraSenhaInput(true)}/>)}
+                        {!senhasIguais && (
+                            <span className="absoluto-edita campo-faltando-edicao">
+                                As senhas precisam ser idênticas!
+                            </span>
+                        )}
                     </label>
                 </div>
                 <div className="final-edita-usuario">
-                    <button onClick={handleAplicar}>Aplicar</button>
+                    <button className='botao-aplicar' onClick={handleAplicar}>Aplicar</button>
                 </div>
             </div>
+            ) :
+            (<div className="card-sucesso">
+                <img src={sucessoImg} alt="" />
+                <div>
+                Cadastro Alterado com sucesso!
+                </div>
+        </div>)}
         </div>
     )
 }

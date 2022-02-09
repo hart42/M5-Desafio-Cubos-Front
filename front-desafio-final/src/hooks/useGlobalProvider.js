@@ -75,7 +75,7 @@ function useGlobalProvider() {
                 body: JSON.stringify(body)
             });
 
-            const data = await response.json()
+            const data = response
 
             return data;
 
