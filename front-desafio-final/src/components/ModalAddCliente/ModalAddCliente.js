@@ -5,12 +5,11 @@ import useGlobal from '../../hooks/useGlobal';
 import './ModalAddCliente.css';
 import listaClientes from '../../mockado/listaClienteTeste'
 
-const defaultValuesForm = { nome: '', email: '', cpf: '', telefone: '', endereco: '', complemento: '', cep: '', bairro: '', cidade: '', uf: '' };
-
+const defaultValuesForm = { nome: '', email: '', cpf: '', telefone: '', endereco: ' ', complemento: ' ', cep: ' ', bairro: ' ', cidade: ' ', uf: ' ' };
 
 
 function ModalAddCliente() {
-    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente } = useGlobal()
+    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente, handleAdicionarCliente } = useGlobal()
     const [form, setForm] = useState(defaultValuesForm);
     const [errors, setErrors] = useState([])
 
@@ -29,16 +28,24 @@ function ModalAddCliente() {
             return;
         }
 
+        const cepBody = form.cep.trim() || 0;
+
         const body = {
             nome: form.nome,
             email: form.email,
-            senha: form.cpf,
-            telefone: form.telefone
+            cpf: form.cpf,
+            telefone: form.telefone,
+            logradouro: form.endereco,
+            complemento: form.complemento,
+            cep: cepBody,
+            bairro: form.bairro,
+            cidade: form.cidade,
+            estado: form.uf
         };
 
+        handleAdicionarCliente(body)
         setAbrirModalAddCliente(false)
         setAbrirModalFeedbackAddCliente(true)
-        console.log(body)
     }
 
     function validarFormulario(values) {
@@ -152,15 +159,15 @@ function ModalAddCliente() {
                         </div>
                     </div>
                     <div className='dividir-label'>
-                        <div className='label-modalAddCliente'>
+                        <div className='label-modalAddCliente label-dif-maior'>
                             <label htmlFor='cidade'>Cidade</label>
                             <input type='text' name='cidade' placeholder='Digite a Cidade'
                                 value={form.cidade}
                                 onChange={(e) => handleChange(e.target)} />
                         </div>
-                        <div className='label-modalAddCliente'>
-                            <label htmlFor='UF'>UF</label>
-                            <input type='text' name='UF' placeholder='Digite a UF'
+                        <div className='label-modalAddCliente label-dif-menor'>
+                            <label htmlFor='uf'>UF</label>
+                            <input type='text' name='uf' placeholder='Digite a UF'
                                 value={form.uf}
                                 onChange={(e) => handleChange(e.target)} />
                         </div>

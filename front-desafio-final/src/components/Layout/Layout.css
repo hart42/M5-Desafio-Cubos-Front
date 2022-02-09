@@ -1,3 +1,7 @@
+body{
+    background-color: #F8F8F9;
+}
+
 .conteudoDaPagina{
     position: absolute;
     top: 20vh;

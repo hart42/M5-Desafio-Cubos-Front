@@ -21,44 +21,55 @@ function Home() {
             <Menu />
             <div className="conteudo">
                 <div className="topo">
-                    <Totais 
-                    valor={30000}
-                    titulo={'Cobranças Pagas'}
-                    cor={'#EEF6F6'}
-                    icone={cobrancaPaga}
+                    <Totais
+                        valor={30000}
+                        titulo={'Cobranças Pagas'}
+                        cor={'#EEF6F6'}
+                        icone={cobrancaPaga}
                     />
-                    <Totais 
-                    valor={7000}
-                    titulo={'Cobranças Vencidas'}
-                    cor={'#FFEFEF'}
-                    icone={cobrancaVencida}
+                    <Totais
+                        valor={7000}
+                        titulo={'Cobranças Vencidas'}
+                        cor={'#FFEFEF'}
+                        icone={cobrancaVencida}
                     />
-                    <Totais 
-                    valor={10000}
-                    titulo={'Cobranças Previstas'}
-                    cor={'#FCF6DC'}
-                    icone={cobrancaPrevista}
+                    <Totais
+                        valor={10000}
+                        titulo={'Cobranças Previstas'}
+                        cor={'#FCF6DC'}
+                        icone={cobrancaPrevista}
                     />
                 </div>
                 <div className="cobrancas">
                     <Cobrancas
                     titulo={'Cobranças Pagas'}
+                    corBack={'#EEF6F6'}
+                    fontColor={'#1FA7AF'}
+                    
                     />
                     <Cobrancas
                     titulo={'Cobranças Vencidas'}
+                    corBack={'#FFEFEF'}
+                    fontColor={'#971D1D'}
                     />
                     <Cobrancas
                     titulo={'Cobranças Previstas'}
+                    corBack={'#FCF6DC'}
+                    fontColor={'#C5A605'}
                     />
                 </div>
                 <div className="resumo-clientes">
                     <ClientesHome
                     titulo={'Clientes Inadimplentes'}
                     icone={clienteInadimplente}
+                    corBack={'#FFEFEF'}
+                    fontColor={'#971D1D'}
                     />
                     <ClientesHome
                     titulo={'Clientes em Dia'}
                     icone={clientesEmDia}
+                    corBack={'#EEF6F6'}
+                    fontColor={'#1FA7AF'}
                     />
                 </div>
             </div>

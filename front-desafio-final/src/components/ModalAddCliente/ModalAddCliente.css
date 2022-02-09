@@ -23,7 +23,7 @@
     border-radius: 30px;
 
     width: 35vw;
-    min-width: 500px;
+    min-width: 550px;
     min-height: 650px;
 
     padding: 40px 55px;
@@ -74,9 +74,22 @@
     margin-bottom: 10px;
 }
 
+.label-modalAddCliente:not(.label-dif-menor) input{
+    min-width: 200px;
+}
+
 .dividir-label{
     display: flex;
     justify-content: space-between;
+}
+
+.label-dif-maior{
+    width: 300px;
+    margin-right: 40px;
+}
+
+.label-dif-menor{
+    width: 120px;
 }
 
 .label-modalAddCliente label{
