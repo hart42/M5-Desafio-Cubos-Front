@@ -7,10 +7,10 @@ import iconSair from '../../assets/icon-sair.svg';
 import EditaUsuario from '../EditaUsuario/EditaUsuario';
 
 
-function Header({ titulo, classname }) {
 
+function Header({ titulo, classname }) {
     const [usuarioLogado, setUsuarioLogado] = useState();
-    const { handleObeterUsuario } = useGlobal()
+    const { handleObeterUsuario, removeToken } = useGlobal()
     const [abrirOpcoesPerfil, setAbrirOpcoesPerfil] = useState(false);
     const [editaUsuario, setEditaUsuario] = useState(false);
 
@@ -22,8 +22,7 @@ function Header({ titulo, classname }) {
 
     useEffect(() => {
         usuarioFecth()
-    },[])
-
+    }, [])
 
     return (
         <div className='header'>
@@ -32,30 +31,30 @@ function Header({ titulo, classname }) {
             </div>
 
             <div className='user-header'>
-                <div className='user-image'>LR</div>
-                <p className='user-nome'>{usuarioLogado.nome}</p>
+                <div className='user-image'>{usuarioLogado && usuarioLogado.nome[0]}</div>
+                <p className='user-nome'>{usuarioLogado && usuarioLogado.nome}</p>
                 <img src={iconSetaBaixoVerde} className='icon-seta-header' alt='' onClick={() =>
                     abrirOpcoesPerfil ? setAbrirOpcoesPerfil(false) : setAbrirOpcoesPerfil(true)} />
             </div>
 
             <div className={abrirOpcoesPerfil ? 'modal-opcoes-perfil' : 'modal-none'} >
                 <div>
-                    <img src={iconEditar} alt='' className='icon-modal-opcoes' 
-                    onClick={() => setEditaUsuario(true)}
+                    <img src={iconEditar} alt='' className='icon-modal-opcoes'
+                        onClick={() => setEditaUsuario(true)}
                     />
                     <p>Editar</p>
                 </div>
-                <div>
+                <div onClick={() => removeToken()}>
                     <img src={iconSair} alt='' />
                     <p>Sair</p>
                 </div>
             </div>
-            {editaUsuario && 
-            <EditaUsuario
-            setEditaUsuario={setEditaUsuario}
-            setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
-            usuario={usuarioLogado} 
-            />}
+            {editaUsuario &&
+                <EditaUsuario
+                    setEditaUsuario={setEditaUsuario}
+                    setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
+                    usuario={usuarioLogado}
+                />}
         </div>
     );
 }

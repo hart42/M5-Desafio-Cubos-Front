@@ -1,10 +1,10 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import CustomButton from '../../components/button';
-
 import './cadastro.css';
 import InitialPage from '../../components/Layout/initialPage';
+import CustomButton from '../../components/button';
 
 export const right = (
   <div className="telacastro">
@@ -21,13 +21,11 @@ export const right = (
           required
           id="outlined-required"
           label="Nome"
-          defaultValue="Nome"
         />
         <TextField
           required
           id="outlined-required"
           label="Email"
-          defaultValue="Email"
         />
       </div>
     </Box>
@@ -197,7 +195,8 @@ export const actions = (
 
 export const textWithLink = (
   <span className="spanLinkTextCadastro">
-    Já possui uma conta? Faça seu <a href="#"> Login</a>
+    Já possui uma conta? Faça seu
+    <Link to='/Login'><a> Login</a></Link>
   </span>
 );
 function Cadastro() {
