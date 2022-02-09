@@ -15,7 +15,7 @@ function useGlobalProvider() {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjQ0MzQ1MjU4LCJleHAiOjE2NDQzNzQwNTh9.KP5zOfazwIx2ZFbk5Vua0x1BmkuB2nLvpe-pcDqRGxQ`
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjQ0NDMwMDYzLCJleHAiOjE2NDQ0NTg4NjN9.BvLe9Evhm1FAaTDbWuhqCie6l_iqB487HeEPp7zLkz0`
                 },
                 body: JSON.stringify(body)
             })
@@ -34,7 +34,7 @@ function useGlobalProvider() {
             const response = await fetch('https://desafio-modulo-5.herokuapp.com/clientes', {
                 method: 'GET',
                 headers: {
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjQ0MzQ1MjU4LCJleHAiOjE2NDQzNzQwNTh9.KP5zOfazwIx2ZFbk5Vua0x1BmkuB2nLvpe-pcDqRGxQ`
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjQ0NDMwMDYzLCJleHAiOjE2NDQ0NTg4NjN9.BvLe9Evhm1FAaTDbWuhqCie6l_iqB487HeEPp7zLkz0`
                 }
             })
 
@@ -51,7 +51,7 @@ function useGlobalProvider() {
             const response = await fetch('https://desafio-modulo-5.herokuapp.com/perfil', {
                 method: 'GET',
                 headers: {
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjQ0MzQ1MjU4LCJleHAiOjE2NDQzNzQwNTh9.KP5zOfazwIx2ZFbk5Vua0x1BmkuB2nLvpe-pcDqRGxQ`
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjQ0NDMwMDYzLCJleHAiOjE2NDQ0NTg4NjN9.BvLe9Evhm1FAaTDbWuhqCie6l_iqB487HeEPp7zLkz0`
                 }
             })
 
@@ -70,10 +70,15 @@ function useGlobalProvider() {
                 method: 'PUT',
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNjQ0MzQ1MjU4LCJleHAiOjE2NDQzNzQwNTh9.KP5zOfazwIx2ZFbk5Vua0x1BmkuB2nLvpe-pcDqRGxQ`
+                    "Authorization": `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNjQ0NDMwMDYzLCJleHAiOjE2NDQ0NTg4NjN9.BvLe9Evhm1FAaTDbWuhqCie6l_iqB487HeEPp7zLkz0`
                 },
                 body: JSON.stringify(body)
             });
+
+            const data = await response.json()
+
+            return data;
+
         } catch (error) {
             console.log(error);
         }
