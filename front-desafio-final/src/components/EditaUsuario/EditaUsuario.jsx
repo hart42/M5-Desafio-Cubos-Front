@@ -4,9 +4,6 @@ import useGlobal from '../../hooks/useGlobal';
 import mostraSenha from '../../assets/header/mostraSenha.svg';
 import naoMostraSenha from '../../assets/header/naoMostraSenha.svg';
 import sucessoImg from '../../assets/header/sucesso.svg';
-import { useEffect } from 'react';
-
-
 
 
 export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usuario, usuarioFecth}) {
@@ -60,7 +57,7 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
         } else {
             setCamposPreenchidos({...camposPreenchidos, telefone: true});
         };
-        const senhaEnviada = novaSenha.trim() !== '' && novaSenha;
+        const senhaEnviada = novaSenha.trim();
 
         const body = {
             nome: usuarioLogado.nome,
@@ -72,14 +69,14 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
 
         const resposta = await handleEditarUsuario(body);
 
-        if(resposta === 200) {
+        if(resposta.status === 200) {
             setSucesso(true);
             setTimeout(() => {
                 setEditaUsuario(false)
             }, 2000);
             
         } else {
-
+            return
         }
 
         setAbrirOpcoesPerfil(false)
@@ -168,7 +165,7 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
                     </label>
                 </div>
                 <div className="final-edita-usuario">
-                    <button onClick={handleAplicar}>Aplicar</button>
+                    <button className='botao-aplicar' onClick={handleAplicar}>Aplicar</button>
                 </div>
             </div>
             ) :
