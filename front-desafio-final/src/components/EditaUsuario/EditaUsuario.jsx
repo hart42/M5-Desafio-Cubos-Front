@@ -4,6 +4,7 @@ import useGlobal from '../../hooks/useGlobal';
 import mostraSenha from '../../assets/header/mostraSenha.svg';
 import naoMostraSenha from '../../assets/header/naoMostraSenha.svg';
 import sucessoImg from '../../assets/header/sucesso.svg';
+import btnFechar from '../../assets/header/close.svg'
 
 
 export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usuario, usuarioFecth}) {
@@ -88,7 +89,11 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
             {!sucesso ? (
                 <div className="card-edita-usuario">
                 <div className="topo-edita-usuario">
-                    <span>Edite seu cadastro</span>
+                    <span className='titulo-modal-editar'>Edite seu cadastro</span>
+                    <img 
+                    className='btnFechar' 
+                    src={btnFechar} alt="botão de fechar"
+                    onClick={() => setEditaUsuario(false)} />
                 </div>
                 <div className="formulario-edita-usuario">
                     <label htmlFor="nome">

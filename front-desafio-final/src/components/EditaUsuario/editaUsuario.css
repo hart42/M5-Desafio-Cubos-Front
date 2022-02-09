@@ -49,6 +49,12 @@
 
   color: #343447;
 }
+.titulo-modal-editar {
+  margin-left: 80px;
+}
+.btnFechar {
+  margin-left: 70px;
+}
 .formulario-edita-usuario {
   display: flex;
   flex-direction: column;
