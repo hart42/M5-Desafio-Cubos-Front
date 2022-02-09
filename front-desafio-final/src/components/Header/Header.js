@@ -17,7 +17,6 @@ function Header({ titulo, classname }) {
     async function usuarioFecth() {
         const usuarioDoFetch = await handleObeterUsuario()
         setUsuarioLogado(usuarioDoFetch);
-        console.log(usuarioLogado);
     }
 
     useEffect(() => {
