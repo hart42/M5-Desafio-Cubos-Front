@@ -3,13 +3,12 @@ import iconClienteCinza from '../../assets/icon-cliente-cinza.svg';
 import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
 import './ModalAddCliente.css';
-import listaClientes from '../../mockado/listaClienteTeste'
 
 const defaultValuesForm = { nome: '', email: '', cpf: '', telefone: '', endereco: ' ', complemento: ' ', cep: ' ', bairro: ' ', cidade: ' ', uf: ' ' };
 
 
 function ModalAddCliente() {
-    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente, handleAdicionarCliente } = useGlobal()
+    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente, handleAdicionarCliente, clientes } = useGlobal()
     const [form, setForm] = useState(defaultValuesForm);
     const [errors, setErrors] = useState([])
 
@@ -20,7 +19,7 @@ function ModalAddCliente() {
         });
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
         setErrors(validarFormulario(form))
 
@@ -43,9 +42,12 @@ function ModalAddCliente() {
             estado: form.uf
         };
 
-        handleAdicionarCliente(body)
-        setAbrirModalAddCliente(false)
-        setAbrirModalFeedbackAddCliente(true)
+        const resposta = await handleAdicionarCliente(body)
+
+        if (resposta.status === 201) {
+            setAbrirModalAddCliente(false)
+            setAbrirModalFeedbackAddCliente(true)
+        }
     }
 
     function validarFormulario(values) {
@@ -63,7 +65,7 @@ function ModalAddCliente() {
             objErrors.cpfValido = 'CPF inválido'
         }
 
-        const cpfExiste = listaClientes.filter(cliente => cliente.cpf == values.cpf)
+        const cpfExiste = clientes.filter(cliente => cliente.cpf == values.cpf)
         if (cpfExiste.length > 0) {
             objErrors.cpfExiste = 'CPF já cadastrado'
         }
@@ -73,7 +75,7 @@ function ModalAddCliente() {
             objErrors.email = 'Este campo deve ser preenchido'
         }
 
-        const emailExiste = listaClientes.filter(cliente => cliente.email === values.email)
+        const emailExiste = clientes.filter(cliente => cliente.email === values.email)
         if (emailExiste.length > 0) {
             objErrors.emailExiste = 'E-mail já cadastrado'
         }

@@ -26,8 +26,12 @@ function useGlobalProvider() {
         }
       );
       const data = await response.json();
-      console.log(data);
-      handleCarregarClientes();
+
+      if (response.status === 201) {
+        handleCarregarClientes();
+      }
+
+      return response
     } catch (error) {
       console.log(error);
     }

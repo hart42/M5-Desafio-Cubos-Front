@@ -12,7 +12,7 @@ function Cadastro() {
   );
   const history = useHistory();
   return (
-    <div className="body">
+    <div className="body-cadastro">
       <div className="form-div">
         <form className="form">
           <div className="form-group-left">
@@ -190,18 +190,21 @@ function Cadastro() {
                   autoComplete="off"
                 >
                   <div className="form-inputs">
+                    <label htmlFor="nome">Nome*</label>
                     <TextField
+                      placeholder='Digite seu nome'
                       required
+                      name='nome'
                       id="outlined-required-nome"
-                      label="Nome"
                       onChange={(e) =>
                         setNomeEmail({ ...nomeEmail, nome: e.target.value })
                       }
                     />
+                    <label htmlFor="nome">E-mail*</label>
                     <TextField
                       required
                       id="outlined-required-email"
-                      label="Email"
+                      placeholder='Digite seu email'
                       onChange={(e) =>
                         setNomeEmail({ ...nomeEmail, email: e.target.value })
                       }
