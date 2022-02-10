@@ -7,7 +7,7 @@ import sucessoImg from '../../assets/header/sucesso.svg';
 import btnFechar from '../../assets/header/close.svg'
 
 
-export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usuario, usuarioFecth}) {
+export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, usuario, usuarioFecth }) {
 
     const [emailCpfRepetidos, setEmailCpfRepetidos] = useState(false);
     const [sucesso, setSucesso] = useState(false);
@@ -40,29 +40,29 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
         resetaCampos();
 
 
-        if(novaSenha !== confirmaSenha) {
+        if (novaSenha !== confirmaSenha) {
             return setSenhasIguais(false);
         }
 
         if (!usuarioLogado.nome) {
-            return setCamposPreenchidos({...camposPreenchidos, nome: false});
+            return setCamposPreenchidos({ ...camposPreenchidos, nome: false });
         } else {
-            setCamposPreenchidos({...camposPreenchidos, nome: true});
+            setCamposPreenchidos({ ...camposPreenchidos, nome: true });
         }
         if (!usuarioLogado.email) {
-            return setCamposPreenchidos({...camposPreenchidos, email: false});
+            return setCamposPreenchidos({ ...camposPreenchidos, email: false });
         } else {
-            setCamposPreenchidos({...camposPreenchidos, email: true});
+            setCamposPreenchidos({ ...camposPreenchidos, email: true });
         }
         if (!usuarioLogado.cpf) {
-            return setCamposPreenchidos({...camposPreenchidos, cpf: false});
+            return setCamposPreenchidos({ ...camposPreenchidos, cpf: false });
         } else {
-            setCamposPreenchidos({...camposPreenchidos, cpf: true});
+            setCamposPreenchidos({ ...camposPreenchidos, cpf: true });
         }
         if (!usuarioLogado.telefone) {
-            return setCamposPreenchidos({...camposPreenchidos, telefone: false});
+            return setCamposPreenchidos({ ...camposPreenchidos, telefone: false });
         } else {
-            setCamposPreenchidos({...camposPreenchidos, telefone: true});
+            setCamposPreenchidos({ ...camposPreenchidos, telefone: true });
         };
         const senhaEnviada = novaSenha.trim();
 
@@ -76,14 +76,14 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
 
         const resposta = await handleEditarUsuario(body);
 
-        if(resposta.status === 200) {
+        if (resposta.status === 200) {
             setSucesso(true);
             setTimeout(() => {
                 setEditaUsuario(false)
             }, 2000);
-            
-        } else {
-            return setEmailCpfRepetidos(true)
+        } else if (resposta.status === 401) {
+            setEmailCpfRepetidos(true)
+            return
         }
 
         setAbrirOpcoesPerfil(false)
@@ -94,104 +94,104 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
         <div className="modal-edita-usuario">
             {!sucesso ? (
                 <div className="card-edita-usuario">
-                <div className="topo-edita-usuario">
-                    <span className='titulo-modal-editar'>Edite seu cadastro</span>
-                    <img 
-                    className='btnFechar' 
-                    src={btnFechar} alt="botão de fechar"
-                    onClick={() => setEditaUsuario(false)} />
-                </div>
-                <div className="formulario-edita-usuario">
-                    <label htmlFor="nome">
-                        <span>Nome*</span>
-                        <input type="text" id='nome' placeholder='Digite seu nome'
-                        value={usuarioLogado.nome}
-                        onChange={(e) => setUsuarioLogado({...usuarioLogado, nome: e.target.value})}/>
-                        {!camposPreenchidos.nome && (
-                            <span className='campo-faltando-edicao'>O campo nome é obrigatório</span>
-                        )}
-                    </label>
-                    <label htmlFor="email">
-                        <span>E-mail*</span>
-                        <input type="email" name="email" id="email" placeholder='Digite seu e-mail'
-                        value={usuarioLogado.email}
-                        onChange={(e) => setUsuarioLogado({...usuarioLogado, email: e.target.value})}/>
-                        {!camposPreenchidos.email && (
-                            <span className='campo-faltando-edicao'>O campo e-mail é obrigatório</span>
-                        )}
-                        {!emailCpfRepetidos && (
-                            <span className='campo-faltando-edicao'>Já existe um usuário com este email ou cpf</span>
-                        )}
-                    </label>
-                    <div className="cpf-telefone">
-                        <label htmlFor="cpf">
-                            CPF*
-                            <input type="number" name='cpf' placeholder='Digite seu CPF'
-                            value={usuarioLogado.cpf}
-                            onChange={(e) => {
-                                setUsuarioLogado({...usuarioLogado, cpf: e.target.value});
-                            }}/>
-                            {!camposPreenchidos.cpf && (
-                            <span className='campo-faltando-edicao'>O campo cpf é obrigatório</span>
+                    <div className="topo-edita-usuario">
+                        <span className='titulo-modal-editar'>Edite seu cadastro</span>
+                        <img
+                            className='btnFechar'
+                            src={btnFechar} alt="botão de fechar"
+                            onClick={() => setEditaUsuario(false)} />
+                    </div>
+                    <div className="formulario-edita-usuario">
+                        <label htmlFor="nome">
+                            <span>Nome*</span>
+                            <input type="text" id='nome' placeholder='Digite seu nome'
+                                value={usuarioLogado.nome}
+                                onChange={(e) => setUsuarioLogado({ ...usuarioLogado, nome: e.target.value })} />
+                            {!camposPreenchidos.nome && (
+                                <span className='campo-faltando-edicao'>O campo nome é obrigatório</span>
                             )}
-                            {!emailCpfRepetidos && (
+                        </label>
+                        <label htmlFor="email">
+                            <span>E-mail*</span>
+                            <input type="email" name="email" id="email" placeholder='Digite seu e-mail'
+                                value={usuarioLogado.email}
+                                onChange={(e) => setUsuarioLogado({ ...usuarioLogado, email: e.target.value })} />
+                            {!camposPreenchidos.email && (
+                                <span className='campo-faltando-edicao'>O campo e-mail é obrigatório</span>
+                            )}
+                            {emailCpfRepetidos && (
                                 <span className='campo-faltando-edicao'>Já existe um usuário com este email ou cpf</span>
                             )}
                         </label>
-                        <label htmlFor="telefone">
-                            Telefone*
-                            <input type="number" name='telefone'
-                            placeholder='Digite seu telefone'
-                            value={usuarioLogado.telefone}
-                            onChange={(e) => setUsuarioLogado({...usuarioLogado, telefone: e.target.value})}/>
-                            {!camposPreenchidos.telefone && (
-                            <span className='campo-faltando-edicao'>O campo telefone é obrigatório</span>
-                        )}
+                        <div className="cpf-telefone">
+                            <label htmlFor="cpf">
+                                CPF*
+                                <input type="number" name='cpf' placeholder='Digite seu CPF'
+                                    value={usuarioLogado.cpf}
+                                    onChange={(e) => {
+                                        setUsuarioLogado({ ...usuarioLogado, cpf: e.target.value });
+                                    }} />
+                                {!camposPreenchidos.cpf && (
+                                    <span className='campo-faltando-edicao'>O campo cpf é obrigatório</span>
+                                )}
+                                {emailCpfRepetidos && (
+                                    <span className='campo-faltando-edicao'>Já existe um usuário com este email ou cpf</span>
+                                )}
+                            </label>
+                            <label htmlFor="telefone">
+                                Telefone*
+                                <input type="number" name='telefone'
+                                    placeholder='Digite seu telefone'
+                                    value={usuarioLogado.telefone}
+                                    onChange={(e) => setUsuarioLogado({ ...usuarioLogado, telefone: e.target.value })} />
+                                {!camposPreenchidos.telefone && (
+                                    <span className='campo-faltando-edicao'>O campo telefone é obrigatório</span>
+                                )}
+                            </label>
+                        </div>
+                        <label htmlFor="nova-senha"
+                            className='posicao-relativa'>
+                            <span>Nova Senha</span>
+                            <input type={!mostraSenhaInput ? ("password") : ("text")} name="nova-senha" id="nova-senha" placeholder='Digite uma nova senha'
+                                onChange={(e) => setNovaSenha(e.target.value)} />
+                            {mostraSenhaInput ? (<img className='icone-senha-edita' src={mostraSenha} alt=""
+                                onClick={() => setMostraSenhaInput(false)} />
+                            ) :
+                                (<img className='icone-senha-edita' src={naoMostraSenha} alt=""
+                                    onClick={() => setMostraSenhaInput(true)} />)}
+                            {!senhasIguais && (
+                                <span className="absoluto-edita campo-faltando-edicao">
+                                    As senhas precisam ser idênticas!
+                                </span>
+                            )}
+                        </label>
+                        <label htmlFor="confirma-senha" className='posicao-relativa'>
+                            <span>Confirmar Senha</span>
+                            <input type={!mostraSenhaInput ? ("password") : ("text")} name="confirma-senha" id="confirma-senha" placeholder='Confirme sua nova senha'
+                                onChange={(e) => setConfirmaSenha(e.target.value)} />
+                            {mostraSenhaInput ? (<img className='icone-senha-edita' src={mostraSenha} alt=""
+                                onClick={() => setMostraSenhaInput(false)} />
+                            ) :
+                                (<img className='icone-senha-edita' src={naoMostraSenha} alt=""
+                                    onClick={() => setMostraSenhaInput(true)} />)}
+                            {!senhasIguais && (
+                                <span className="absoluto-edita campo-faltando-edicao">
+                                    As senhas precisam ser idênticas!
+                                </span>
+                            )}
                         </label>
                     </div>
-                    <label htmlFor="nova-senha"
-                    className='posicao-relativa'>
-                        <span>Nova Senha</span>
-                        <input type={!mostraSenhaInput ? ("password") : ("text")} name="nova-senha" id="nova-senha" placeholder='Digite uma nova senha'
-                        onChange={(e) => setNovaSenha(e.target.value)}/>
-                        { mostraSenhaInput ? (<img className='icone-senha-edita' src={mostraSenha} alt="" 
-                        onClick={() => setMostraSenhaInput(false)}/>
-                        ) :
-                        (<img className='icone-senha-edita' src={naoMostraSenha} alt="" 
-                        onClick={() => setMostraSenhaInput(true)}/>)}
-                        {!senhasIguais && (
-                            <span className="absoluto-edita campo-faltando-edicao">
-                                As senhas precisam ser idênticas!
-                            </span>
-                        )}
-                    </label>
-                    <label htmlFor="confirma-senha" className='posicao-relativa'>
-                        <span>Confirmar Senha</span>
-                        <input type={!mostraSenhaInput ? ("password") : ("text")} name="confirma-senha" id="confirma-senha" placeholder='Confirme sua nova senha'
-                        onChange={(e) => setConfirmaSenha(e.target.value)}/>
-                        { mostraSenhaInput ? (<img className='icone-senha-edita' src={mostraSenha} alt="" 
-                        onClick={() => setMostraSenhaInput(false)}/>
-                        ) :
-                        (<img className='icone-senha-edita' src={naoMostraSenha} alt="" 
-                        onClick={() => setMostraSenhaInput(true)}/>)}
-                        {!senhasIguais && (
-                            <span className="absoluto-edita campo-faltando-edicao">
-                                As senhas precisam ser idênticas!
-                            </span>
-                        )}
-                    </label>
+                    <div className="final-edita-usuario">
+                        <button className='botao-aplicar' onClick={handleAplicar}>Aplicar</button>
+                    </div>
                 </div>
-                <div className="final-edita-usuario">
-                    <button className='botao-aplicar' onClick={handleAplicar}>Aplicar</button>
-                </div>
-            </div>
             ) :
-            (<div className="card-sucesso">
-                <img src={sucessoImg} alt="" />
-                <div>
-                Cadastro Alterado com sucesso!
-                </div>
-        </div>)}
+                (<div className="card-sucesso">
+                    <img src={sucessoImg} alt="" />
+                    <div>
+                        Cadastro Alterado com sucesso!
+                    </div>
+                </div>)}
         </div>
     )
 }

@@ -85,6 +85,8 @@ function useGlobalProvider() {
           body: JSON.stringify(body)
         }
       );
+
+      return response
     } catch (error) {
       console.log(error);
     }
