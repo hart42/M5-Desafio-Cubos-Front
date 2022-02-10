@@ -227,9 +227,7 @@ function Cadastro() {
               <div>
                 <span className="spanLinkTextCadastro">
                   Já possui uma conta? Faça seu
-                  <Link to="/Login">
-                    Login
-                  </Link>
+                  <Link to="/Login"> Login</Link>
                 </span>
               </div>
             </div>

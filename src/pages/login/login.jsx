@@ -39,7 +39,7 @@ function Login() {
   }
 
   return (
-    <div className="body">
+    <body className="body-login">
       <div className="form-div">
         <form className="form">
           <div className="form-group-left">
@@ -63,13 +63,13 @@ function Login() {
             <div className="sing-in">
               <div> <span className="spanLinkTextLogin">
                 Ainda não possui uma conta?
-                <Link to='/Cadastro'>Cadastre-se</Link>
+                <Link to='/Cadastro'> Cadastre-se</Link>
               </span></div>
             </div>
           </div>
         </form>
       </div>
-    </div>
+    </body>
   );
 }
 
