@@ -17,7 +17,6 @@ function Header({ titulo, classname }) {
     async function usuarioFecth() {
         const usuarioDoFetch = await handleObeterUsuario()
         setUsuarioLogado(usuarioDoFetch);
-        console.log(usuarioLogado);
     }
 
     useEffect(() => {
@@ -31,16 +30,18 @@ function Header({ titulo, classname }) {
             </div>
 
             <div className='user-header'>
+
                 <div className='user-image'>{usuarioLogado && usuarioLogado.nome[0]}</div>
                 <p className='user-nome'>{usuarioLogado && usuarioLogado.nome}</p>
+
                 <img src={iconSetaBaixoVerde} className='icon-seta-header' alt='' onClick={() =>
                     abrirOpcoesPerfil ? setAbrirOpcoesPerfil(false) : setAbrirOpcoesPerfil(true)} />
             </div>
 
             <div className={abrirOpcoesPerfil ? 'modal-opcoes-perfil' : 'modal-none'} >
-                <div>
-                    <img src={iconEditar} alt='' className='icon-modal-opcoes'
-                        onClick={() => setEditaUsuario(true)}
+
+                <div onClick={() => setEditaUsuario(true)}>
+                    <img src={iconEditar} alt='' className='icon-modal-opcoes' 
                     />
                     <p>Editar</p>
                 </div>
@@ -49,12 +50,16 @@ function Header({ titulo, classname }) {
                     <p>Sair</p>
                 </div>
             </div>
-            {editaUsuario &&
-                <EditaUsuario
-                    setEditaUsuario={setEditaUsuario}
-                    setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
-                    usuario={usuarioLogado}
-                />}
+
+            {editaUsuario && 
+            <EditaUsuario
+            setEditaUsuario={setEditaUsuario}
+            setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
+            usuario={usuarioLogado} 
+            usuarioFecth={usuarioFecth}
+            setUsuarioLogado={setUsuarioLogado}
+            />}
+
         </div>
     );
 }
