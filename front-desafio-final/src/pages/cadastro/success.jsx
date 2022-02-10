@@ -1,6 +1,6 @@
 import * as React from 'react';
-import CustomButton from '../../components/button';
 import InitialPage from '../../components/Layout/initialPage';
+import { Link } from 'react-router-dom';
 
 import './cadastro.css';
 export const left = (
@@ -156,7 +156,11 @@ export const left = (
 );
 
 export const actions = (
-  <div className="customButtonDivCadastro">{CustomButton('Ir para Login')}</div>
+  <div className="customButtonDivCadastro">
+    <Link to="/Login">
+      <button>Ir para Login</button>
+    </Link>
+  </div>
 );
 
 export const right = (
