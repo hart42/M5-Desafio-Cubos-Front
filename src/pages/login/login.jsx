@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import './login.css';
-import InitialPage from '../../components/Layout/initialPage';
 import InputAdornments from '../../components/Login/formLogin';
 import CustomButton from '../../components/button';
 import useGlobal from '../../hooks/useGlobal'
@@ -30,7 +29,7 @@ function Login() {
 
       const data = await response.json();
 
-      if (response.status != 400) {
+      if (response.status !== 400) {
         setToken(data.token);
         history.push("/Home")
       }
