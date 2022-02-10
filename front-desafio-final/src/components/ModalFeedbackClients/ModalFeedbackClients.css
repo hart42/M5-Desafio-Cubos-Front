@@ -10,7 +10,7 @@
 
 .modal-feedback-clientes{
     position: absolute;
-    bottom: 2vh;
+    top:500px;
     right: 0vw;
 
     display: flex;

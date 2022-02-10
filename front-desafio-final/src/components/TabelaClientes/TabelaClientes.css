@@ -3,9 +3,7 @@
 
 .tabela-clientes{
     box-sizing: border-box;
-    max-height: 80vh;
     width: 75vw;
-    overflow-y: auto;
 
     background: #FFFFFF;
     border-radius: 30px;
