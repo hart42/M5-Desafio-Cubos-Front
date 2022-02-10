@@ -1,15 +1,13 @@
 import * as React from 'react';
-import { useLocalStorage } from 'react-use';
 import { Link, useHistory } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import './cadastro.css';
+import useGlobal from '../../hooks/useGlobal';
 
 function Cadastro() {
-  const [nomeEmail, setNomeEmail] = useLocalStorage(
-    'nomeEmail',
-    { nome: '', email: '' }
-  );
+  const { nomeEmail, setNomeEmail } = useGlobal()
+
   const history = useHistory();
   return (
     <div className="body-cadastro">

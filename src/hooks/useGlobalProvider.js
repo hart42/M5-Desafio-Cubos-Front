@@ -2,16 +2,16 @@ import { useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
 function useGlobalProvider() {
+  const [nomeEmail, setNomeEmail] = useState(
+    'nomeEmail',
+    { nome: '', email: '' }
+  );
   const [usuarioLogado, setUsuarioLogado] = useState();
   const [clientes, setClientes] = useState([]);
   const [abrirModalAddCliente, setAbrirModalAddCliente] = useState(false);
   const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] =
     useState(false);
   const [token, setToken, removeToken] = useLocalStorage('token', '');
-  const [nomeEmail, setNomeEmail] = useLocalStorage(
-    'nomeEmail',
-    { nome: '', email: '' }
-  );
 
   async function handleAdicionarCliente(body) {
     try {
