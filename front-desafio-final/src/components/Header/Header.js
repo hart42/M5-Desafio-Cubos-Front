@@ -38,9 +38,8 @@ function Header({ titulo, classname }) {
             </div>
 
             <div className={abrirOpcoesPerfil ? 'modal-opcoes-perfil' : 'modal-none'} >
-                <div>
+                <div onClick={() => setEditaUsuario(true)}>
                     <img src={iconEditar} alt='' className='icon-modal-opcoes' 
-                    onClick={() => setEditaUsuario(true)}
                     />
                     <p>Editar</p>
                 </div>

@@ -9,6 +9,7 @@ import btnFechar from '../../assets/header/close.svg'
 
 export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usuario, usuarioFecth}) {
 
+    const [emailCpfRepetidos, setEmailCpfRepetidos] = useState(false);
     const [sucesso, setSucesso] = useState(false);
     const { handleEditarUsuario } = useGlobal();
     const [usuarioLogado, setUsuarioLogado] = useState(usuario);
@@ -22,17 +23,22 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
         telefone: true,
     });
     const [senhasIguais, setSenhasIguais] = useState(true);
-
-    async function handleAplicar() {
-
-        setSenhasIguais(true);
-
+    const resetaCampos = () => {
         setCamposPreenchidos({
             nome: true,
             email: true,
             cpf: true,
             telefone: true,
         });
+
+    }
+
+    async function handleAplicar() {
+
+        setEmailCpfRepetidos(false);
+        setSenhasIguais(true);
+        resetaCampos();
+
 
         if(novaSenha !== confirmaSenha) {
             return setSenhasIguais(false);
@@ -77,7 +83,7 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
             }, 2000);
             
         } else {
-            return
+            return setEmailCpfRepetidos(true)
         }
 
         setAbrirOpcoesPerfil(false)
@@ -113,6 +119,9 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
                         {!camposPreenchidos.email && (
                             <span className='campo-faltando-edicao'>O campo e-mail é obrigatório</span>
                         )}
+                        {!emailCpfRepetidos && (
+                            <span className='campo-faltando-edicao'>Já existe um usuário com este email ou cpf</span>
+                        )}
                     </label>
                     <div className="cpf-telefone">
                         <label htmlFor="cpf">
@@ -124,7 +133,10 @@ export default function EditaUsuario({setEditaUsuario, setAbrirOpcoesPerfil, usu
                             }}/>
                             {!camposPreenchidos.cpf && (
                             <span className='campo-faltando-edicao'>O campo cpf é obrigatório</span>
-                        )}
+                            )}
+                            {!emailCpfRepetidos && (
+                                <span className='campo-faltando-edicao'>Já existe um usuário com este email ou cpf</span>
+                            )}
                         </label>
                         <label htmlFor="telefone">
                             Telefone*
