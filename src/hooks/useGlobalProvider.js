@@ -7,7 +7,7 @@ function useGlobalProvider() {
   const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] =
     useState(false);
   const [token, setToken, removeToken] = useLocalStorage('token', '');
-  const [nomeEmail, setNomeEmail, removeNomeEmail] = useLocalStorage(
+  const [nomeEmail, setNomeEmail] = useLocalStorage(
     'nomeEmail',
     { nome: '', email: '' }
   );
@@ -25,7 +25,6 @@ function useGlobalProvider() {
           body: JSON.stringify(body)
         }
       );
-      const data = await response.json();
 
       if (response.status === 201) {
         handleCarregarClientes();

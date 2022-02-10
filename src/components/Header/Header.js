@@ -21,7 +21,7 @@ function Header({ titulo, classname }) {
 
     useEffect(() => {
         usuarioFecth()
-    }, [])
+    }, [usuarioFecth])
 
     return (
         <div className='header'>
@@ -41,7 +41,7 @@ function Header({ titulo, classname }) {
             <div className={abrirOpcoesPerfil ? 'modal-opcoes-perfil' : 'modal-none'} >
 
                 <div onClick={() => setEditaUsuario(true)}>
-                    <img src={iconEditar} alt='' className='icon-modal-opcoes' 
+                    <img src={iconEditar} alt='' className='icon-modal-opcoes'
                     />
                     <p>Editar</p>
                 </div>
@@ -51,14 +51,14 @@ function Header({ titulo, classname }) {
                 </div>
             </div>
 
-            {editaUsuario && 
-            <EditaUsuario
-            setEditaUsuario={setEditaUsuario}
-            setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
-            usuario={usuarioLogado} 
-            usuarioFecth={usuarioFecth}
-            setUsuarioLogado={setUsuarioLogado}
-            />}
+            {editaUsuario &&
+                <EditaUsuario
+                    setEditaUsuario={setEditaUsuario}
+                    setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
+                    usuario={usuarioLogado}
+                    usuarioFecth={usuarioFecth}
+                    setUsuarioLogado={setUsuarioLogado}
+                />}
 
         </div>
     );

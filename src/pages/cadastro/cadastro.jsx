@@ -6,7 +6,7 @@ import TextField from '@mui/material/TextField';
 import './cadastro.css';
 
 function Cadastro() {
-  const [nomeEmail, setNomeEmail, removeNomeEmail] = useLocalStorage(
+  const [nomeEmail, setNomeEmail] = useLocalStorage(
     'nomeEmail',
     { nome: '', email: '' }
   );
@@ -228,7 +228,7 @@ function Cadastro() {
                 <span className="spanLinkTextCadastro">
                   Já possui uma conta? Faça seu
                   <Link to="/Login">
-                    <a> Login</a>
+                    Login
                   </Link>
                 </span>
               </div>
