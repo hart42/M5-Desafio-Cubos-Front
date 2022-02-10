@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
 function useGlobalProvider() {
+  const [usuarioLogado, setUsuarioLogado] = useState();
   const [clientes, setClientes] = useState([]);
   const [abrirModalAddCliente, setAbrirModalAddCliente] = useState(false);
   const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] =
@@ -68,7 +69,7 @@ function useGlobalProvider() {
       );
 
       const data = await response.json();
-
+      setUsuarioLogado(data);
       return data;
     } catch (error) {
       console.log(error);
@@ -109,7 +110,9 @@ function useGlobalProvider() {
     handleObeterUsuario,
     handleEditarUsuario,
     nomeEmail,
-    setNomeEmail
+    setNomeEmail,
+    usuarioLogado,
+    setUsuarioLogado
   };
 }
 

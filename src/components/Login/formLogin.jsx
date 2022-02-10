@@ -33,15 +33,17 @@ export default function InputAdornments() {
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-      <div>
+      <div className='form-login'>
+        <label htmlFor="outlined-start-adornment">E-mail</label>
         <TextField
-          label="Email"
+          placeholder='Digite seu email'
           id="outlined-start-adornment"
           sx={{ m: 1, width: '35ch' }}
         />
         <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
+          <label htmlFor="outlined-adornment-password">Senha</label>
           <OutlinedInput
+            placeholder='Digite sua senha'
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}

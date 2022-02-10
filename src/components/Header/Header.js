@@ -9,20 +9,14 @@ import EditaUsuario from '../EditaUsuario/EditaUsuario';
 
 
 function Header({ titulo, classname }) {
-    const [usuarioLogado, setUsuarioLogado] = useState();
-    const { handleObeterUsuario, removeToken } = useGlobal()
+
+    const { handleObeterUsuario, removeToken, usuarioLogado, setUsuarioLogado } = useGlobal()
     const [abrirOpcoesPerfil, setAbrirOpcoesPerfil] = useState(false);
     const [editaUsuario, setEditaUsuario] = useState(false);
 
-    async function usuarioFecth() {
-        const usuarioDoFetch = await handleObeterUsuario()
-        setUsuarioLogado(usuarioDoFetch);
-        return
-    }
-
     useEffect(() => {
-        usuarioFecth()
-    }, [usuarioFecth])
+        handleObeterUsuario()
+    }, [handleObeterUsuario])
 
     return (
         <div className='header'>
@@ -57,7 +51,7 @@ function Header({ titulo, classname }) {
                     setEditaUsuario={setEditaUsuario}
                     setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
                     usuario={usuarioLogado}
-                    usuarioFecth={usuarioFecth}
+                    handleObeterUsuario={handleObeterUsuario}
                     setUsuarioLogado={setUsuarioLogado}
                 />}
 
