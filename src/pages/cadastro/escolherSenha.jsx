@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
@@ -21,11 +20,14 @@ function EscolherSenha() {
   const { nomeEmail } = useGlobal();
   async function cadastraUsuario(event) {
     event.preventDefault();
+
     const body = {
       email: nomeEmail.email,
       nome: nomeEmail.nome,
       senha: values.password
     };
+
+    console.log(body)
 
     try {
       const response = await fetch(
@@ -38,6 +40,11 @@ function EscolherSenha() {
           body: JSON.stringify(body)
         }
       );
+
+      const data = await response.json()
+
+      console.log(data)
+
       if (response.status === 201) history.push('/Success');
     } catch (error) {
       console.log(error);
@@ -111,9 +118,9 @@ function EscolherSenha() {
                   >
                     <line
                       x1="1.5"
-                      y1="0.5"
+                      y1="2.5"
                       x2="1.5"
-                      y2="40.5"
+                      y2="50.5"
                       stroke="#0E8750"
                       stroke-width="3"
                     />
@@ -219,17 +226,18 @@ function EscolherSenha() {
           <div className="form-group-right">
             <div className="form-group-right-title">
               <div className="divtitlePageCadastro">
-                <h1 className="titlePageCadastro">Confirme sua Senha</h1>
+                <h1 className="titlePageCadastro titlePageEscolhaSenha">Escolha sua Senha</h1>
               </div>
             </div>
             <div className="form-group-right-content">
               <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
                 <div>
                   <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-password">
-                      Senha
-                    </InputLabel>
+                    <label className='label-senhas' htmlFor="outlined-adornment-password">
+                      Senha*
+                    </label>
                     <OutlinedInput
+                      placeholder='Digite sua senha'
                       id="outlined-adornment-password"
                       type={values.showPassword ? 'text' : 'password'}
                       value={values.password}
@@ -256,10 +264,11 @@ function EscolherSenha() {
                     />
                   </FormControl>
                   <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-                    <InputLabel htmlFor="outlined-adornment-confirmpassword">
-                      Confirmar Senha
-                    </InputLabel>
+                    <label className='label-senhas' htmlFor="outlined-adornment-confirmpassword">
+                      Repita a Senha*
+                    </label>
                     <OutlinedInput
+                      placeholder='Digite novamente sua senha'
                       id="outlined-adornment-password"
                       type={values.showconfirmPassword ? 'text' : 'password'}
                       value={values.confirmPassword}
@@ -295,7 +304,7 @@ function EscolherSenha() {
               <div className="customButtonDivSenha">
                 {values.password === values.cofirmPassword && (
                   <button
-                    className="ButtonCadastroSenha"
+                    className="ButtonCadastro btn-modificado"
                     onClick={(event) => cadastraUsuario(event)}
                   >
                     Cadastrar
