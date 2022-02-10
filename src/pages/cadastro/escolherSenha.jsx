@@ -26,6 +26,7 @@ function EscolherSenha() {
       nome: nomeEmail.nome,
       senha: values.password
     };
+
     try {
       const response = await fetch(
         'https://desafio-modulo-5.herokuapp.com/usuarios',
@@ -307,7 +308,7 @@ function EscolherSenha() {
                 <span className="spanLinkTextCadastro">
                   Já possui uma conta? Faça seu{' '}
                   <Link to="/Login">
-                    <a> Login</a>
+                    Login
                   </Link>
                 </span>
               </div>

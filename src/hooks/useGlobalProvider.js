@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { useLocalStorage } from 'react-use';
 
 function useGlobalProvider() {
+  const [usuarioLogado, setUsuarioLogado] = useState();
   const [clientes, setClientes] = useState([]);
   const [abrirModalAddCliente, setAbrirModalAddCliente] = useState(false);
   const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] =
     useState(false);
   const [token, setToken, removeToken] = useLocalStorage('token', '');
-  const [nomeEmail, setNomeEmail, removeNomeEmail] = useLocalStorage(
+  const [nomeEmail, setNomeEmail] = useLocalStorage(
     'nomeEmail',
     { nome: '', email: '' }
   );
@@ -25,7 +26,6 @@ function useGlobalProvider() {
           body: JSON.stringify(body)
         }
       );
-      const data = await response.json();
 
       if (response.status === 201) {
         handleCarregarClientes();
@@ -69,7 +69,7 @@ function useGlobalProvider() {
       );
 
       const data = await response.json();
-
+      setUsuarioLogado(data);
       return data;
     } catch (error) {
       console.log(error);
@@ -110,7 +110,9 @@ function useGlobalProvider() {
     handleObeterUsuario,
     handleEditarUsuario,
     nomeEmail,
-    setNomeEmail
+    setNomeEmail,
+    usuarioLogado,
+    setUsuarioLogado
   };
 }
 

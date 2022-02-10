@@ -12,6 +12,25 @@
   display: flex;
 }
 
+.titlePageLogin{
+  margin-left: 30px;
+}
+
+.form-login{
+  margin-top: 40px;
+}
+
+.form-login input{
+  background-color: white;
+
+  box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+  border-radius: 8px;
+}
+
+.form-login-label{
+  margin-left: 10px;
+}
+
 h1.textLogin {
   font-family: 'Montserrat', sans-serif;
   font-weight: 600;
@@ -45,6 +64,10 @@ h1.textLogin {
 }
 .form-right-login {
   padding-left: 300px;
+}
+
+.form-group-actions{
+  margin-top: 50px;
 }
 
 .customButtonDivLogin {

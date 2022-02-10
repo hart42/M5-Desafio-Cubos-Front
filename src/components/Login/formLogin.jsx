@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
@@ -33,15 +32,17 @@ export default function InputAdornments() {
 
   return (
     <Box sx={{ display: 'flex', flexWrap: 'wrap' }}>
-      <div>
+      <div className='form-login'>
+        <label className='form-login-label' htmlFor="outlined-start-adornment">E-mail</label>
         <TextField
-          label="Email"
+          placeholder='Digite seu email'
           id="outlined-start-adornment"
-          sx={{ m: 1, width: '35ch' }}
+          sx={{ m: 1, width: '45ch' }}
         />
-        <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">Senha</InputLabel>
+        <FormControl sx={{ m: 1, width: '45ch' }} variant="outlined">
+          <label htmlFor="outlined-adornment-password">Senha</label>
           <OutlinedInput
+            placeholder='Digite sua senha'
             id="outlined-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}

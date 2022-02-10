@@ -9,19 +9,14 @@ import EditaUsuario from '../EditaUsuario/EditaUsuario';
 
 
 function Header({ titulo, classname }) {
-    const [usuarioLogado, setUsuarioLogado] = useState();
-    const { handleObeterUsuario, removeToken } = useGlobal()
+
+    const { handleObeterUsuario, removeToken, usuarioLogado, setUsuarioLogado } = useGlobal()
     const [abrirOpcoesPerfil, setAbrirOpcoesPerfil] = useState(false);
     const [editaUsuario, setEditaUsuario] = useState(false);
 
-    async function usuarioFecth() {
-        const usuarioDoFetch = await handleObeterUsuario()
-        setUsuarioLogado(usuarioDoFetch);
-    }
-
     useEffect(() => {
-        usuarioFecth()
-    }, [])
+        handleObeterUsuario()
+    }, [handleObeterUsuario])
 
     return (
         <div className='header'>
@@ -41,7 +36,7 @@ function Header({ titulo, classname }) {
             <div className={abrirOpcoesPerfil ? 'modal-opcoes-perfil' : 'modal-none'} >
 
                 <div onClick={() => setEditaUsuario(true)}>
-                    <img src={iconEditar} alt='' className='icon-modal-opcoes' 
+                    <img src={iconEditar} alt='' className='icon-modal-opcoes'
                     />
                     <p>Editar</p>
                 </div>
@@ -51,14 +46,14 @@ function Header({ titulo, classname }) {
                 </div>
             </div>
 
-            {editaUsuario && 
-            <EditaUsuario
-            setEditaUsuario={setEditaUsuario}
-            setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
-            usuario={usuarioLogado} 
-            usuarioFecth={usuarioFecth}
-            setUsuarioLogado={setUsuarioLogado}
-            />}
+            {editaUsuario &&
+                <EditaUsuario
+                    setEditaUsuario={setEditaUsuario}
+                    setAbrirOpcoesPerfil={setAbrirOpcoesPerfil}
+                    usuario={usuarioLogado}
+                    handleObeterUsuario={handleObeterUsuario}
+                    setUsuarioLogado={setUsuarioLogado}
+                />}
 
         </div>
     );

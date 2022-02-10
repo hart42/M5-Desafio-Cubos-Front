@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import './login.css';
-import InitialPage from '../../components/Layout/initialPage';
 import InputAdornments from '../../components/Login/formLogin';
 import CustomButton from '../../components/button';
 import useGlobal from '../../hooks/useGlobal'
@@ -30,8 +29,10 @@ function Login() {
 
       const data = await response.json();
 
-      setToken(data.token);
-      history.push("/Home")
+      if (response.status !== 400) {
+        setToken(data.token);
+        history.push("/Home")
+      }
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +63,7 @@ function Login() {
             <div className="sing-in">
               <div> <span className="spanLinkTextLogin">
                 Ainda não possui uma conta?
-                <Link to='/Cadastro'><a> Cadastre-se</a></Link>
+                <Link to='/Cadastro'>Cadastre-se</Link>
               </span></div>
             </div>
           </div>

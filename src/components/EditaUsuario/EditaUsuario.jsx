@@ -7,7 +7,7 @@ import sucessoImg from '../../assets/header/sucesso.svg';
 import btnFechar from '../../assets/header/close.svg'
 
 
-export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, usuario, usuarioFecth }) {
+export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, usuario, handleObeterUsuario }) {
 
     const [emailCpfRepetidos, setEmailCpfRepetidos] = useState(false);
     const [sucesso, setSucesso] = useState(false);
@@ -87,7 +87,7 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
         }
 
         setAbrirOpcoesPerfil(false)
-        usuarioFecth()
+        handleObeterUsuario()
     }
 
     return (

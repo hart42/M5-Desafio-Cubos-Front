@@ -65,7 +65,7 @@ function ModalAddCliente() {
             objErrors.cpfValido = 'CPF inválido'
         }
 
-        const cpfExiste = clientes.filter(cliente => cliente.cpf == values.cpf)
+        const cpfExiste = clientes.filter(cliente => cliente.cpf === values.cpf)
         if (cpfExiste.length > 0) {
             objErrors.cpfExiste = 'CPF já cadastrado'
         }

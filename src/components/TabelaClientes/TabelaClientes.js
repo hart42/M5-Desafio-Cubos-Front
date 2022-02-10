@@ -10,7 +10,7 @@ function TabelaClientes() {
 
     useEffect(() => {
         handleCarregarClientes()
-    }, [])
+    }, [handleCarregarClientes])
 
     return (
         <section className='tabela-clientes'>
