@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { GlobalProvider } from './context/GlobalContext';
+import { ClientsProvider } from './context/ClientsContext';
 import Clients from './pages/clients/Clients';
 import Home from './pages/home/Home';
 import Cadastro from './pages/cadastro/cadastro';
@@ -14,7 +15,7 @@ function Routes() {
     const { token } = useGlobal();
     return (
       <Route
-        render={() => token ? (props.children) : (<Redirect to="/login" />)}
+        render={() => token ? (props.children) : (<Redirect to="/Login" />)}
       />
     )
   }
@@ -28,8 +29,10 @@ function Routes() {
           <Route path="/Escolhasenha" exact component={EscolherSenha} />
           <Route path="/Success" exact component={Success} />
           <RotasProtegidas>
-            <Route path="/Clientes" exact component={Clients} />
-            <Route path={['/', '/Home']} exact component={Home} />
+            <ClientsProvider>
+              <Route path="/Clientes" exact component={Clients} />
+              <Route path={['/', '/Home']} exact component={Home} />
+            </ClientsProvider>
           </RotasProtegidas>
         </GlobalProvider>
       </Switch>

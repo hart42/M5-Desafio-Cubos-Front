@@ -5,18 +5,25 @@ import iconSetaBaixoVerde from '../../assets/icon-seta-baixo-verde.svg';
 import iconEditar from '../../assets/icon-editar.svg';
 import iconSair from '../../assets/icon-sair.svg';
 import EditaUsuario from '../EditaUsuario/EditaUsuario';
+import useRequests from '../../hooks/useRequests';
 
 
 
 function Header({ titulo, classname }) {
-
-    const { handleObeterUsuario, removeToken, usuarioLogado, setUsuarioLogado } = useGlobal()
+    const requisicao = useRequests()
+    const { setToken, usuarioLogado, setUsuarioLogado } = useGlobal()
     const [abrirOpcoesPerfil, setAbrirOpcoesPerfil] = useState(false);
     const [editaUsuario, setEditaUsuario] = useState(false);
 
+    async function handleObeterUsuario() {
+        const resposta = await requisicao.get('perfil')
+
+        setUsuarioLogado(resposta)
+    }
+
     useEffect(() => {
         handleObeterUsuario()
-    }, [handleObeterUsuario])
+    }, [])
 
     return (
         <div className='header'>
@@ -40,7 +47,7 @@ function Header({ titulo, classname }) {
                     />
                     <p>Editar</p>
                 </div>
-                <div onClick={() => removeToken()}>
+                <div onClick={() => setToken('')}>
                     <img src={iconSair} alt='' />
                     <p>Sair</p>
                 </div>
