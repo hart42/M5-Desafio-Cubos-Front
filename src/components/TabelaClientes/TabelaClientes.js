@@ -1,16 +1,10 @@
 import './TabelaClientes.css'
-import { useEffect } from 'react'
 import iconCriarCobranca from '../../assets/icon-criarcobranca-rosa.svg'
 import iconOrdenar from '../../assets/icon-ordenar.svg'
-import useGlobal from '../../hooks/useGlobal';
-
+import useClients from '../../hooks/useClients';
 
 function TabelaClientes() {
-    const { handleCarregarClientes, clientes } = useGlobal()
-
-    useEffect(() => {
-        handleCarregarClientes()
-    }, [handleCarregarClientes])
+    const { clientes } = useClients();
 
     return (
         <section className='tabela-clientes'>
@@ -32,7 +26,7 @@ function TabelaClientes() {
                         <p>{cliente.telefone}</p>
                         {/* <p><span className={cliente.status === 'Inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>{cliente.status}</span></p> */}
                         <p ><span className='cliente-inadimplente'>Inadimplente</span></p>
-                        <p><img src={iconCriarCobranca} alt="" onClick={() => handleCarregarClientes()} /></p>
+                        <p><img src={iconCriarCobranca} alt="" /></p>
                     </div>
                 )
             })}

@@ -1,76 +1,75 @@
-import * as React from 'react';
+import { useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import './login.css';
-import InputAdornments from '../../components/Login/formLogin';
-import CustomButton from '../../components/button';
 import useGlobal from '../../hooks/useGlobal'
+import iconMostrarSenha from '../../assets/header/mostraSenha.svg';
+import iconEsconderSenha from '../../assets/header/naoMostraSenha.svg';
+import useRequests from '../../hooks/useRequests'
 
 function Login() {
-  const { setToken } = useGlobal()
-  const history = useHistory()
+    const { setToken } = useGlobal()
+    const history = useHistory()
+    const [mostrarSenha, setMostrarSenha] = useState(false)
+    const [senha, setSenha] = useState('')
+    const [email, setEmail] = useState('')
+    const requisicao = useRequests();
 
-  async function HandleLogin(email, senha) {
+    async function HandleLogin(event) {
+        event.preventDefault()
 
-    const body = {
-      email,
-      senha
-    };
-    try {
-      const response = await fetch(
-        'https://desafio-modulo-5.herokuapp.com/login',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(body)
+        if (!email || !senha) {
+            return;
         }
-      );
 
-      const data = await response.json();
+        const body = {
+            email,
+            senha
+        };
 
-      if (response.status !== 400) {
-        setToken(data.token);
-        history.push("/Home")
-      }
-    } catch (error) {
-      console.log(error);
+        const resposta = await requisicao.post('login', body);
+
+        if (resposta) {
+            setToken(resposta.token);
+            history.push('/Home');
+        }
     }
-  }
 
-  return (
-    <body className="body-login">
-      <div className="form-div">
-        <form className="form">
-          <div className="form-group-left">
-            <div className="telaLogin">
-              <h1 className="textLogin">
-                Gerencie todos os pagamentos da sua empresa em um só lugar.
-              </h1>
+    return (
+        <body className="body-login">
+            <div className="Lado-esquerdo-layout-login">
+                <p>Gerencia todos os pagamentos da sua empresa em um só lugar.</p>
             </div>
-          </div>
-          <div className="form-group-right">
-            <div className="form-group-right-title">  <div className="divtitlePageLogin">
-              <h1 className="titlePageLogin">Faça seu login!</h1>
-            </div></div>
-            <div className="form-group-right-content">
-              <div className="form-right-login">
-                <InputAdornments />
-              </div></div>
-            <div className="form-group-actions">
-              <div className="customButtonDivLogin">{CustomButton('Login', HandleLogin)}</div>
+            <div className="Lado-direito-layout-login">
+                <p className="titulo-login">Faça seu login!</p>
+                <form onSubmit={HandleLogin}>
+                    <div>
+                        <label htmlFor="email">E-mail</label>
+                        <input type="text" name="email" id="email" placeholder='Digite seu email'
+                            onChange={(e) => setEmail(e.target.value)} value={email}
+                        />
+                    </div>
+                    <div>
+                        <div className='container-esqueceu-senha'>
+                            <label htmlFor="senha">Senha</label>
+                            <a href='#' className='links-login'>Esqueceu a senha?</a>
+                        </div>
+                        <div className='container-input-senha-login'>
+                            <input type={mostrarSenha ? 'text' : 'password'} name="senha" id="senha" placeholder='Digite sua senha'
+                                onChange={(e) => setSenha(e.target.value)} value={senha}
+                            />
+                            <img className='icon-senha-login'
+                                src={mostrarSenha ? iconEsconderSenha : iconMostrarSenha} alt=""
+                                onClick={() => mostrarSenha ? setMostrarSenha(false) : setMostrarSenha(true)}
+                            />
+                        </div>
+                    </div>
+
+                    <button className='form-button'>Entrar</button>
+                    <p className='txt-link'>Ainda não possui uma conta? <Link to='/Cadastro' className='links-login'> Cadastre-se</Link></p>
+                </form>
             </div>
-            <div className="sing-in">
-              <div> <span className="spanLinkTextLogin">
-                Ainda não possui uma conta?
-                <Link to='/Cadastro'> Cadastre-se</Link>
-              </span></div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </body>
-  );
+        </body>
+    );
 }
 
 export default Login;
