@@ -7,6 +7,8 @@ import Cadastro from './pages/cadastro/cadastro';
 import Login from './pages/login/login';
 import EscolherSenha from './pages/cadastro/escolherSenha';
 import Success from './pages/cadastro/success';
+import ClienteDetalhado from './pages/clienteDetalhado/clienteDetalhado';
+
 import useGlobal from './hooks/useGlobal';
 
 function Routes() {
@@ -30,8 +32,9 @@ function Routes() {
           <Route path="/Success" exact component={Success} />
           <RotasProtegidas>
             <ClientsProvider>
-              <Route path="/Clientes" exact component={Clients} />
               <Route path={['/', '/Home']} exact component={Home} />
+              <Route path="/Clientes" exact component={Clients} />
+              <Route path="/Clientes/cliente" exact component={ClienteDetalhado} />
             </ClientsProvider>
           </RotasProtegidas>
         </GlobalProvider>

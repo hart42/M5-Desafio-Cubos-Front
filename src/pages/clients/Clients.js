@@ -31,7 +31,9 @@ function Clients() {
 
                 <TabelaClientes />
                 {abrirModalAddCliente && <ModalAddCliente />}
-                {abrirModalFeedbackAddCliente && <ModalFeedbackClients class='visible-modal-feedback-addclientes' />}
+                {abrirModalFeedbackAddCliente === true && <ModalFeedbackClients class='visible-modal-feedback-addclientes' texto='Cadastro concluído com sucesso' />}
+
+                {abrirModalFeedbackAddCliente === 'editado' && <ModalFeedbackClients class='visible-modal-feedback-addclientes' texto='Edições do cadastro concluídas com sucesso' />}
             </Layout>
         </main>
     );
