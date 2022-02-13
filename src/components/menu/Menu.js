@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom';
-import iconCobrancaCinza from '../../assets/icon-cobranca-cinza.svg'
+import iconCobrancaCinza from '../../assets/icon-cobranca-cinza.svg';
+import iconCobrancaRosa from '../../assets/icon-cobranca-rosa.svg';
 import iconClienteRosa from '../../assets/icon-cliente-rosa.svg'
 import iconHomeCinza from '../../assets/icon-home-cinza.svg'
 import iconHomeRosa from '../../assets/icon-home-rosa.svg'
@@ -26,10 +27,12 @@ function Menu() {
                 </div>
 
             </Link>
-            <div className="opcao-menu">
-                <img src={iconCobrancaCinza} alt="Cobrança" className="icon-menu" />
-                <p>Cobrança</p>
-            </div>
+            <Link to='/Cobrancas'>
+                <div className={location.pathname === '/Cobrancas' ? 'opcao-menu rosa' : 'opcao-menu'}>
+                    <img src={location.pathname === '/Cobrancas' ? iconCobrancaRosa : iconCobrancaCinza} alt="Cobrança" className="icon-menu" />
+                    <p>Cobrança</p>
+                </div>
+            </Link>
         </nav>
     );
 }
