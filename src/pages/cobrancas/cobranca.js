@@ -5,8 +5,13 @@ import iconLupa from '../../assets/icon-lupa.svg';
 import iconFiltroRosa from '../../assets/icon-filtro-rosa.svg';
 import './cobranca.css';
 import TabelaCobrancas from "../../components/Cobrancas/TabelaCobrancas";
+import ModalAddCobranca from "../../components/ModalAddCobrancas/ModalAddCobrancas";
 
 function Cobrancas() {
+  const {
+    abriModalAddCobranca, 
+    setAbriModalAddCobranca 
+  } = useGlobal();
 
   return (
     <main>
@@ -18,7 +23,7 @@ function Cobrancas() {
           </div>
 
           <div className="funcionalidades">
-            <img className='btn-filtros-cobrancas' src={iconFiltroRosa} alt="Filtros" />
+            <img className='btn-filtros-cobrancas' src={iconFiltroRosa} alt="Filtros" onClick={() => setAbriModalAddCobranca(true)}/>
             <div className='pesquisa-cobrancas'>
               <input type="text" placeholder='Pesquisa' />
               <img src={iconLupa} alt="" />
@@ -27,6 +32,7 @@ function Cobrancas() {
         </section>
 
         <TabelaCobrancas />
+        {abriModalAddCobranca && <ModalAddCobranca />}
       </Layout>
     </main>
   )

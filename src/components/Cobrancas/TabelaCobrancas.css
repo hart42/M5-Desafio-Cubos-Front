@@ -51,4 +51,5 @@
 button {
   all: unset;
   margin-right: 24px;
+  cursor: pointer;
 }
