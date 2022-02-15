@@ -22,7 +22,7 @@ function TabelaClientes() {
 
             {clientes.map((cliente) => {
                 return (
-                    <div className="linhas-tabela-clientes">
+                    <div className="linhas-tabela-clientes" key={cliente.id}>
                         <p onClick={() => setIdCliente(cliente.id)}><Link to="/Clientes/cliente">{cliente.nome}</Link></p>
                         <p>{cliente.cpf}</p>
                         <p>{cliente.email}</p>

@@ -19,6 +19,7 @@
 .tabela-detalhes-cliente{
     box-sizing: border-box;
     width: 75vw;
+    min-width: 1100px;
 
     display: flex;
     flex-direction: column;

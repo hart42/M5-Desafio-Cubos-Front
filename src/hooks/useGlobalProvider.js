@@ -8,6 +8,7 @@ function useGlobalProvider() {
     { nome: '', email: '' }
   );
   const [usuarioLogado, setUsuarioLogado] = useState();
+  const [clienteSelecionado, setClienteSelecionado] = useState();
   const [abrirModalAddCliente, setAbrirModalAddCliente] = useState(false);
   const [abrirModalEditCliente, setAbrirModalEditCliente] = useState(false);
   const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] = useState(false);
@@ -29,7 +30,9 @@ function useGlobalProvider() {
     usuarioLogado,
     setUsuarioLogado,
     idCliente,
-    setIdCliente
+    setIdCliente,
+    clienteSelecionado,
+    setClienteSelecionado
   };
 }
 

@@ -5,20 +5,33 @@ import iconEditar from '../../assets/icon-editar.svg'
 import iconExcluir from '../../assets/icon-excluir.svg'
 import useGlobal from '../../hooks/useGlobal';
 import ModalEditCliente from '../../components/ModalEditCliente/ModalEditCliente';
+import { useState, useEffect } from 'react';
 import './clienteDetalhado.css'
+import useRequests from '../../hooks/useRequests';
+
 
 
 function ClienteDetalhado() {
-    const { abrirModalEditCliente, setAbrirModalEditCliente } = useGlobal()
+    const requisicao = useRequests()
+    const { abrirModalEditCliente, setAbrirModalEditCliente, idCliente, setClienteSelecionado, clienteSelecionado } = useGlobal()
 
+    async function handleObterCliente() {
+        const resposta = await requisicao.getOne('clientes', idCliente)
+
+        setClienteSelecionado(resposta)
+    }
+
+
+    useEffect(() => {
+        handleObterCliente()
+    }, [idCliente])
 
     return (
         <main>
             <Layout titulo='Cliente' classe='cliente-header'>
-
                 <div className='titulo-cliente-detalhado'>
-                    <img src={iconClienteCinza} />
-                    <p>Sara Lage Silva</p>
+                    <img src={iconClienteCinza} alt='icone cliente' />
+                    <p>{clienteSelecionado && clienteSelecionado.nome}</p>
                 </div>
 
                 <div className='tabela-detalhes-cliente'>
@@ -30,42 +43,42 @@ function ClienteDetalhado() {
                     <div className='tabela-linha-dois'>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>Email</p>
-                            <p className='info-cliente-detalhado'>sarasilva@gmail.com</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && clienteSelecionado.email}</p>
                         </div>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>Telefone</p>
-                            <p className='info-cliente-detalhado'>7199462654</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && clienteSelecionado.telefone}</p>
                         </div>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>CPF</p>
-                            <p className='info-cliente-detalhado'>05436525587</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && clienteSelecionado.cpf}</p>
                         </div>
                     </div>
 
                     <div className='tabela-linha-um'>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>Endereço</p>
-                            <p className='info-cliente-detalhado'>Rua das comélias, n°512</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && (clienteSelecionado.logradouro || '-')}</p>
                         </div>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>Bairro</p>
-                            <p className='info-cliente-detalhado'>Oliveiras</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && (clienteSelecionado.bairro || '-')}</p>
                         </div>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>Complemento</p>
-                            <p className='info-cliente-detalhado'>Ap 502</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && (clienteSelecionado.complemento || '-')}</p>
                         </div>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>CEP</p>
-                            <p className='info-cliente-detalhado'>03165452404</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && (clienteSelecionado.cep || '-')}</p>
                         </div>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>Cidade</p>
-                            <p className='info-cliente-detalhado'>Salvador</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && (clienteSelecionado.cidade || '-')}</p>
                         </div>
                         <div>
                             <p className='titulo-info-cliente-detalhado'>UF</p>
-                            <p className='info-cliente-detalhado'>BA</p>
+                            <p className='info-cliente-detalhado'>{clienteSelecionado && (clienteSelecionado.estado || '-')}</p>
                         </div>
                     </div>
                 </div>
@@ -76,8 +89,8 @@ function ClienteDetalhado() {
                         <button className='btn-nova-cobranca'>+ Nova cobrança</button>
                     </div>
                     <div className="tabela-linha-titulos">
-                        <p className="coluna-id"><img src={iconOrdenar} />  ID cob.</p>
-                        <p className="coluna-data"><img src={iconOrdenar} />Data de vencimento</p>
+                        <p className="coluna-id"><img src={iconOrdenar} alt='ordenar' />  ID cob.</p>
+                        <p className="coluna-data"><img src={iconOrdenar} alt='ordenar' />Data de vencimento</p>
                         <p className="coluna-valor">Valor</p>
                         <p className="coluna-status">Status</p>
                         <p className="coluna-descricao">Descriçao</p>

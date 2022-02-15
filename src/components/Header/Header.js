@@ -7,8 +7,6 @@ import iconSair from '../../assets/icon-sair.svg';
 import EditaUsuario from '../EditaUsuario/EditaUsuario';
 import useRequests from '../../hooks/useRequests';
 
-
-
 function Header({ titulo, classname }) {
     const requisicao = useRequests()
     const { setToken, usuarioLogado, setUsuarioLogado } = useGlobal()
