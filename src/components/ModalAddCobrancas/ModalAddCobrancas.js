@@ -12,6 +12,8 @@ function ModalAddCobranca() {
   const { setAbriModalAddCobranca } = useGlobal();
   const [ form, setForm ] = useState(defaultValuesForm);
   const [ statusCobranca, setStatusCobranca ] = useState('pendente') ;
+  const objErrors = {};
+  const [ errors, setErrors ] = useState([]);
 
 
   function handleChange(target) {
@@ -23,6 +25,28 @@ function ModalAddCobranca() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    setErrors(validarFormulario(form));
+
+    if (Object.keys(validarFormulario(form)).length !== 0) {
+      return;
+    }
+  }
+
+  function validarFormulario(values) {
+    if(!values.descricao) {
+      objErrors.descricao = 'Este campo deve ser preenchido'
+    }
+
+    if(!values.vencimento) {
+      objErrors.vencimento = 'Este campo deve ser preenchido';
+    }
+
+    if(!values.valor) {
+      objErrors.valor = 'Este campo deve ser preenchido'
+    }
+
+    return objErrors;
   }
 
   return (
@@ -51,7 +75,7 @@ function ModalAddCobranca() {
               id="descricao" 
               name="descricao"
               rows="5" 
-              cols="65"
+              cols="62"
               value={form.descricao}
               onChange={(e) => handleChange(e.target)}
             >
@@ -63,7 +87,7 @@ function ModalAddCobranca() {
             <div className="label-modalAddCobranca">
               <label htmlFor="vencimento">Vencimento:*</label>
               <input 
-                type="text" 
+                type="date" 
                 name='vencimento'
                 placeholder='dd/mm/aaaa'
                 value={form.vencimento}
@@ -74,7 +98,10 @@ function ModalAddCobranca() {
             <div className="label-modalAddCobranca">
               <label htmlFor="valor">Valor:*</label>
               <input 
-                type="text" 
+                type="number" 
+                min="0.00" 
+                max="1000000.00" 
+                step="0.01" 
                 name='valor'
                 placeholder='Digite o valor'
                 value={form.valor}
