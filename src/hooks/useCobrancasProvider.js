@@ -4,7 +4,7 @@ import useGlobal from "./useGlobal";
 
 function useCobrancasProvider() {
   const requisicao = useRequests();
-  const [ cobrancas, setCobrancas ] = useState([]);
+  const [ cobrancass, setCobrancas ] = useState(['ola']);
   const { token } = useGlobal();
 
   useEffect(() => {
@@ -19,7 +19,7 @@ function useCobrancasProvider() {
   };
 
   return {
-    cobrancas,
+    cobrancass,
     carregarCobrancas
   };
 }

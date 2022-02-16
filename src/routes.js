@@ -34,7 +34,7 @@ function Routes() {
             <ClientsProvider>
               <Route path={['/', '/Home']} exact component={Home} />
               <Route path="/Clientes" exact component={Clients} />
-              <Route path="/Clientes/cliente" exact component={ClienteDetalhado} />
+              <Route path="/Clientes/cliente/:id" exact component={ClienteDetalhado} />
               <Route path="/Cobrancas" exact component={Cobrancas} />
             </ClientsProvider>
           </RotasProtegidas>

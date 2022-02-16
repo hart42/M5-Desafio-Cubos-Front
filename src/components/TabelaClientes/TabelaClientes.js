@@ -5,10 +5,12 @@ import iconOrdenar from '../../assets/icon-ordenar.svg'
 import useClients from '../../hooks/useClients';
 import { Link } from 'react-router-dom';
 import useGlobal from '../../hooks/useGlobal';
+import { useState } from 'react';
 
 function TabelaClientes() {
     const { clientes } = useClients();
     const { setIdCliente, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal();
+    const [ clienteCobranca, setClienteCobranca ] = useState({});
 
     return (
         <section className='tabela-clientes'>
@@ -24,18 +26,28 @@ function TabelaClientes() {
             {clientes.map((cliente) => {
                 return (
                     <div className="linhas-tabela-clientes" key={cliente.id}>
-                        <p onClick={() => setIdCliente(cliente.id)}><Link to="/Clientes/cliente">{cliente.nome}</Link></p>
+                        <p onClick={() => setIdCliente(cliente.id)}><Link to={`/Clientes/cliente/${cliente.id}`}>{cliente.nome}</Link></p>
                         <p>{cliente.cpf}</p>
                         <p>{cliente.email}</p>
                         <p>{cliente.telefone}</p>
                         {/* <p><span className={cliente.status === 'Inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>{cliente.status}</span></p> */}
                         <p ><span className='cliente-inadimplente'>Inadimplente</span></p>
-                        <p><img src={iconCriarCobranca} alt="Criar Cobrança" onClick={() => setAbriModalAddCobranca(true)} /></p>
+                        <p><img src={iconCriarCobranca} alt="Criar Cobrança" onClick={() => {
+                            setClienteCobranca({
+                                id: cliente.id,
+                                nome: cliente.nome
+                            });
+                            setAbriModalAddCobranca(true);
+                        } } /></p>
                     </div>
                 )
             })}
 
-            {abriModalAddCobranca && <ModalAddCobrancas />}
+            {abriModalAddCobranca && 
+                <ModalAddCobrancas 
+                    cliente = { clienteCobranca }
+                />
+            }
         </section>
     );
 }

@@ -1,10 +1,10 @@
 import { createContext } from 'react';
-import useCobrancasProvider from '../hooks/useCobrancasProvider';
+import  useClientsProvider  from '../hooks/useClientsProvider';
 
 const CobrancasContext = createContext();
 
 export function CobrancasProvider(props) {
-    const cobrancasProvider = useCobrancasProvider();
+    const cobrancasProvider = useClientsProvider();
 
     return (
         <CobrancasContext.Provider value={cobrancasProvider}>

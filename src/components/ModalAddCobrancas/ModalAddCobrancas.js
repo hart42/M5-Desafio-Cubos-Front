@@ -2,19 +2,28 @@ import './ModalAddCobrancas.css';
 import iconCobrancaCinza from '../../assets/icon-cobranca-cinza.svg';
 import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import iconCheckdVerde from '../../assets/cobrancas/icon-checked.svg';
 import iconCheckdCinza from '../../assets/cobrancas/icon-check-cinza.svg';
+import useRequests from '../../hooks/useRequests';
 
-const defaultValuesForm = { nome: 'jeremy', descricao: '', vencimento: '', valor: '' };
+const defaultValuesForm = { nome: '', descricao: '', vencimento: '', valor: '' };
 
-function ModalAddCobranca() {
+function ModalAddCobranca(props) {
+  const { cliente } = props;
   const { setAbriModalAddCobranca } = useGlobal();
   const [ form, setForm ] = useState(defaultValuesForm);
   const [ statusCobranca, setStatusCobranca ] = useState('pendente') ;
   const objErrors = {};
   const [ errors, setErrors ] = useState([]);
+  const requisicao = useRequests();
 
+  useEffect(() => {
+    setForm({
+      ...form,
+      nome: cliente.nome
+    });
+  },[]);
 
   function handleChange(target) {
     setForm({
@@ -30,6 +39,22 @@ function ModalAddCobranca() {
 
     if (Object.keys(validarFormulario(form)).length !== 0) {
       return;
+    }
+
+    const body = {
+      cliente_nome: form.nome,
+      descricao: form.descricao,
+      vencimento: form.vencimento,
+      valor: form.valor,
+      cobranca_status: statusCobranca,
+      cliente_id: cliente.id
+    }
+
+    const resposta = await requisicao.post('cobrancas', body, true);
+
+    if( resposta ) {
+      setAbriModalAddCobranca(false);
+      console.log(body);
     }
   }
 
@@ -75,12 +100,14 @@ function ModalAddCobranca() {
               id="descricao" 
               name="descricao"
               rows="5" 
-              cols="62"
+              cols="40"
               value={form.descricao}
               onChange={(e) => handleChange(e.target)}
+              onBlur={(e) => !e.target.value ? setErrors({ ...errors, descricao: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, descricao: false })}
             >
               Digite a descrição
             </textarea>
+            {errors.descricao && <span className='erro-form'>{errors.descricao}</span>}
           </div>
 
           <div className="dividir-label">
@@ -92,7 +119,9 @@ function ModalAddCobranca() {
                 placeholder='dd/mm/aaaa'
                 value={form.vencimento}
                 onChange={(e) => handleChange(e.target)}
+                onBlur={(e) => !e.target.value ? setErrors({ ...errors, vencimento: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, vencimento: false })}
               />
+              {errors.vencimento && <span className="erro-form">{errors.vencimento}</span>}
             </div>
 
             <div className="label-modalAddCobranca">
@@ -106,7 +135,9 @@ function ModalAddCobranca() {
                 placeholder='Digite o valor'
                 value={form.valor}
                 onChange={(e) => handleChange(e.target)}
+                onBlur={(e) => !e.target.value ? setErrors({ ...errors, valor: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, valor: false })}
               />
+              {errors.valor && <span className='erro-form'>{errors.valor}</span>}
             </div>
           </div>
 

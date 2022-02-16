@@ -9,24 +9,26 @@ import { useState, useEffect } from 'react';
 import './clienteDetalhado.css'
 import useRequests from '../../hooks/useRequests';
 import ModalAddCobrancas from '../../components/ModalAddCobrancas/ModalAddCobrancas'
-
+import { useParams } from 'react-router-dom';
 
 
 
 function ClienteDetalhado() {
     const requisicao = useRequests()
-    const { abrirModalEditCliente, setAbrirModalEditCliente, idCliente, setClienteSelecionado, clienteSelecionado, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal()
+    const {id} = useParams();
+    const { abrirModalEditCliente, setAbrirModalEditCliente, setClienteSelecionado, clienteSelecionado, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal()
+    const [ clienteCobranca, setClienteCobranca ] = useState({});
 
     async function handleObterCliente() {
-        const resposta = await requisicao.getOne('clientes', idCliente)
+        const resposta = await requisicao.getOne('clientes', id)
 
         setClienteSelecionado(resposta)
     }
 
 
     useEffect(() => {
-        handleObterCliente()
-    }, [idCliente])
+        handleObterCliente() // eslint-disable-next-line
+    }, [id])
 
     return (
         <main>
@@ -89,7 +91,13 @@ function ClienteDetalhado() {
                 <div className='tabela-detalhes-cliente'>
                     <div className="tabela-linha-um">
                         <p className='titulo-tabela-cliente-detalhado'>Cobranças do cliente</p>
-                        <button className='btn-nova-cobranca' onClick={() => setAbriModalAddCobranca(true)}>+ Nova cobrança</button>
+                        <button className='btn-nova-cobranca' onClick={() => {
+                            setClienteCobranca({ 
+                                id: clienteSelecionado.id,
+                                nome: clienteSelecionado.nome
+                            });
+                            setAbriModalAddCobranca(true)
+                        }}>+ Nova cobrança</button>
                     </div>
                     <div className="tabela-linha-titulos">
                         <p className="coluna-id"><img src={iconOrdenar} alt='ordenar' />  ID cob.</p>
@@ -126,7 +134,9 @@ function ClienteDetalhado() {
                 </div>
 
                 {abrirModalEditCliente && <ModalEditCliente />}
-                {abriModalAddCobranca && <ModalAddCobrancas />}
+                {abriModalAddCobranca && <ModalAddCobrancas 
+                    cliente = { clienteCobranca }
+                />}
             </Layout>
         </main>
     );
