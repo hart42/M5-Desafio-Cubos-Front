@@ -13,6 +13,8 @@ function useGlobalProvider() {
   const [abrirModalEditCliente, setAbrirModalEditCliente] = useState(false);
   const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] = useState(false);
   const [idCliente, setIdCliente] = useState();
+  const [ abriModalAddCobranca, setAbriModalAddCobranca ] =useState(false);
+
 
 
   return {
@@ -33,6 +35,8 @@ function useGlobalProvider() {
     setIdCliente,
     clienteSelecionado,
     setClienteSelecionado
+    abriModalAddCobranca, 
+    setAbriModalAddCobranca 
   };
 }
 
