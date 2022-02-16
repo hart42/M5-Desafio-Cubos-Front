@@ -3,12 +3,15 @@ import iconCobrancaCinza from '../../assets/icon-cobranca-cinza.svg';
 import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
 import { useState } from 'react';
+import iconCheckdVerde from '../../assets/cobrancas/icon-checked.svg';
+import iconCheckdCinza from '../../assets/cobrancas/icon-check-cinza.svg';
 
 const defaultValuesForm = { nome: 'jeremy', descricao: '', vencimento: '', valor: '' };
 
 function ModalAddCobranca() {
   const { setAbriModalAddCobranca } = useGlobal();
   const [ form, setForm ] = useState(defaultValuesForm);
+  const [ statusCobranca, setStatusCobranca ] = useState('pendente') ;
 
 
   function handleChange(target) {
@@ -25,14 +28,14 @@ function ModalAddCobranca() {
   return (
     <main className='backdrop-modalAddCobranca'>
       <div className="container-modalAddCobranca">
-        <div className="titulo-modaladdcobranca">
+        <div className="titulo-modaladdCobranca">
           <img src={iconCobrancaCinza} alt="Icone de Cobrança" />
           <p>Cadastro de Cobrança</p>
-          <img src={iconFechar} alt="Fechar" className='btn-fechar-modalAddCliente' onClick={() => setAbriModalAddCobranca(false)} />
+          <img src={iconFechar} alt="Fechar" className='btn-fechar-modalAddCobranca' onClick={() => setAbriModalAddCobranca(false)} />
         </div>
 
         <form onSubmit={handleSubmit}>
-          <div className="label-modalAddCliente">
+          <div className="label-modalAddCobranca">
             <label htmlFor="nome">Nome*</label>
             <input type="text"
               name='nome'
@@ -42,20 +45,22 @@ function ModalAddCobranca() {
             />
           </div>
 
-          <div className="label-modalAddCliente">
+          <div className="label-descricao">
             <label htmlFor="descricao">Descrição*</label>
             <textarea 
-              id="story" 
-              name="story"
+              id="descricao" 
+              name="descricao"
               rows="5" 
-              cols="33"
+              cols="65"
+              value={form.descricao}
+              onChange={(e) => handleChange(e.target)}
             >
-              It was a dark and stormy night...
+              Digite a descrição
             </textarea>
           </div>
 
           <div className="dividir-label">
-            <div className="label-modalAddCliente">
+            <div className="label-modalAddCobranca">
               <label htmlFor="vencimento">Vencimento:*</label>
               <input 
                 type="text" 
@@ -66,7 +71,7 @@ function ModalAddCobranca() {
               />
             </div>
 
-            <div className="label-modalAddCliente">
+            <div className="label-modalAddCobranca">
               <label htmlFor="valor">Valor:*</label>
               <input 
                 type="text" 
@@ -80,26 +85,35 @@ function ModalAddCobranca() {
 
           <div >
             <p>Status*</p>
-            <div >
-
-              <input 
-                  type="radio" 
-                  name='status' 
-                  value="pago" 
-                  id='pago'
+            <div className='statusCobranca'>
+              <img 
+                src={statusCobranca === 'pago' ? iconCheckdVerde : iconCheckdCinza} 
+                alt="icone" 
+                onClick={() => setStatusCobranca(statusCobranca === 'pago' ? '' : 'pago')}
               />
-              <label htmlFor="pago"> Cobrança Paga</label>
-
-              <label htmlFor='pendente'>
-                <input 
-                  type="radio" 
-                  name='status'
-                  id='pendente' 
-                  checked 
-                />
-                Cobrança Pendente
-              </label>
+              <p>Cobrança Paga</p>
             </div>
+            <div className='statusCobranca'>
+              <img 
+                src={statusCobranca === 'pendente' ? iconCheckdVerde : iconCheckdCinza} 
+                alt="icone" 
+                onClick={() => setStatusCobranca(statusCobranca === 'pendente' ? '' : 'pendente')}
+              />
+              <p>Cobrança Pendente</p>
+            </div>
+          </div>
+          <div className='buttons-cobranca'>
+            <button
+              onClick={() => setAbriModalAddCobranca(false)}
+              className='btn-cancelar-modalAddCobranca'
+            >
+              Cancelar
+            </button>
+            <button
+              className='btn-aplicar-modalAddCobranca'
+            >
+              Aplicar
+            </button>
           </div>
         </form>
 
