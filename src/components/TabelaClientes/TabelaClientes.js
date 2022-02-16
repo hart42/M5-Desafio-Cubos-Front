@@ -1,4 +1,5 @@
 import './TabelaClientes.css'
+import ModalAddCobrancas from '../ModalAddCobrancas/ModalAddCobrancas'
 import iconCriarCobranca from '../../assets/icon-criarcobranca-rosa.svg'
 import iconOrdenar from '../../assets/icon-ordenar.svg'
 import useClients from '../../hooks/useClients';
@@ -7,7 +8,7 @@ import useGlobal from '../../hooks/useGlobal';
 
 function TabelaClientes() {
     const { clientes } = useClients();
-    const { setIdCliente } = useGlobal();
+    const { setIdCliente, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal();
 
     return (
         <section className='tabela-clientes'>
@@ -29,12 +30,12 @@ function TabelaClientes() {
                         <p>{cliente.telefone}</p>
                         {/* <p><span className={cliente.status === 'Inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>{cliente.status}</span></p> */}
                         <p ><span className='cliente-inadimplente'>Inadimplente</span></p>
-                        <p><img src={iconCriarCobranca} alt="" /></p>
+                        <p><img src={iconCriarCobranca} alt="Criar Cobrança" onClick={() => setAbriModalAddCobranca(true)} /></p>
                     </div>
                 )
             })}
 
-
+            {abriModalAddCobranca && <ModalAddCobrancas />}
         </section>
     );
 }

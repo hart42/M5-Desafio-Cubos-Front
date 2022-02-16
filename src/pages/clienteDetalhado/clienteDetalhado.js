@@ -1,19 +1,21 @@
 import iconClienteCinza from '../../assets/icon-cliente-cinza.svg';
 import Layout from '../../components/Layout/Layout';
 import iconOrdenar from '../../assets/icon-ordenar.svg'
-import iconEditar from '../../assets/icon-editar.svg'
-import iconExcluir from '../../assets/icon-excluir.svg'
+import iconEditar from '../../assets/cobrancas/icon-editar.svg';
+import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
 import useGlobal from '../../hooks/useGlobal';
 import ModalEditCliente from '../../components/ModalEditCliente/ModalEditCliente';
 import { useState, useEffect } from 'react';
 import './clienteDetalhado.css'
 import useRequests from '../../hooks/useRequests';
+import ModalAddCobrancas from '../../components/ModalAddCobrancas/ModalAddCobrancas'
+
 
 
 
 function ClienteDetalhado() {
     const requisicao = useRequests()
-    const { abrirModalEditCliente, setAbrirModalEditCliente, idCliente, setClienteSelecionado, clienteSelecionado } = useGlobal()
+    const { abrirModalEditCliente, setAbrirModalEditCliente, idCliente, setClienteSelecionado, clienteSelecionado, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal()
 
     async function handleObterCliente() {
         const resposta = await requisicao.getOne('clientes', idCliente)
@@ -28,7 +30,8 @@ function ClienteDetalhado() {
 
     return (
         <main>
-            <Layout titulo='Cliente' classe='cliente-header'>
+            <Layout titulo='Cliente' classe='cliente-header' subclasse='cliente-detalhado'>
+
                 <div className='titulo-cliente-detalhado'>
                     <img src={iconClienteCinza} alt='icone cliente' />
                     <p>{clienteSelecionado && clienteSelecionado.nome}</p>
@@ -86,7 +89,7 @@ function ClienteDetalhado() {
                 <div className='tabela-detalhes-cliente'>
                     <div className="tabela-linha-um">
                         <p className='titulo-tabela-cliente-detalhado'>Cobranças do cliente</p>
-                        <button className='btn-nova-cobranca'>+ Nova cobrança</button>
+                        <button className='btn-nova-cobranca' onClick={() => setAbriModalAddCobranca(true)}>+ Nova cobrança</button>
                     </div>
                     <div className="tabela-linha-titulos">
                         <p className="coluna-id"><img src={iconOrdenar} alt='ordenar' />  ID cob.</p>
@@ -123,6 +126,7 @@ function ClienteDetalhado() {
                 </div>
 
                 {abrirModalEditCliente && <ModalEditCliente />}
+                {abriModalAddCobranca && <ModalAddCobrancas />}
             </Layout>
         </main>
     );

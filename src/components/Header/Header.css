@@ -32,6 +32,20 @@
   color: #343447;
 }
 
+.nav-titulo{
+  cursor: pointer;
+}
+
+.cliente-detalhado{
+  color: #747488;
+
+  margin-left: 20px;
+}
+
+.cliente-detalhado span{
+  margin-right: 20px;
+}
+
 .user-header {
   display: flex;
   align-items: center;
