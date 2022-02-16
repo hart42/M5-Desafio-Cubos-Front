@@ -5,6 +5,7 @@ import useGlobal from './hooks/useGlobal';
 import Cadastro from './pages/cadastro/cadastro';
 import EscolherSenha from './pages/cadastro/escolherSenha';
 import Success from './pages/cadastro/success';
+import ClienteDetalhado from './pages/clienteDetalhado/clienteDetalhado';
 import Clients from './pages/clients/Clients';
 import Home from './pages/home/Home';
 import Login from './pages/login/login';
@@ -31,8 +32,9 @@ function Routes() {
           <Route path="/Success" exact component={Success} />
           <RotasProtegidas>
             <ClientsProvider>
-              <Route path="/Clientes" exact component={Clients} />
               <Route path={['/', '/Home']} exact component={Home} />
+              <Route path="/Clientes" exact component={Clients} />
+              <Route path="/Clientes/cliente" exact component={ClienteDetalhado} />
               <Route path="/Cobrancas" exact component={Cobrancas} />
             </ClientsProvider>
           </RotasProtegidas>

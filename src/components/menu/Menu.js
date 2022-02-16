@@ -21,8 +21,8 @@ function Menu() {
                 </div>
             </Link>
             <Link to='/Clientes'>
-                <div className={location.pathname === '/Clientes' ? 'opcao-menu rosa' : 'opcao-menu'}>
-                    <img src={location.pathname === '/Clientes' ? iconClienteRosa : iconClienteCinza} alt="Cliente" className="icon-menu" />
+                <div className={location.pathname === '/Clientes' || location.pathname === '/Clientes/cliente' ? 'opcao-menu rosa' : 'opcao-menu'}>
+                    <img src={location.pathname === '/Clientes' | location.pathname === '/Clientes/cliente' ? iconClienteRosa : iconClienteCinza} alt="Cliente" className="icon-menu" />
                     <p>Cliente</p>
                 </div>
 

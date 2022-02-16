@@ -1,7 +1,7 @@
 import useGlobal from "./useGlobal";
 
 function useRequests() {
-    const token = useGlobal();
+    const { token } = useGlobal();
 
     async function get(route) {
         try {
@@ -9,7 +9,7 @@ function useRequests() {
                 const response = await fetch(`https://desafio-modulo-5.herokuapp.com/${route}`, {
                     method: 'GET',
                     headers: {
-                        'Authorization': `Bearer ${token.token}`
+                        'Authorization': `Bearer ${token}`
                     }
                 });
 
@@ -30,7 +30,7 @@ function useRequests() {
             const response = await fetch(`https://desafio-modulo-5.herokuapp.com/${route}/${id}`, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${token.token}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -49,7 +49,7 @@ function useRequests() {
     async function post(route, body, withToken) {
 
         const config = withToken ? {
-            'Authorization': `Bearer ${token.token}`
+            'Authorization': `Bearer ${token}`
         } : {}
 
         try {
@@ -79,7 +79,7 @@ function useRequests() {
             const response = await fetch(`https://desafio-modulo-5.herokuapp.com/${route}/${id}`, {
                 method: 'DELETE',
                 headers: {
-                    'Authorization': `Bearer ${token.token}`
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -95,14 +95,14 @@ function useRequests() {
         }
     }
 
-    async function put(route, body) {
+    async function put(route, body, id) {
         try {
-            const response = await fetch(`https://desafio-modulo-5.herokuapp.com/${route}`, {
+            const response = await fetch(`https://desafio-modulo-5.herokuapp.com/${route}/${id}`, {
                 method: 'PUT',
                 body: JSON.stringify(body),
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token.token}`
+                    'Authorization': `Bearer ${token}`
                 },
             });
 
@@ -118,9 +118,28 @@ function useRequests() {
         }
     }
 
+
+    async function getCEP(cep) {
+        try {
+            const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`)
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data)
+            }
+            return data;
+
+        } catch (error) {
+            console.log('error.message');
+            return false
+        }
+    }
+
     return {
         get,
         getOne,
+        getCEP,
         post,
         del,
         put

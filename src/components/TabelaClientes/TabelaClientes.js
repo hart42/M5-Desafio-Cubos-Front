@@ -2,9 +2,12 @@ import './TabelaClientes.css'
 import iconCriarCobranca from '../../assets/icon-criarcobranca-rosa.svg'
 import iconOrdenar from '../../assets/icon-ordenar.svg'
 import useClients from '../../hooks/useClients';
+import { Link } from 'react-router-dom';
+import useGlobal from '../../hooks/useGlobal';
 
 function TabelaClientes() {
     const { clientes } = useClients();
+    const { setIdCliente } = useGlobal();
 
     return (
         <section className='tabela-clientes'>
@@ -19,8 +22,8 @@ function TabelaClientes() {
 
             {clientes.map((cliente) => {
                 return (
-                    <div className="linhas-tabela-clientes">
-                        <p>{cliente.nome}</p>
+                    <div className="linhas-tabela-clientes" key={cliente.id}>
+                        <p onClick={() => setIdCliente(cliente.id)}><Link to="/Clientes/cliente">{cliente.nome}</Link></p>
                         <p>{cliente.cpf}</p>
                         <p>{cliente.email}</p>
                         <p>{cliente.telefone}</p>

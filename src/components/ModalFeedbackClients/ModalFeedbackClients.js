@@ -12,7 +12,7 @@ export default function ModalFeedbackClients(props) {
             <div className='modal-feedback-clientes'>
                 <img src={iconSucesso} alt="Sucesso" className='icon-sucesso-feedback-clientes' />
                 <p>
-                    Cadastro concluído com sucesso
+                    {props.texto}
                 </p>
                 <img src={iconFechar} alt="Fechar" className='icon-fechar-feedback-clientes' onClick={() => setAbrirModalFeedbackAddCliente(false)} />
             </div>

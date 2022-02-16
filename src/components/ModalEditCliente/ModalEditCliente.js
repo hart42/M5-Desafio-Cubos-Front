@@ -1,20 +1,27 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import iconClienteCinza from '../../assets/icon-cliente-cinza.svg';
 import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
 import useClients from '../../hooks/useClients';
 import useRequests from '../../hooks/useRequests';
-import './ModalAddCliente.css';
+import { useHistory } from 'react-router-dom';
+import './ModalEditCliente.css';
 
-const defaultValuesForm = { nome: '', email: '', cpf: '', telefone: '', endereco: '', complemento: '', cep: '', bairro: '', cidade: '', uf: '' };
 
-function ModalAddCliente() {
-    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente } = useGlobal()
+
+function ModalEditCliente() {
+    const { setAbrirModalEditCliente, setAbrirModalFeedbackAddCliente, clienteSelecionado } = useGlobal()
+    const defaultValuesForm = {
+        nome: clienteSelecionado.nome, email: clienteSelecionado.email, cpf: clienteSelecionado.cpf, telefone: clienteSelecionado.telefone, endereco: clienteSelecionado.logradouro || '', complemento: clienteSelecionado.complemento || '', cep: clienteSelecionado.cep || '', bairro: clienteSelecionado.bairro || '', cidade: clienteSelecionado.cidade || '', uf: clienteSelecionado.estado || ''
+    };
     const [form, setForm] = useState(defaultValuesForm);
     const [errors, setErrors] = useState([]);
     const { carregarClientes, clientes } = useClients();
     const requisicao = useRequests();
     const objErrors = {};
+    const history = useHistory()
+
+
 
     function handleChange(target) {
         setForm({
@@ -56,10 +63,6 @@ function ModalAddCliente() {
             return;
         }
 
-
-
-        const cepBody = form.cep.trim() || 0;
-
         const body = {
             nome: form.nome,
             email: form.email,
@@ -67,17 +70,19 @@ function ModalAddCliente() {
             telefone: form.telefone,
             logradouro: form.endereco,
             complemento: form.complemento,
-            cep: cepBody,
+            cep: form.cep || 0,
             bairro: form.bairro,
             cidade: form.cidade,
             estado: form.uf
         };
 
-        const resposta = await requisicao.post('clientes', body, true)
+        const resposta = await requisicao.put('clientes', body, clienteSelecionado.id)
+
         if (resposta) {
-            setAbrirModalAddCliente(false)
-            setAbrirModalFeedbackAddCliente(true)
+            setAbrirModalEditCliente(false)
+            setAbrirModalFeedbackAddCliente('editado')
             carregarClientes()
+            history.push('/Clientes')
         }
     }
 
@@ -94,7 +99,7 @@ function ModalAddCliente() {
             objErrors.cpfValido = 'CPF inválido'
         }
 
-        const cpfExiste = clientes.filter(cliente => cliente.cpf === values.cpf)
+        const cpfExiste = clientes.filter(cliente => cliente.id !== clienteSelecionado.id && cliente.cpf === values.cpf)
         if (cpfExiste.length > 0) {
             objErrors.cpfExiste = 'CPF já cadastrado'
         }
@@ -104,7 +109,7 @@ function ModalAddCliente() {
             objErrors.email = 'Este campo deve ser preenchido'
         }
 
-        const emailExiste = clientes.filter(cliente => cliente.email === values.email)
+        const emailExiste = clientes.filter(cliente => cliente.id !== clienteSelecionado.id && cliente.email === values.email)
         if (emailExiste.length > 0) {
             objErrors.emailExiste = 'E-mail já cadastrado'
         }
@@ -121,9 +126,9 @@ function ModalAddCliente() {
             <div className='container-modalAddCliente'>
                 <div className='titulo-modaladdcliente'>
                     <img src={iconClienteCinza} alt='Icone cliente' />
-                    <p>Cadastro do Cliente</p>
+                    <p>Editar Cliente</p>
                     <img src={iconFechar} alt='Fechar' className='btn-fechar-modalAddCliente'
-                        onClick={() => setAbrirModalAddCliente(false)} />
+                        onClick={() => setAbrirModalEditCliente(false)} />
                 </div>
 
                 <form onSubmit={handleSubmit}>
@@ -166,23 +171,24 @@ function ModalAddCliente() {
                             {errors.telefone && <span className="erro-form">{errors.telefone}</span>}
                         </div>
                     </div>
-                    <div className='label-modalAddCliente'>
-                        <div className='dividir-label'>
-                            <div className='label-modalAddCliente'>
-                                <label htmlFor='cep'>CEP</label>
-                                <input type='number' name='cep' placeholder='Digite o CEP'
-                                    value={form.cep}
-                                    onChange={(e) => handleChange(e.target)}
-                                    onBlur={(e) => handleViaCEP(e.target.value)} />
-                                {errors.errocep && <span className="erro-form">{errors.errocep}</span>}
-                            </div>
-                            <div className='label-modalAddCliente'>
-                                <label htmlFor='bairro'>Bairro</label>
-                                <input type='text' name='bairro' placeholder='Digite o Bairro'
-                                    value={form.bairro}
-                                    onChange={(e) => handleChange(e.target)} />
-                            </div>
+                    <div className='dividir-label'>
+                        <div className='label-modalAddCliente'>
+                            <label htmlFor='cep'>CEP</label>
+                            <input type='number' name='cep' placeholder='Digite o CEP'
+                                value={form.cep}
+                                onChange={(e) => handleChange(e.target)}
+                                onBlur={(e) => handleViaCEP(e.target.value)} />
+                            {errors.errocep && <span className="erro-form">{errors.errocep}</span>}
+
                         </div>
+                        <div className='label-modalAddCliente'>
+                            <label htmlFor='bairro'>Bairro</label>
+                            <input type='text' name='bairro' placeholder='Digite o Bairro'
+                                value={form.bairro}
+                                onChange={(e) => handleChange(e.target)} />
+                        </div>
+                    </div>
+                    <div className='label-modalAddCliente'>
                         <label htmlFor='endereco'>Endereço</label>
                         <input type='text' name='endereco' placeholder='Digite o endereço'
                             value={form.endereco}
@@ -209,8 +215,8 @@ function ModalAddCliente() {
                         </div>
                     </div>
                     <div>
-                        <button onClick={() => setAbrirModalAddCliente(false)} className='btn-cancelar-modalAddCliente'>Cancelar</button>
-                        <button disabled={errors.nome || errors.email || errors.cpf || errors.telefone || errors.errocep} className='btn-aplicar-modalAddCliente'>Aplicar</button>
+                        <button onClick={() => setAbrirModalEditCliente(false)} className='btn-cancelar-modalAddCliente'>Cancelar</button>
+                        <button disabled={errors.nome || errors.email || errors.cpf || errors.telefone} className='btn-aplicar-modalAddCliente'>Aplicar</button>
                     </div>
                 </form>
             </div >
@@ -218,4 +224,4 @@ function ModalAddCliente() {
     );
 }
 
-export default ModalAddCliente;
+export default ModalEditCliente;
