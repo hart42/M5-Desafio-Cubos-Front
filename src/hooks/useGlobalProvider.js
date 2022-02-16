@@ -11,6 +11,7 @@ function useGlobalProvider() {
   const [abrirModalAddCliente, setAbrirModalAddCliente] = useState(false);
   const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] =
     useState(false);
+  const [ abriModalAddCobranca, setAbriModalAddCobranca ] =useState(false);
 
 
   return {
@@ -24,7 +25,9 @@ function useGlobalProvider() {
     nomeEmail,
     setNomeEmail,
     usuarioLogado,
-    setUsuarioLogado
+    setUsuarioLogado,
+    abriModalAddCobranca, 
+    setAbriModalAddCobranca 
   };
 }
 

@@ -1,13 +1,14 @@
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { GlobalProvider } from './context/GlobalContext';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import { ClientsProvider } from './context/ClientsContext';
-import Clients from './pages/clients/Clients';
-import Home from './pages/home/Home';
+import { GlobalProvider } from './context/GlobalContext';
+import useGlobal from './hooks/useGlobal';
 import Cadastro from './pages/cadastro/cadastro';
-import Login from './pages/login/login';
 import EscolherSenha from './pages/cadastro/escolherSenha';
 import Success from './pages/cadastro/success';
-import useGlobal from './hooks/useGlobal';
+import Clients from './pages/clients/Clients';
+import Home from './pages/home/Home';
+import Login from './pages/login/login';
+import Cobrancas from './pages/cobrancas/cobranca';
 
 function Routes() {
 
@@ -32,6 +33,7 @@ function Routes() {
             <ClientsProvider>
               <Route path="/Clientes" exact component={Clients} />
               <Route path={['/', '/Home']} exact component={Home} />
+              <Route path="/Cobrancas" exact component={Cobrancas} />
             </ClientsProvider>
           </RotasProtegidas>
         </GlobalProvider>
