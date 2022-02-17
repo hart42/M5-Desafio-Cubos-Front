@@ -17,7 +17,7 @@ function ModalAddCobranca(props) {
   const [statusCobranca, setStatusCobranca] = useState('pendente');
   const objErrors = {};
   const [errors, setErrors] = useState([]);
-  const { carregarCobrancas } = useClients();
+  const { carregarCobrancas, carregarClientes } = useClients();
   const requisicao = useRequests();
 
   useEffect(() => {
@@ -54,6 +54,8 @@ function ModalAddCobranca(props) {
 
     const resposta = await requisicao.post('cobrancas', body, true);
     carregarCobrancas();
+    carregarClientes();
+
     if (resposta) {
       setAbriModalAddCobranca(false);
       console.log(body);
@@ -101,7 +103,7 @@ function ModalAddCobranca(props) {
             <textarea
               id="descricao"
               name="descricao"
-              rows="5"
+              rows="3"
               cols="40"
               value={form.descricao}
               onChange={(e) => handleChange(e.target)}

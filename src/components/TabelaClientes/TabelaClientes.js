@@ -8,9 +8,32 @@ import useGlobal from '../../hooks/useGlobal';
 import { useState } from 'react';
 
 function TabelaClientes() {
-    const { clientes } = useClients();
+    const { clientes, cobrancas } = useClients();
     const { setIdCliente, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal();
-    const [ clienteCobranca, setClienteCobranca ] = useState({});
+    const [clienteCobranca, setClienteCobranca] = useState({});
+
+    function verificarInadimplente(id) {
+        const newData = new Date().getTime()
+        const cobrancasFiltradas = cobrancas.filter(cobranca => cobranca.cliente_id === id && cobranca.cobranca_status !== 'pago')
+
+        if (cobrancasFiltradas.length === 0) {
+            return 'Em dia'
+        }
+
+        console.log(new Date(cobrancasFiltradas[0].vencimento).getTime(), newData, id, cobrancasFiltradas)
+
+        const cobrancasFiltradasPorVencimento = cobrancasFiltradas.filter(cobranca => newData - new Date(cobranca.vencimento).getTime() > 0)
+
+
+        if (cobrancasFiltradasPorVencimento.length === 0) {
+            return 'Em dia'
+        }
+
+        if (cobrancasFiltradasPorVencimento.length !== 0) {
+            return 'Inadimplente'
+        }
+
+    }
 
     return (
         <section className='tabela-clientes'>
@@ -30,22 +53,21 @@ function TabelaClientes() {
                         <p>{cliente.cpf}</p>
                         <p>{cliente.email}</p>
                         <p>{cliente.telefone}</p>
-                        {/* <p><span className={cliente.status === 'Inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>{cliente.status}</span></p> */}
-                        <p ><span className='cliente-inadimplente'>Inadimplente</span></p>
+                        <p><span className={verificarInadimplente(cliente.id) === 'Inadimplente' ? 'cliente-inadimplente' : 'cliente-em-dia'}>{verificarInadimplente(cliente.id)}</span></p>
                         <p><img src={iconCriarCobranca} alt="Criar Cobrança" onClick={() => {
                             setClienteCobranca({
                                 id: cliente.id,
                                 nome: cliente.nome
                             });
                             setAbriModalAddCobranca(true);
-                        } } /></p>
+                        }} /></p>
                     </div>
                 )
             })}
 
-            {abriModalAddCobranca && 
-                <ModalAddCobrancas 
-                    cliente = { clienteCobranca }
+            {abriModalAddCobranca &&
+                <ModalAddCobrancas
+                    cliente={clienteCobranca}
                 />
             }
         </section>
