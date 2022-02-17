@@ -8,6 +8,7 @@ function useGlobalProvider() {
     { nome: '', email: '' }
   );
   const [usuarioLogado, setUsuarioLogado] = useState();
+  const [erroLogin, setErroLogin] = useState();
   const [clienteSelecionado, setClienteSelecionado] = useState();
   const [abrirModalAddCliente, setAbrirModalAddCliente] = useState(false);
   const [abrirModalEditCliente, setAbrirModalEditCliente] = useState(false);
@@ -36,7 +37,9 @@ function useGlobalProvider() {
     clienteSelecionado,
     setClienteSelecionado,
     abriModalAddCobranca,
-    setAbriModalAddCobranca
+    setAbriModalAddCobranca,
+    erroLogin,
+    setErroLogin
   };
 }
 

@@ -12,7 +12,7 @@ const defaultValuesForm = { nome: '', descricao: '', vencimento: '', valor: '' }
 
 function ModalAddCobranca(props) {
   const { cliente } = props;
-  const { setAbriModalAddCobranca } = useGlobal();
+  const { setAbriModalAddCobranca, setAbrirModalFeedbackAddCliente } = useGlobal();
   const [form, setForm] = useState(defaultValuesForm);
   const [statusCobranca, setStatusCobranca] = useState('pendente');
   const objErrors = {};
@@ -58,7 +58,7 @@ function ModalAddCobranca(props) {
 
     if (resposta) {
       setAbriModalAddCobranca(false);
-      console.log(body);
+      setAbrirModalFeedbackAddCliente('cobrancas')
     }
   }
 

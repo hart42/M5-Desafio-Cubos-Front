@@ -34,6 +34,8 @@ function Clients() {
                 {abrirModalFeedbackAddCliente === true && <ModalFeedbackClients class='visible-modal-feedback-addclientes' texto='Cadastro concluído com sucesso' />}
 
                 {abrirModalFeedbackAddCliente === 'editado' && <ModalFeedbackClients class='visible-modal-feedback-addclientes' texto='Edições do cadastro concluídas com sucesso' />}
+
+                {abrirModalFeedbackAddCliente === 'cobrancas' && <ModalFeedbackClients class='visible-modal-feedback-addclientes' texto='Cobranca cadastrada com sucesso' />}
             </Layout>
         </main>
     );

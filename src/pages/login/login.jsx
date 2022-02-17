@@ -7,7 +7,7 @@ import iconEsconderSenha from '../../assets/header/naoMostraSenha.svg';
 import useRequests from '../../hooks/useRequests'
 
 function Login() {
-    const { setToken } = useGlobal()
+    const { setToken, erroLogin, setErroLogin } = useGlobal()
     const history = useHistory()
     const [mostrarSenha, setMostrarSenha] = useState(false)
     const [senha, setSenha] = useState('')
@@ -29,6 +29,7 @@ function Login() {
         const resposta = await requisicao.post('login', body);
 
         if (resposta) {
+            setErroLogin(false)
             setToken(resposta.token);
             history.push('/Home');
         }
@@ -62,6 +63,7 @@ function Login() {
                                 onClick={() => mostrarSenha ? setMostrarSenha(false) : setMostrarSenha(true)}
                             />
                         </div>
+                        {erroLogin && <span className='erro-login'>Senha ou Email incorretos</span>}
                     </div>
 
                     <button className='form-button'>Entrar</button>

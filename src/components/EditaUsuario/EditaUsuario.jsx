@@ -70,7 +70,7 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
             telefone: usuarioLogado.telefone
         }
 
-        const resposta = await requisicao.put('perfil', body)
+        const resposta = await requisicao.putOne('perfil', body)
 
         if (resposta) {
             setSucesso(true);
