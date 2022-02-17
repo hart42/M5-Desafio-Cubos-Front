@@ -20,8 +20,6 @@ function TabelaClientes() {
             return 'Em dia'
         }
 
-        console.log(new Date(cobrancasFiltradas[0].vencimento).getTime(), newData, id, cobrancasFiltradas)
-
         const cobrancasFiltradasPorVencimento = cobrancasFiltradas.filter(cobranca => newData - new Date(cobranca.vencimento).getTime() > 0)
 
 
