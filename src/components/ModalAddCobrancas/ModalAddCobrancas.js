@@ -24,7 +24,7 @@ function ModalAddCobranca(props) {
     setForm({
       ...form,
       nome: cliente.nome
-    });
+    }); // eslint-disable-next-line
   }, []);
 
   function handleChange(target) {

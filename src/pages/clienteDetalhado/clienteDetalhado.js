@@ -58,7 +58,7 @@ function ClienteDetalhado() {
             const cobrancasFiltradasNova = cobrancas.filter(cobranca => `${cobranca.cliente_id}` === id)
 
             setCobrancasFiltradas(cobrancasFiltradasNova)
-        }
+        } // eslint-disable-next-line
     }, [cobrancas])
 
     useEffect(() => {
