@@ -4,7 +4,6 @@ import useClients from '../../hooks/useClients';
 import iconEditar from '../../assets/cobrancas/icon-editar.svg';
 import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
 
-
 function TabelaCobrancas() {
   const { cobrancas } = useClients();
 
@@ -14,6 +13,23 @@ function TabelaCobrancas() {
 
     return dataFormatada;
   }
+
+  function verificarPendencia(data, status) {
+    const dataAtual = new Date().getTime()
+    const dataCobranca = new Date(data).getTime()
+
+    if (status === 'pago') {
+        return 'Pago'
+    }
+
+    if (dataCobranca - dataAtual > 0) {
+        return 'Pendente'
+    }
+
+    if (dataCobranca - dataAtual < 0) {
+        return 'Vencida'
+    }
+}
 
   return (
     <section className='tabela-cobrancas'>
@@ -34,7 +50,9 @@ function TabelaCobrancas() {
             <p>{cobranca.id}</p>
             <p>{cobranca.valor}</p>
             <p>{formatar(cobranca.vencimento)}</p>
-            <p>{cobranca.cobranca_status}</p>
+            <div className='coluna-status'>
+              <p className={"cobranca-" + verificarPendencia(cobranca.vencimento, cobranca.cobranca_status)}>{verificarPendencia(cobranca.vencimento, cobranca.cobranca_status)}</p>
+            </div>
             <p>{cobranca.descricao}</p>
             <p><button><img src={iconEditar} alt="" /></button> <button><img src={iconExcluir} alt="" /></button></p>
           </div>

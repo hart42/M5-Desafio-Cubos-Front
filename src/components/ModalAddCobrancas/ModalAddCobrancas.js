@@ -24,7 +24,7 @@ function ModalAddCobranca(props) {
     setForm({
       ...form,
       nome: cliente.nome
-    });
+    }); // eslint-disable-next-line
   }, []);
 
   function handleChange(target) {
@@ -58,7 +58,7 @@ function ModalAddCobranca(props) {
 
     if (resposta) {
       setAbriModalAddCobranca(false);
-      setAbrirModalFeedbackAddCliente('cobrancas')
+      setAbrirModalFeedbackAddCliente('cobranca');
     }
   }
 
@@ -178,7 +178,6 @@ function ModalAddCobranca(props) {
             </button>
           </div>
         </form>
-
       </div>
     </main>
   )

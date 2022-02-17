@@ -11,13 +11,13 @@ import useRequests from '../../hooks/useRequests';
 import ModalAddCobrancas from '../../components/ModalAddCobrancas/ModalAddCobrancas'
 import { useParams } from 'react-router-dom';
 import useClients from '../../hooks/useClients';
-
+import ModalFeedbackClients from '../../components/ModalFeedbackClients/ModalFeedbackClients';
 
 
 function ClienteDetalhado() {
     const requisicao = useRequests()
     const { id } = useParams();
-    const { abrirModalEditCliente, setAbrirModalEditCliente, setClienteSelecionado, clienteSelecionado, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal()
+    const { abrirModalEditCliente, setAbrirModalEditCliente, setClienteSelecionado, clienteSelecionado, setAbriModalAddCobranca, abriModalAddCobranca, abrirModalFeedbackAddCliente } = useGlobal()
     const [clienteCobranca, setClienteCobranca] = useState({});
     const [cobrancasFiltradas, setCobrancasFiltradas] = useState()
     const { cobrancas } = useClients();
@@ -58,7 +58,7 @@ function ClienteDetalhado() {
             const cobrancasFiltradasNova = cobrancas.filter(cobranca => `${cobranca.cliente_id}` === id)
 
             setCobrancasFiltradas(cobrancasFiltradasNova)
-        }
+        } // eslint-disable-next-line
     }, [cobrancas])
 
     useEffect(() => {
@@ -166,6 +166,8 @@ function ClienteDetalhado() {
                 {abriModalAddCobranca && <ModalAddCobrancas
                     cliente={clienteCobranca}
                 />}
+
+                {abrirModalFeedbackAddCliente === 'cobranca' && <ModalFeedbackClients class='visible-modal-feedback-addclientes' texto='Cobrança cadastrada com sucesso' />}
             </Layout>
         </main>
     );
