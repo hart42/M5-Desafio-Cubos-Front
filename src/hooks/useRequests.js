@@ -1,7 +1,7 @@
 import useGlobal from "./useGlobal";
 
 function useRequests() {
-    const { token } = useGlobal();
+    const { token, setErroLogin } = useGlobal();
 
     async function get(route) {
         try {
@@ -70,6 +70,10 @@ function useRequests() {
 
             return data;
         } catch (error) {
+            if (error.message === 'Senha ou Email incorretos') {
+                setErroLogin(true)
+            }
+
             console.log(error.message);
         }
     }
@@ -118,6 +122,29 @@ function useRequests() {
         }
     }
 
+    async function putOne(route, body) {
+        try {
+            const response = await fetch(`https://desafio-modulo-5.herokuapp.com/${route}`, {
+                method: 'PUT',
+                body: JSON.stringify(body),
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data)
+            }
+
+            return data;
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
+
 
     async function getCEP(cep) {
         try {
@@ -142,7 +169,8 @@ function useRequests() {
         getCEP,
         post,
         del,
-        put
+        put,
+        putOne
     }
 }
 

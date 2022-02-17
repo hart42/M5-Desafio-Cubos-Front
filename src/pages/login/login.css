@@ -151,3 +151,12 @@
     top: 6px;
     right: 5px;
 }
+
+.erro-login{
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 20px;
+    color: #e70000;
+}
