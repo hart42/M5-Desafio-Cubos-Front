@@ -174,6 +174,45 @@
     padding: 10px 0 ;
 }
 
+.cobranca-Pendente{
+    width: 70px;
+    text-align: center;
+    background: #FCF6DC;
+    border-radius: 8px;
+    font-family: 'Nunito';
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #C5A605;
+    padding: 3px;
+}
+
+.cobranca-Vencida{
+    width: 60px;
+    text-align: center;
+    background: #FFEFEF;
+    border-radius: 8px;
+    font-family: 'Nunito';
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #971D1D;
+    padding: 3px;
+}
+
+.cobranca-Pago{
+    width: 40px;
+    text-align: center;
+    background: #EEF6F6;
+    border-radius: 8px;
+    font-family: 'Nunito';
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 19px;
+    color: #1FA7AF;
+    padding: 3px;
+}
+
 .btn-nova-cobranca{
     all: unset;
 

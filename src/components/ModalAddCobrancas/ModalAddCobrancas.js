@@ -6,16 +6,18 @@ import { useEffect, useState } from 'react';
 import iconCheckdVerde from '../../assets/cobrancas/icon-checked.svg';
 import iconCheckdCinza from '../../assets/cobrancas/icon-check-cinza.svg';
 import useRequests from '../../hooks/useRequests';
+import useClients from '../../hooks/useClients';
 
 const defaultValuesForm = { nome: '', descricao: '', vencimento: '', valor: '' };
 
 function ModalAddCobranca(props) {
   const { cliente } = props;
   const { setAbriModalAddCobranca } = useGlobal();
-  const [ form, setForm ] = useState(defaultValuesForm);
-  const [ statusCobranca, setStatusCobranca ] = useState('pendente') ;
+  const [form, setForm] = useState(defaultValuesForm);
+  const [statusCobranca, setStatusCobranca] = useState('pendente');
   const objErrors = {};
-  const [ errors, setErrors ] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const { carregarCobrancas } = useClients();
   const requisicao = useRequests();
 
   useEffect(() => {
@@ -23,7 +25,7 @@ function ModalAddCobranca(props) {
       ...form,
       nome: cliente.nome
     });
-  },[]);
+  }, []);
 
   function handleChange(target) {
     setForm({
@@ -51,23 +53,23 @@ function ModalAddCobranca(props) {
     }
 
     const resposta = await requisicao.post('cobrancas', body, true);
-
-    if( resposta ) {
+    carregarCobrancas();
+    if (resposta) {
       setAbriModalAddCobranca(false);
       console.log(body);
     }
   }
 
   function validarFormulario(values) {
-    if(!values.descricao) {
+    if (!values.descricao) {
       objErrors.descricao = 'Este campo deve ser preenchido'
     }
 
-    if(!values.vencimento) {
+    if (!values.vencimento) {
       objErrors.vencimento = 'Este campo deve ser preenchido';
     }
 
-    if(!values.valor) {
+    if (!values.valor) {
       objErrors.valor = 'Este campo deve ser preenchido'
     }
 
@@ -96,10 +98,10 @@ function ModalAddCobranca(props) {
 
           <div className="label-descricao">
             <label htmlFor="descricao">Descrição*</label>
-            <textarea 
-              id="descricao" 
+            <textarea
+              id="descricao"
               name="descricao"
-              rows="5" 
+              rows="5"
               cols="40"
               value={form.descricao}
               onChange={(e) => handleChange(e.target)}
@@ -113,8 +115,8 @@ function ModalAddCobranca(props) {
           <div className="dividir-label">
             <div className="label-modalAddCobranca">
               <label htmlFor="vencimento">Vencimento:*</label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 name='vencimento'
                 placeholder='dd/mm/aaaa'
                 value={form.vencimento}
@@ -126,11 +128,11 @@ function ModalAddCobranca(props) {
 
             <div className="label-modalAddCobranca">
               <label htmlFor="valor">Valor:*</label>
-              <input 
-                type="number" 
-                min="0.00" 
-                max="1000000.00" 
-                step="0.01" 
+              <input
+                type="number"
+                min="0.00"
+                max="1000000.00"
+                step="0.01"
                 name='valor'
                 placeholder='Digite o valor'
                 value={form.valor}
@@ -144,17 +146,17 @@ function ModalAddCobranca(props) {
           <div >
             <p>Status*</p>
             <div className='statusCobranca'>
-              <img 
-                src={statusCobranca === 'pago' ? iconCheckdVerde : iconCheckdCinza} 
-                alt="icone" 
+              <img
+                src={statusCobranca === 'pago' ? iconCheckdVerde : iconCheckdCinza}
+                alt="icone"
                 onClick={() => setStatusCobranca(statusCobranca === 'pago' ? '' : 'pago')}
               />
               <p>Cobrança Paga</p>
             </div>
             <div className='statusCobranca'>
-              <img 
-                src={statusCobranca === 'pendente' ? iconCheckdVerde : iconCheckdCinza} 
-                alt="icone" 
+              <img
+                src={statusCobranca === 'pendente' ? iconCheckdVerde : iconCheckdCinza}
+                alt="icone"
                 onClick={() => setStatusCobranca(statusCobranca === 'pendente' ? '' : 'pendente')}
               />
               <p>Cobrança Pendente</p>
