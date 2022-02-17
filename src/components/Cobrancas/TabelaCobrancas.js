@@ -1,13 +1,19 @@
 import './TabelaCobrancas.css';
 import iconOrdenar from '../../assets/icon-ordenar.svg';
-import useCrobrancas from '../../hooks/useCobrancas';
+import useClients from '../../hooks/useClients';
 import iconEditar from '../../assets/cobrancas/icon-editar.svg';
 import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
-import cobrancasTeste from '../../mockado/listaCobrancasTeste';
+
 
 function TabelaCobrancas() {
-  // const { cobrancas } = useCrobrancas();
-  const cobrancas = cobrancasTeste;
+  const { cobrancas } = useClients();
+
+  function formatar(dataAPI) {
+    let data = new Date(dataAPI);
+    const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' })
+
+    return dataFormatada;
+  }
 
   return (
     <section className='tabela-cobrancas'>
@@ -23,12 +29,12 @@ function TabelaCobrancas() {
 
       {cobrancas.map((cobranca) => {
         return (
-          <div className="linhas-tabela-cobrancas">
-            <p>{cobranca.clienteNome}</p>
+          <div className="linhas-tabela-cobrancas" key={cobranca.id}>
+            <p>{cobranca.cliente_nome}</p>
             <p>{cobranca.id}</p>
             <p>{cobranca.valor}</p>
-            <p>{cobranca.data}</p>
-            <p>{cobranca.status}</p>
+            <p>{formatar(cobranca.vencimento)}</p>
+            <p>{cobranca.cobranca_status}</p>
             <p>{cobranca.descricao}</p>
             <p><button><img src={iconEditar} alt="" /></button> <button><img src={iconExcluir} alt="" /></button></p>
           </div>

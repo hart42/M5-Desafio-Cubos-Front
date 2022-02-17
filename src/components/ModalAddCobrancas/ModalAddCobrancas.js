@@ -2,19 +2,30 @@ import './ModalAddCobrancas.css';
 import iconCobrancaCinza from '../../assets/icon-cobranca-cinza.svg';
 import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import iconCheckdVerde from '../../assets/cobrancas/icon-checked.svg';
 import iconCheckdCinza from '../../assets/cobrancas/icon-check-cinza.svg';
+import useRequests from '../../hooks/useRequests';
+import useClients from '../../hooks/useClients';
 
-const defaultValuesForm = { nome: 'jeremy', descricao: '', vencimento: '', valor: '' };
+const defaultValuesForm = { nome: '', descricao: '', vencimento: '', valor: '' };
 
-function ModalAddCobranca() {
+function ModalAddCobranca(props) {
+  const { cliente } = props;
   const { setAbriModalAddCobranca } = useGlobal();
-  const [ form, setForm ] = useState(defaultValuesForm);
-  const [ statusCobranca, setStatusCobranca ] = useState('pendente') ;
+  const [form, setForm] = useState(defaultValuesForm);
+  const [statusCobranca, setStatusCobranca] = useState('pendente');
   const objErrors = {};
-  const [ errors, setErrors ] = useState([]);
+  const [errors, setErrors] = useState([]);
+  const { carregarCobrancas, carregarClientes } = useClients();
+  const requisicao = useRequests();
 
+  useEffect(() => {
+    setForm({
+      ...form,
+      nome: cliente.nome
+    });
+  }, []);
 
   function handleChange(target) {
     setForm({
@@ -31,18 +42,36 @@ function ModalAddCobranca() {
     if (Object.keys(validarFormulario(form)).length !== 0) {
       return;
     }
+
+    const body = {
+      cliente_nome: form.nome,
+      descricao: form.descricao,
+      vencimento: form.vencimento,
+      valor: form.valor,
+      cobranca_status: statusCobranca,
+      cliente_id: cliente.id
+    }
+
+    const resposta = await requisicao.post('cobrancas', body, true);
+    carregarCobrancas();
+    carregarClientes();
+
+    if (resposta) {
+      setAbriModalAddCobranca(false);
+      console.log(body);
+    }
   }
 
   function validarFormulario(values) {
-    if(!values.descricao) {
+    if (!values.descricao) {
       objErrors.descricao = 'Este campo deve ser preenchido'
     }
 
-    if(!values.vencimento) {
+    if (!values.vencimento) {
       objErrors.vencimento = 'Este campo deve ser preenchido';
     }
 
-    if(!values.valor) {
+    if (!values.valor) {
       objErrors.valor = 'Este campo deve ser preenchido'
     }
 
@@ -71,59 +100,65 @@ function ModalAddCobranca() {
 
           <div className="label-descricao">
             <label htmlFor="descricao">Descrição*</label>
-            <textarea 
-              id="descricao" 
+            <textarea
+              id="descricao"
               name="descricao"
-              rows="5" 
-              cols="62"
+              rows="3"
+              cols="40"
               value={form.descricao}
               onChange={(e) => handleChange(e.target)}
+              onBlur={(e) => !e.target.value ? setErrors({ ...errors, descricao: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, descricao: false })}
             >
               Digite a descrição
             </textarea>
+            {errors.descricao && <span className='erro-form'>{errors.descricao}</span>}
           </div>
 
           <div className="dividir-label">
             <div className="label-modalAddCobranca">
               <label htmlFor="vencimento">Vencimento:*</label>
-              <input 
-                type="date" 
+              <input
+                type="date"
                 name='vencimento'
                 placeholder='dd/mm/aaaa'
                 value={form.vencimento}
                 onChange={(e) => handleChange(e.target)}
+                onBlur={(e) => !e.target.value ? setErrors({ ...errors, vencimento: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, vencimento: false })}
               />
+              {errors.vencimento && <span className="erro-form">{errors.vencimento}</span>}
             </div>
 
             <div className="label-modalAddCobranca">
               <label htmlFor="valor">Valor:*</label>
-              <input 
-                type="number" 
-                min="0.00" 
-                max="1000000.00" 
-                step="0.01" 
+              <input
+                type="number"
+                min="0.00"
+                max="1000000.00"
+                step="0.01"
                 name='valor'
                 placeholder='Digite o valor'
                 value={form.valor}
                 onChange={(e) => handleChange(e.target)}
+                onBlur={(e) => !e.target.value ? setErrors({ ...errors, valor: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, valor: false })}
               />
+              {errors.valor && <span className='erro-form'>{errors.valor}</span>}
             </div>
           </div>
 
           <div >
             <p>Status*</p>
             <div className='statusCobranca'>
-              <img 
-                src={statusCobranca === 'pago' ? iconCheckdVerde : iconCheckdCinza} 
-                alt="icone" 
+              <img
+                src={statusCobranca === 'pago' ? iconCheckdVerde : iconCheckdCinza}
+                alt="icone"
                 onClick={() => setStatusCobranca(statusCobranca === 'pago' ? '' : 'pago')}
               />
               <p>Cobrança Paga</p>
             </div>
             <div className='statusCobranca'>
-              <img 
-                src={statusCobranca === 'pendente' ? iconCheckdVerde : iconCheckdCinza} 
-                alt="icone" 
+              <img
+                src={statusCobranca === 'pendente' ? iconCheckdVerde : iconCheckdCinza}
+                alt="icone"
                 onClick={() => setStatusCobranca(statusCobranca === 'pendente' ? '' : 'pendente')}
               />
               <p>Cobrança Pendente</p>
