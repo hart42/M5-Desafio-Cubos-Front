@@ -9,8 +9,7 @@ import ModalAddCobranca from "../../components/ModalAddCobrancas/ModalAddCobranc
 
 function Cobrancas() {
   const {
-    abriModalAddCobranca, 
-    setAbriModalAddCobranca 
+    abriModalAddCobranca,  
   } = useGlobal();
 
   return (
@@ -23,7 +22,7 @@ function Cobrancas() {
           </div>
 
           <div className="funcionalidades">
-            <img className='btn-filtros-cobrancas' src={iconFiltroRosa} alt="Filtros" onClick={() => setAbriModalAddCobranca(true)}/>
+            <img className='btn-filtros-cobrancas' src={iconFiltroRosa} alt="Filtros" />
             <div className='pesquisa-cobrancas'>
               <input type="text" placeholder='Pesquisa' />
               <img src={iconLupa} alt="" />
