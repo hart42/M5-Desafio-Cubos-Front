@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import iconClienteCinza from '../../assets/icon-cliente-cinza.svg';
 import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
@@ -20,6 +20,30 @@ function ModalAddCliente() {
         setForm({
             ...form,
             [target.name]: target.value
+        });
+    }
+
+    async function handleViaCEP(cep) {
+        if (!cep) {
+            setErrors({ ...errors, errocep: false })
+            return
+        }
+
+        const resposta = await requisicao.getCEP(cep)
+
+        if (!resposta) {
+            setErrors({ ...errors, errocep: 'Cep invalido' })
+            return
+        }
+
+        setErrors({ ...errors, errocep: false })
+
+        setForm({
+            ...form,
+            endereco: resposta.logradouro,
+            bairro: resposta.bairro,
+            cidade: resposta.localidade,
+            uf: resposta.uf
         });
     }
 
@@ -143,6 +167,22 @@ function ModalAddCliente() {
                         </div>
                     </div>
                     <div className='label-modalAddCliente'>
+                        <div className='dividir-label'>
+                            <div className='label-modalAddCliente'>
+                                <label htmlFor='cep'>CEP</label>
+                                <input type='number' name='cep' placeholder='Digite o CEP'
+                                    value={form.cep}
+                                    onChange={(e) => handleChange(e.target)}
+                                    onBlur={(e) => handleViaCEP(e.target.value)} />
+                                {errors.errocep && <span className="erro-form">{errors.errocep}</span>}
+                            </div>
+                            <div className='label-modalAddCliente'>
+                                <label htmlFor='bairro'>Bairro</label>
+                                <input type='text' name='bairro' placeholder='Digite o Bairro'
+                                    value={form.bairro}
+                                    onChange={(e) => handleChange(e.target)} />
+                            </div>
+                        </div>
                         <label htmlFor='endereco'>Endereço</label>
                         <input type='text' name='endereco' placeholder='Digite o endereço'
                             value={form.endereco}
@@ -153,20 +193,6 @@ function ModalAddCliente() {
                         <input type='text' name='complemento' placeholder='Digite o complemento'
                             value={form.complemento}
                             onChange={(e) => handleChange(e.target)} />
-                    </div>
-                    <div className='dividir-label'>
-                        <div className='label-modalAddCliente'>
-                            <label htmlFor='cep'>CEP</label>
-                            <input type='number' name='cep' placeholder='Digite o CEP'
-                                value={form.cep}
-                                onChange={(e) => handleChange(e.target)} />
-                        </div>
-                        <div className='label-modalAddCliente'>
-                            <label htmlFor='bairro'>Bairro</label>
-                            <input type='text' name='bairro' placeholder='Digite o Bairro'
-                                value={form.bairro}
-                                onChange={(e) => handleChange(e.target)} />
-                        </div>
                     </div>
                     <div className='dividir-label'>
                         <div className='label-modalAddCliente label-dif-maior'>
@@ -184,7 +210,7 @@ function ModalAddCliente() {
                     </div>
                     <div>
                         <button onClick={() => setAbrirModalAddCliente(false)} className='btn-cancelar-modalAddCliente'>Cancelar</button>
-                        <button disabled={errors.nome || errors.email || errors.cpf || errors.telefone} className='btn-aplicar-modalAddCliente'>Aplicar</button>
+                        <button disabled={errors.nome || errors.email || errors.cpf || errors.telefone || errors.errocep} className='btn-aplicar-modalAddCliente'>Aplicar</button>
                     </div>
                 </form>
             </div >

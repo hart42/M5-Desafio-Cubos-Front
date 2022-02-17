@@ -8,9 +8,13 @@ function useGlobalProvider() {
     { nome: '', email: '' }
   );
   const [usuarioLogado, setUsuarioLogado] = useState();
+  const [clienteSelecionado, setClienteSelecionado] = useState();
   const [abrirModalAddCliente, setAbrirModalAddCliente] = useState(false);
-  const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] =
-    useState(false);
+  const [abrirModalEditCliente, setAbrirModalEditCliente] = useState(false);
+  const [abrirModalFeedbackAddCliente, setAbrirModalFeedbackAddCliente] = useState(false);
+  const [idCliente, setIdCliente] = useState();
+  const [abriModalAddCobranca, setAbriModalAddCobranca] = useState(false);
+
 
 
   return {
@@ -18,13 +22,21 @@ function useGlobalProvider() {
     setToken,
     removeToken,
     abrirModalAddCliente,
+    abrirModalEditCliente,
     setAbrirModalAddCliente,
+    setAbrirModalEditCliente,
     abrirModalFeedbackAddCliente,
     setAbrirModalFeedbackAddCliente,
     nomeEmail,
     setNomeEmail,
     usuarioLogado,
-    setUsuarioLogado
+    setUsuarioLogado,
+    idCliente,
+    setIdCliente,
+    clienteSelecionado,
+    setClienteSelecionado,
+    abriModalAddCobranca,
+    setAbriModalAddCobranca
   };
 }
 
