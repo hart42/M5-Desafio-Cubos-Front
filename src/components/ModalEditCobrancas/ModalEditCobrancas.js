@@ -10,7 +10,7 @@ import useClients from '../../hooks/useClients';
 
 
 function ModalEditCobrancas() {
-    const { setAbriModalEditCobranca, setAbrirModalFeedbackEditCliente, cobrancaSelecionada } = useGlobal();
+    const { setAbriModalEditCobranca, setAbrirModalFeedbackAddCliente, cobrancaSelecionada } = useGlobal();
 
     const defaultValuesForm = {
         nome: cobrancaSelecionada.cliente_nome,
@@ -52,12 +52,12 @@ function ModalEditCobrancas() {
         }
 
         const resposta = await requisicao.put('cobrancas', body, cobrancaSelecionada.id);
-        carregarCobrancas();
-        carregarClientes();
 
         if (resposta) {
             setAbriModalEditCobranca(false);
-            setAbrirModalFeedbackEditCliente('cobrancaEditada');
+            setAbrirModalFeedbackAddCliente('cobrancaEditada');
+            carregarCobrancas();
+            carregarClientes();
         }
     }
 

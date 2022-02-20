@@ -8,7 +8,7 @@ import './ModalExcluirCobrancas.css'
 
 
 function ModalExcluirCobrancas() {
-    const { setAbriModalExcluirCobranca, cobrancaSelecionada, setAbrirModalFeedbackEditCliente } = useGlobal()
+    const { setAbriModalExcluirCobranca, cobrancaSelecionada, setAbrirModalFeedbackAddCliente } = useGlobal()
     const { carregarCobrancas, carregarClientes } = useClients();
 
     const requisicao = useRequests()
@@ -20,7 +20,7 @@ function ModalExcluirCobrancas() {
             carregarCobrancas();
             carregarClientes();
             setAbriModalExcluirCobranca(false);
-            setAbrirModalFeedbackEditCliente('cobrancaDeletada');
+            setAbrirModalFeedbackAddCliente('cobrancaDeletada');
         }
     }
 
