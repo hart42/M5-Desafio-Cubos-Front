@@ -6,10 +6,20 @@ import iconFiltroRosa from '../../assets/icon-filtro-rosa.svg';
 import './cobranca.css';
 import TabelaCobrancas from "../../components/Cobrancas/TabelaCobrancas";
 import ModalAddCobranca from "../../components/ModalAddCobrancas/ModalAddCobrancas";
+import ModalEditCobrancas from "../../components/ModalEditCobrancas/ModalEditCobrancas";
+import ModalExcluirCobrancas from "../../components/ModalExcluirCobrancas/ModalExcluirCobrancas";
+import ModalDetalhesCobrancas from "../../components/ModalDetalhesCobrancas/ModalDetalhesCobrancas";
+import ModalFeedbackClients from "../../components/ModalFeedbackClients/ModalFeedbackClients"
+
+
 
 function Cobrancas() {
   const {
-    abriModalAddCobranca,  
+    abriModalAddCobranca,
+    abriModalEditCobranca,
+    abriModalExcluirCobranca,
+    abrirModalFeedbackAddCliente,
+    abriModalDetalhesCobranca
   } = useGlobal();
 
   return (
@@ -32,6 +42,13 @@ function Cobrancas() {
 
         <TabelaCobrancas />
         {abriModalAddCobranca && <ModalAddCobranca />}
+        {abriModalEditCobranca && <ModalEditCobrancas />}
+        {abriModalExcluirCobranca && <ModalExcluirCobrancas />}
+        {abriModalDetalhesCobranca && <ModalDetalhesCobrancas />}
+
+        {abrirModalFeedbackAddCliente === 'cobrancaDeletada' && <ModalFeedbackClients class='visible-modal-feedback-addclientes' texto='Cobrança excluída com sucesso' />}
+        {abrirModalFeedbackAddCliente === 'cobrancaEditada' && <ModalFeedbackClients class='visible-modal-feedback-addclientes' texto='Cobrança editada com sucesso' />}
+
       </Layout>
     </main>
   )

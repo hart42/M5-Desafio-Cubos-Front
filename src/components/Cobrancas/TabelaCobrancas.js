@@ -3,9 +3,11 @@ import iconOrdenar from '../../assets/icon-ordenar.svg';
 import useClients from '../../hooks/useClients';
 import iconEditar from '../../assets/cobrancas/icon-editar.svg';
 import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
+import useGlobal from '../../hooks/useGlobal';
 
 function TabelaCobrancas() {
   const { cobrancas } = useClients();
+  const { setAbriModalEditCobranca, setCobrancaSelecionada, setAbriModalExcluirCobranca, setAbriModalDetalhesCobranca } = useGlobal();
 
   function formatar(dataAPI) {
     let data = new Date(dataAPI);
@@ -19,17 +21,17 @@ function TabelaCobrancas() {
     const dataCobranca = new Date(data).getTime()
 
     if (status === 'pago') {
-        return 'Pago'
+      return 'Pago'
     }
 
     if (dataCobranca - dataAtual > 0) {
-        return 'Pendente'
+      return 'Pendente'
     }
 
     if (dataCobranca - dataAtual < 0) {
-        return 'Vencida'
+      return 'Vencida'
     }
-}
+  }
 
   return (
     <section className='tabela-cobrancas'>
@@ -45,16 +47,41 @@ function TabelaCobrancas() {
 
       {cobrancas.map((cobranca) => {
         return (
-          <div className="linhas-tabela-cobrancas" key={cobranca.id}>
-            <p>{cobranca.cliente_nome}</p>
-            <p>{cobranca.id}</p>
-            <p>{cobranca.valor}</p>
-            <p>{formatar(cobranca.vencimento)}</p>
-            <div className='coluna-status'>
+          <div className="linhas-tabela-cobrancas" key={cobranca.id} >
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{cobranca.cliente_nome}</p>
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{cobranca.id}</p>
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{cobranca.valor}</p>
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{formatar(cobranca.vencimento)}</p>
+            <div className='coluna-status' onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>
               <p className={"cobranca-" + verificarPendencia(cobranca.vencimento, cobranca.cobranca_status)}>{verificarPendencia(cobranca.vencimento, cobranca.cobranca_status)}</p>
             </div>
-            <p>{cobranca.descricao}</p>
-            <p><button><img src={iconEditar} alt="" /></button> <button><img src={iconExcluir} alt="" /></button></p>
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{cobranca.descricao}</p>
+            <p><button><img src={iconEditar} alt="" onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalEditCobranca(true)
+            }} /></button><button><img src={iconExcluir} alt=""
+              onClick={() => {
+                setCobrancaSelecionada(cobranca)
+                setAbriModalExcluirCobranca(true)
+              }} /></button></p>
           </div>
         )
       })}
