@@ -3,9 +3,59 @@ import iconOrdenar from '../../assets/icon-ordenar.svg';
 import useClients from '../../hooks/useClients';
 import iconEditar from '../../assets/cobrancas/icon-editar.svg';
 import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
+import { useEffect, useState } from 'react';
 
 function TabelaCobrancas() {
   const { cobrancas } = useClients();
+  const [ ordenaNome, setOrdenarNome ] = useState(false);
+  const [ ordenarId, setOrdenarId ] = useState(false);
+
+  function ordernarNome() {
+
+    if( ordenaNome === true){
+      cobrancas.sort((a, b) => {
+        return a.cliente_nome.toLowerCase().localeCompare(b.cliente_nome.toLowerCase());
+      });
+
+      setOrdenarNome(!ordenaNome);
+      
+    }
+    
+    if( ordenaNome === false){
+      cobrancas.sort((a, b) => {
+        return b.cliente_nome.toLowerCase().localeCompare(a.cliente_nome.toLowerCase());
+      });
+      
+      setOrdenarNome(!ordenaNome);
+
+    }
+    console.log(cobrancas);
+  }
+
+  useEffect(()=> {
+
+  }, [cobrancas]);
+  console.log('renderizou');
+
+  function ordernarID() {
+    if( ordenarId === true){
+      cobrancas.sort((a, b) => {
+        return a.id - b.id;
+      });
+      console.log (ordenarId);
+      setOrdenarId(!ordenarId);
+    }
+    
+    if( ordenarId === false){
+      cobrancas.sort((a, b) => {
+        return b.id - a.id;
+      });
+      
+      setOrdenarId(!ordenarId);
+      console.log (ordenarId);
+    }
+    console.log(cobrancas);
+  }
 
   function formatar(dataAPI) {
     let data = new Date(dataAPI);
@@ -34,8 +84,8 @@ function TabelaCobrancas() {
   return (
     <section className='tabela-cobrancas'>
       <div className="cabecalho-tabela-cobrancas">
-        <p><img src={iconOrdenar} alt="" /> Cliente</p>
-        <p><img src={iconOrdenar} alt="" /> ID Cob.</p>
+        <p><button onClick={() => ordernarNome()}><img src={iconOrdenar} alt="" /></button>Cliente</p>
+        <p> <button onClick={() => ordernarID()}><img src={iconOrdenar} alt="" /></button> ID Cob.</p>
         <p>Valor</p>
         <p>Data de venc.</p>
         <p>Status</p>
