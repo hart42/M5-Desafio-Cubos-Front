@@ -5,25 +5,35 @@ import iconOrdenar from '../../assets/icon-ordenar.svg'
 import useClients from '../../hooks/useClients';
 import { Link } from 'react-router-dom';
 import useGlobal from '../../hooks/useGlobal';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
-function TabelaClientes() {
+function TabelaClientes(props) {
     const { clientes, cobrancas } = useClients();
     const { setIdCliente, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal();
     const [clienteCobranca, setClienteCobranca] = useState({});
     const [ ordenar, setOrdenar ] = useState(false);
+    const { pesquisa } = props;
+
+    const resultadoPesquisa = useMemo(() => {
+        return clientes && clientes.filter(
+            cliente => cliente.nome.toLowerCase().includes(pesquisa.toLowerCase())
+             ||
+            cliente.cpf.toLowerCase().includes(pesquisa.toLowerCase()) ||
+            cliente.email.toLowerCase().includes(pesquisa.toLowerCase())
+        )
+    },[pesquisa, clientes]);
 
     function ordenaNome() {
 
         if( ordenar === true){
-            clientes.sort((a, b) => {
+            resultadoPesquisa.sort((a, b) => {
               return a.nome.toLowerCase().localeCompare(b.nome.toLowerCase());
             });
             setOrdenar(!ordenar);
         };
           
         if( ordenar === false){
-            clientes.sort((a, b) => {
+            resultadoPesquisa.sort((a, b) => {
               return b.nome.toLowerCase().localeCompare(a.nome.toLowerCase());
             });
             setOrdenar(!ordenar);
@@ -31,9 +41,8 @@ function TabelaClientes() {
     }
 
     useEffect(()=> {
-
+        
     }, [clientes]);
-  
 
     function verificarInadimplente(id) {
         const newData = new Date().getTime()
@@ -67,7 +76,7 @@ function TabelaClientes() {
                 <p>Criar Cobrança</p>
             </div>
 
-            {clientes.map((cliente) => {
+            {resultadoPesquisa.map((cliente) => {
                 return (
                     <div className="linhas-tabela-clientes" key={cliente.id}>
                         <p onClick={() => setIdCliente(cliente.id)}><Link to={`/Clientes/cliente/${cliente.id}`}>{cliente.nome}</Link></p>

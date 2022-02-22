@@ -6,11 +6,13 @@ import iconFiltroRosa from '../../assets/icon-filtro-rosa.svg';
 import './cobranca.css';
 import TabelaCobrancas from "../../components/Cobrancas/TabelaCobrancas";
 import ModalAddCobranca from "../../components/ModalAddCobrancas/ModalAddCobrancas";
+import { useState } from "react";
 
 function Cobrancas() {
   const {
     abriModalAddCobranca,  
   } = useGlobal();
+  const [ pesquisa, setPesquisa ] = useState('');
 
   return (
     <main>
@@ -24,13 +26,19 @@ function Cobrancas() {
           <div className="funcionalidades">
             <img className='btn-filtros-cobrancas' src={iconFiltroRosa} alt="Filtros" />
             <div className='pesquisa-cobrancas'>
-              <input type="text" placeholder='Pesquisa' />
+              <input 
+              type="text" 
+              placeholder='Pesquisa'
+              onChange={(e) => setPesquisa(e.target.value)}
+              />
               <img src={iconLupa} alt="" />
             </div>
           </div>
         </section>
 
-        <TabelaCobrancas />
+        <TabelaCobrancas 
+          pesquisa={pesquisa}
+        />
         {abriModalAddCobranca && <ModalAddCobranca />}
       </Layout>
     </main>

@@ -3,24 +3,32 @@ import iconOrdenar from '../../assets/icon-ordenar.svg';
 import useClients from '../../hooks/useClients';
 import iconEditar from '../../assets/cobrancas/icon-editar.svg';
 import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 
-function TabelaCobrancas() {
+function TabelaCobrancas(props) {
   const { cobrancas } = useClients();
   const [ ordenaNome, setOrdenarNome ] = useState(false);
   const [ ordenarId, setOrdenarId ] = useState(false);
+  const { pesquisa } = props;
+
+  const resultadoPesquisa = useMemo(() => {
+    return cobrancas && cobrancas.filter(
+      cobranca => cobranca.cliente_nome.toLowerCase().includes(pesquisa.toLowerCase()) ||
+      cobranca.id.toString().includes(pesquisa.toLowerCase())
+    )
+  },[pesquisa, cobrancas]);
 
   function ordernarNome() {
 
     if( ordenaNome === true){
-      cobrancas.sort((a, b) => {
+      resultadoPesquisa.sort((a, b) => {
         return a.cliente_nome.toLowerCase().localeCompare(b.cliente_nome.toLowerCase());
       });
       setOrdenarNome(!ordenaNome);
     };
     
     if( ordenaNome === false){
-      cobrancas.sort((a, b) => {
+      resultadoPesquisa.sort((a, b) => {
         return b.cliente_nome.toLowerCase().localeCompare(a.cliente_nome.toLowerCase());
       });
       setOrdenarNome(!ordenaNome);
@@ -29,14 +37,14 @@ function TabelaCobrancas() {
   
   function ordernarID() {
     if( ordenarId === true){
-      cobrancas.sort((a, b) => {
+      resultadoPesquisa.sort((a, b) => {
         return a.id - b.id;
       });
       setOrdenarId(!ordenarId);
     };
     
     if( ordenarId === false){
-      cobrancas.sort((a, b) => {
+      resultadoPesquisa.sort((a, b) => {
         return b.id - a.id;
       });
       setOrdenarId(!ordenarId);
@@ -83,7 +91,7 @@ function TabelaCobrancas() {
         <p> </p>
       </div>
 
-      {cobrancas.map((cobranca) => {
+      {resultadoPesquisa.map((cobranca) => {
         return (
           <div className="linhas-tabela-cobrancas" key={cobranca.id}>
             <p>{cobranca.cliente_nome}</p>
