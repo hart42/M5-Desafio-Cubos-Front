@@ -5,12 +5,35 @@ import iconOrdenar from '../../assets/icon-ordenar.svg'
 import useClients from '../../hooks/useClients';
 import { Link } from 'react-router-dom';
 import useGlobal from '../../hooks/useGlobal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 function TabelaClientes() {
     const { clientes, cobrancas } = useClients();
     const { setIdCliente, setAbriModalAddCobranca, abriModalAddCobranca } = useGlobal();
     const [clienteCobranca, setClienteCobranca] = useState({});
+    const [ ordenar, setOrdenar ] = useState(false);
+
+    function ordenaNome() {
+
+        if( ordenar === true){
+            clientes.sort((a, b) => {
+              return a.nome.toLowerCase().localeCompare(b.nome.toLowerCase());
+            });
+            setOrdenar(!ordenar);
+        };
+          
+        if( ordenar === false){
+            clientes.sort((a, b) => {
+              return b.nome.toLowerCase().localeCompare(a.nome.toLowerCase());
+            });
+            setOrdenar(!ordenar);
+        };
+    }
+
+    useEffect(()=> {
+
+    }, [clientes]);
+  
 
     function verificarInadimplente(id) {
         const newData = new Date().getTime()
@@ -36,7 +59,7 @@ function TabelaClientes() {
     return (
         <section className='tabela-clientes'>
             <div className="cabecalho-tabela-clientes">
-                <p><img src={iconOrdenar} alt="" /> Clientes</p>
+                <p><button onClick={() => ordenaNome()}><img src={iconOrdenar} alt="" /></button> Clientes</p>
                 <p>CPF</p>
                 <p>E-mail</p>
                 <p>Telefone</p>

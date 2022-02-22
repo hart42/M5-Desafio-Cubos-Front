@@ -16,53 +16,43 @@ function TabelaCobrancas() {
       cobrancas.sort((a, b) => {
         return a.cliente_nome.toLowerCase().localeCompare(b.cliente_nome.toLowerCase());
       });
-
       setOrdenarNome(!ordenaNome);
-      
-    }
+    };
     
     if( ordenaNome === false){
       cobrancas.sort((a, b) => {
         return b.cliente_nome.toLowerCase().localeCompare(a.cliente_nome.toLowerCase());
       });
-      
       setOrdenarNome(!ordenaNome);
-
-    }
-    console.log(cobrancas);
+    };
   }
-
-  useEffect(()=> {
-
-  }, [cobrancas]);
-  console.log('renderizou');
-
+  
   function ordernarID() {
     if( ordenarId === true){
       cobrancas.sort((a, b) => {
         return a.id - b.id;
       });
-      console.log (ordenarId);
       setOrdenarId(!ordenarId);
-    }
+    };
     
     if( ordenarId === false){
       cobrancas.sort((a, b) => {
         return b.id - a.id;
       });
-      
       setOrdenarId(!ordenarId);
-      console.log (ordenarId);
-    }
-    console.log(cobrancas);
-  }
+    };
+  };
+
+  useEffect(()=> {
+
+  }, [cobrancas]);
 
   function formatar(dataAPI) {
     let data = new Date(dataAPI);
     const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' })
 
     return dataFormatada;
-  }
+  };
 
   function verificarPendencia(data, status) {
     const dataAtual = new Date().getTime()
