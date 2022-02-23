@@ -173,6 +173,7 @@ function ModalAddCobranca(props) {
             </button>
             <button
               className='btn-aplicar-modalAddCobranca'
+              disabled={errors.descricao || errors.valor || errors.vencimento}
             >
               Aplicar
             </button>

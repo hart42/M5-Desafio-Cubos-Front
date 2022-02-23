@@ -3,83 +3,82 @@ import iconOrdenar from '../../assets/icon-ordenar.svg';
 import useClients from '../../hooks/useClients';
 import iconEditar from '../../assets/cobrancas/icon-editar.svg';
 import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
-import { useEffect, useState } from 'react';
+import useGlobal from '../../hooks/useGlobal';
+import { useEffect, useState, useMemo } from 'react';
 
-function TabelaCobrancas() {
+function TabelaCobrancas(props) {
   const { cobrancas } = useClients();
+  const { setAbriModalEditCobranca, setCobrancaSelecionada, setAbriModalExcluirCobranca, setAbriModalDetalhesCobranca } = useGlobal();
   const [ ordenaNome, setOrdenarNome ] = useState(false);
   const [ ordenarId, setOrdenarId ] = useState(false);
+  const { pesquisa } = props;
+
+  const resultadoPesquisa = useMemo(() => {
+    return cobrancas && cobrancas.filter(
+      cobranca => cobranca.cliente_nome.toLowerCase().includes(pesquisa.toLowerCase()) ||
+      cobranca.id.toString().includes(pesquisa.toLowerCase())
+    )
+  },[pesquisa, cobrancas]);
 
   function ordernarNome() {
 
     if( ordenaNome === true){
-      cobrancas.sort((a, b) => {
+      resultadoPesquisa.sort((a, b) => {
         return a.cliente_nome.toLowerCase().localeCompare(b.cliente_nome.toLowerCase());
       });
-
       setOrdenarNome(!ordenaNome);
-      
-    }
+    };
     
     if( ordenaNome === false){
-      cobrancas.sort((a, b) => {
+      resultadoPesquisa.sort((a, b) => {
         return b.cliente_nome.toLowerCase().localeCompare(a.cliente_nome.toLowerCase());
       });
-      
       setOrdenarNome(!ordenaNome);
-
-    }
-    console.log(cobrancas);
+    };
   }
-
-  useEffect(()=> {
-
-  }, [cobrancas]);
-  console.log('renderizou');
-
+  
   function ordernarID() {
     if( ordenarId === true){
-      cobrancas.sort((a, b) => {
+      resultadoPesquisa.sort((a, b) => {
         return a.id - b.id;
       });
-      console.log (ordenarId);
       setOrdenarId(!ordenarId);
-    }
+    };
     
     if( ordenarId === false){
-      cobrancas.sort((a, b) => {
+      resultadoPesquisa.sort((a, b) => {
         return b.id - a.id;
       });
-      
       setOrdenarId(!ordenarId);
-      console.log (ordenarId);
-    }
-    console.log(cobrancas);
-  }
+    };
+  };
+
+  useEffect(()=> {
+  }, [cobrancas]);
 
   function formatar(dataAPI) {
     let data = new Date(dataAPI);
     const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' })
 
     return dataFormatada;
-  }
+  };
 
   function verificarPendencia(data, status) {
     const dataAtual = new Date().getTime()
     const dataCobranca = new Date(data).getTime()
 
     if (status === 'pago') {
-        return 'Pago'
+      return 'Pago'
     }
 
     if (dataCobranca - dataAtual > 0) {
-        return 'Pendente'
+      return 'Pendente'
     }
 
     if (dataCobranca - dataAtual < 0) {
-        return 'Vencida'
+      return 'Vencida'
     }
-}
+  }
 
   return (
     <section className='tabela-cobrancas'>
@@ -93,18 +92,43 @@ function TabelaCobrancas() {
         <p> </p>
       </div>
 
-      {cobrancas.map((cobranca) => {
+      {resultadoPesquisa.map((cobranca) => {
         return (
-          <div className="linhas-tabela-cobrancas" key={cobranca.id}>
-            <p>{cobranca.cliente_nome}</p>
-            <p>{cobranca.id}</p>
-            <p>{cobranca.valor}</p>
-            <p>{formatar(cobranca.vencimento)}</p>
-            <div className='coluna-status'>
+          <div className="linhas-tabela-cobrancas" key={cobranca.id} >
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{cobranca.cliente_nome}</p>
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{cobranca.id}</p>
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{cobranca.valor}</p>
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{formatar(cobranca.vencimento)}</p>
+            <div className='coluna-status' onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>
               <p className={"cobranca-" + verificarPendencia(cobranca.vencimento, cobranca.cobranca_status)}>{verificarPendencia(cobranca.vencimento, cobranca.cobranca_status)}</p>
             </div>
-            <p>{cobranca.descricao}</p>
-            <p><button><img src={iconEditar} alt="" /></button> <button><img src={iconExcluir} alt="" /></button></p>
+            <p onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalDetalhesCobranca(true)
+            }}>{cobranca.descricao}</p>
+            <p><button><img src={iconEditar} alt="" onClick={() => {
+              setCobrancaSelecionada(cobranca)
+              setAbriModalEditCobranca(true)
+            }} /></button><button><img src={iconExcluir} alt=""
+              onClick={() => {
+                setCobrancaSelecionada(cobranca)
+                setAbriModalExcluirCobranca(true)
+              }} /></button></p>
           </div>
         )
       })}
