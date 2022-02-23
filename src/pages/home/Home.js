@@ -12,6 +12,7 @@ import clientesEmDia from '../../assets/home/clienteEmDia.svg';
 import useClients from '../../hooks/useClients';
 import useGlobal from '../../hooks/useGlobal';
 import { useEffect } from 'react';
+import { useState } from 'react';
 
 function Home() {
   const { cobrancas } = useClients();
@@ -106,7 +107,7 @@ function Home() {
   const propsResumoPendentes = resumoPendentes.filter(
     (value) => value !== undefined
   );
-  
+  const [todosClientes, setTodosClientes] = useState();
   const pegaClientes = async () => {
     try {
       const response = await fetch(`https://desafio-modulo-5.herokuapp.com/clientes/home`, {
@@ -117,22 +118,26 @@ function Home() {
     });
 
     const data = await response.json();
-
-    return data;
+    console.log(data)
+    return setTodosClientes(data);
     
     } catch (error) {
       console.log(error)
     }
   };
 
-  const todosClientes = pegaClientes();
+  
 
   const clientesEmDiaArray = todosClientes && todosClientes.adimplentes;
   const clienteInadimplenteArray = todosClientes && todosClientes.inadimplentes;
+  console.log(todosClientes);
+  console.log(clientesEmDiaArray)
+  console.log(clienteInadimplenteArray)
 
   useEffect(() => {
-    console.log(todosClientes);
-  }, [todosClientes])
+    Promise.resolve(()=>pegaClientes()).then((data)=>setTodosClientes(data)).catch((e)=>console.log({e}))
+    /* void pegaClientes() */
+  }, [])
 
   return (
     <main>
@@ -188,7 +193,7 @@ function Home() {
             icone={clienteInadimplente}
             corBack={'#FFEFEF'}
             fontColor={'#971D1D'}
-            tamanho={clienteInadimplente.length}
+            tamanho={clienteInadimplenteArray && clienteInadimplenteArray.length}
             clientesHome={clienteInadimplenteArray}
           />
           <ClientesHome
@@ -196,7 +201,7 @@ function Home() {
             icone={clientesEmDia}
             corBack={'#EEF6F6'}
             fontColor={'#1FA7AF'}
-            tamanho={clientesEmDia.length}
+            tamanho={clientesEmDiaArray && clientesEmDiaArray.length}
             clientesHome={clientesEmDiaArray}
           />
         </div>
