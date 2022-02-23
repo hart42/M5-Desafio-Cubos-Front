@@ -22,32 +22,20 @@ export default function ClientesHome(props) {
             color: props.fontColor
           }}
         >
-          {props.vencidas}
-          {props.emDia}
+          {props.tamanho}
         </span>
       </div>
       <div className="cabecalho-tabela-clientes-home">
         <p>Cliente</p>
-        <p>Data de Venc.</p>
-        <p>Valor</p>
+        <p>ID Cliente</p>
+        <p>CPF</p>
       </div>
-      {props.resumoVencidas &&
-        props.resumoVencidas.slice(0, 4).map((item) => {
+      {props.clientesHome && props.clientesHome.slice(0, 4).map((item) => {
           return (
-            <div className="linha-tabela-clientes-home">
-              <p className="nome-cliente">{item.cliente_nome}</p>
-              <p>{formatar(item.vencimento)}</p>
-              <p className="valor-cliente">R$ {item.valor},00</p>
-            </div>
-          );
-        })}
-      {props.resumoEmDia &&
-        props.resumoEmDia.slice(0, 4).map((item) => {
-          return (
-            <div className="linha-tabela-clientes-home">
-              <p className="nome-cliente">{item.cliente_nome}</p>
-              <p>{formatar(item.vencimento)}</p>
-              <p className="valor-cliente">R$ {item.valor},00</p>
+            <div className="linha-tabela-clientes-home" key={item.id}>
+              <p className="nome-cliente">{item.nome}</p>
+              <p>{item.id}</p>
+              <p className="valor-cliente">{item.cpf}</p>
             </div>
           );
         })}
