@@ -10,7 +10,7 @@ import ModalEditCobrancas from "../../components/ModalEditCobrancas/ModalEditCob
 import ModalExcluirCobrancas from "../../components/ModalExcluirCobrancas/ModalExcluirCobrancas";
 import ModalDetalhesCobrancas from "../../components/ModalDetalhesCobrancas/ModalDetalhesCobrancas";
 import ModalFeedbackClients from "../../components/ModalFeedbackClients/ModalFeedbackClients"
-
+import { useState } from "react";
 
 
 function Cobrancas() {
@@ -21,6 +21,7 @@ function Cobrancas() {
     abrirModalFeedbackAddCliente,
     abriModalDetalhesCobranca
   } = useGlobal();
+  const [ pesquisa, setPesquisa ] = useState('');
 
   return (
     <main>
@@ -34,13 +35,19 @@ function Cobrancas() {
           <div className="funcionalidades">
             <img className='btn-filtros-cobrancas' src={iconFiltroRosa} alt="Filtros" />
             <div className='pesquisa-cobrancas'>
-              <input type="text" placeholder='Pesquisa' />
+              <input 
+              type="text" 
+              placeholder='Pesquisa'
+              onChange={(e) => setPesquisa(e.target.value)}
+              />
               <img src={iconLupa} alt="" />
             </div>
           </div>
         </section>
 
-        <TabelaCobrancas />
+        <TabelaCobrancas 
+          pesquisa={pesquisa}
+        />
         {abriModalAddCobranca && <ModalAddCobranca />}
         {abriModalEditCobranca && <ModalEditCobrancas />}
         {abriModalExcluirCobranca && <ModalExcluirCobrancas />}

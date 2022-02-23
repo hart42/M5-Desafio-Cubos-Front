@@ -4,17 +4,64 @@ import useClients from '../../hooks/useClients';
 import iconEditar from '../../assets/cobrancas/icon-editar.svg';
 import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
 import useGlobal from '../../hooks/useGlobal';
+import { useEffect, useState, useMemo } from 'react';
 
-function TabelaCobrancas() {
+function TabelaCobrancas(props) {
   const { cobrancas } = useClients();
   const { setAbriModalEditCobranca, setCobrancaSelecionada, setAbriModalExcluirCobranca, setAbriModalDetalhesCobranca } = useGlobal();
+  const [ ordenaNome, setOrdenarNome ] = useState(false);
+  const [ ordenarId, setOrdenarId ] = useState(false);
+  const { pesquisa } = props;
+
+  const resultadoPesquisa = useMemo(() => {
+    return cobrancas && cobrancas.filter(
+      cobranca => cobranca.cliente_nome.toLowerCase().includes(pesquisa.toLowerCase()) ||
+      cobranca.id.toString().includes(pesquisa.toLowerCase())
+    )
+  },[pesquisa, cobrancas]);
+
+  function ordernarNome() {
+
+    if( ordenaNome === true){
+      resultadoPesquisa.sort((a, b) => {
+        return a.cliente_nome.toLowerCase().localeCompare(b.cliente_nome.toLowerCase());
+      });
+      setOrdenarNome(!ordenaNome);
+    };
+    
+    if( ordenaNome === false){
+      resultadoPesquisa.sort((a, b) => {
+        return b.cliente_nome.toLowerCase().localeCompare(a.cliente_nome.toLowerCase());
+      });
+      setOrdenarNome(!ordenaNome);
+    };
+  }
+  
+  function ordernarID() {
+    if( ordenarId === true){
+      resultadoPesquisa.sort((a, b) => {
+        return a.id - b.id;
+      });
+      setOrdenarId(!ordenarId);
+    };
+    
+    if( ordenarId === false){
+      resultadoPesquisa.sort((a, b) => {
+        return b.id - a.id;
+      });
+      setOrdenarId(!ordenarId);
+    };
+  };
+
+  useEffect(()=> {
+  }, [cobrancas]);
 
   function formatar(dataAPI) {
     let data = new Date(dataAPI);
     const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' })
 
     return dataFormatada;
-  }
+  };
 
   function verificarPendencia(data, status) {
     const dataAtual = new Date().getTime()
@@ -36,8 +83,8 @@ function TabelaCobrancas() {
   return (
     <section className='tabela-cobrancas'>
       <div className="cabecalho-tabela-cobrancas">
-        <p><img src={iconOrdenar} alt="" /> Cliente</p>
-        <p><img src={iconOrdenar} alt="" /> ID Cob.</p>
+        <p><button onClick={() => ordernarNome()}><img src={iconOrdenar} alt="" /></button>Cliente</p>
+        <p> <button onClick={() => ordernarID()}><img src={iconOrdenar} alt="" /></button> ID Cob.</p>
         <p>Valor</p>
         <p>Data de venc.</p>
         <p>Status</p>
@@ -45,7 +92,7 @@ function TabelaCobrancas() {
         <p> </p>
       </div>
 
-      {cobrancas.map((cobranca) => {
+      {resultadoPesquisa.map((cobranca) => {
         return (
           <div className="linhas-tabela-cobrancas" key={cobranca.id} >
             <p onClick={() => {
