@@ -33,6 +33,7 @@ function useClientsProvider() {
 
     return {
         clientes,
+        setClientes,
         carregarClientes,
         cobrancas,
         carregarCobrancas
