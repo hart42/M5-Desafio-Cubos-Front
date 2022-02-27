@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import useClients from '../../../hooks/useClients';
 import './statusClientes.css';
 
 export default function ClientesHome(props) {
@@ -7,6 +9,9 @@ export default function ClientesHome(props) {
 
     return dataFormatada;
   }
+
+  const { clientes , setClientes } = useClients()
+
   return (
     <div className="card-clientes-home">
       <div className="topo-tabela-clientes">
@@ -40,7 +45,9 @@ export default function ClientesHome(props) {
           );
         })}
       <div className="final-tabela-clientes-home">
-        <p>Ver Todos</p>
+        <p onClick={()=> {
+          setClientes(()=> props.clientesHome)
+        }}><Link to='/Clientes'>Ver Todos</Link></p>
       </div>
     </div>
   );
