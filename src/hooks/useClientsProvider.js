@@ -28,6 +28,7 @@ function useClientsProvider() {
   async function carregarCobrancas() {
     const result = await requisicao.get('cobrancas');
     setCobrancas(result);
+    console.log(result)
   }
 
   return {
