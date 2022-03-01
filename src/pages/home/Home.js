@@ -110,30 +110,35 @@ function Home() {
   const [todosClientes, setTodosClientes] = useState();
   const pegaClientes = async () => {
     try {
-      const response = await fetch(`https://desafio-modulo-5.herokuapp.com/clientes/home`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
+      const response = await fetch(
+        `https://desafio-modulo-5.herokuapp.com/clientes/home`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         }
-      });
+      );
 
       const data = await response.json();
+      console.log(data);
       return setTodosClientes(data);
-
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
-
 
 
   const clientesEmDiaArray = todosClientes && todosClientes.adimplentes;
   const clienteInadimplenteArray = todosClientes && todosClientes.inadimplentes;
 
   useEffect(() => {
-    Promise.resolve(() => pegaClientes()).then((data) => setTodosClientes(data)).catch((e) => console.log({ e }))
+
+    Promise.resolve(() => pegaClientes())
+      .then((data) => setTodosClientes(data))
+      .catch((e) => console.log({ e }));
     /* void pegaClientes() */
-  }, [])
+  }, []);
 
   return (
     <main>
@@ -165,22 +170,22 @@ function Home() {
             titulo={'Cobranças Pagas'}
             corBack={'#EEF6F6'}
             fontColor={'#1FA7AF'}
-            pagas={propsPagas.length}
-            resumoPagas={propsResumoPagos}
+            quantidade={propsPagas.length}
+            resumo={propsResumoPagos}
           />
           <Cobrancas
             titulo={'Cobranças Vencidas'}
             corBack={'#FFEFEF'}
             fontColor={'#971D1D'}
-            vencidas={propsVencidas.length}
-            resumoVencidas={propsResumoVencidas}
+            quantidade={propsVencidas.length}
+            resumo={propsResumoVencidas}
           />
           <Cobrancas
             titulo={'Cobranças Previstas'}
             corBack={'#FCF6DC'}
             fontColor={'#C5A605'}
-            pendentes={propsPendentes.length}
-            resumoVencidas={propsResumoPendentes}
+            quantidade={propsPendentes.length}
+            resumo={propsResumoPendentes}
           />
         </div>
         <div className="resumo-clientes">
@@ -189,7 +194,9 @@ function Home() {
             icone={clienteInadimplente}
             corBack={'#FFEFEF'}
             fontColor={'#971D1D'}
-            tamanho={clienteInadimplenteArray && clienteInadimplenteArray.length}
+            tamanho={
+              clienteInadimplenteArray && clienteInadimplenteArray.length
+            }
             clientesHome={clienteInadimplenteArray}
           />
           <ClientesHome
