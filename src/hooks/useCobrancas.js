@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import CobrancasContext from "../context/CobrancasContext";
 
-function useCrobrancas() {
+function useCobrancas() {
   return useContext(CobrancasContext);
 }
 
-export default useCrobrancas;
+export default useCobrancas;

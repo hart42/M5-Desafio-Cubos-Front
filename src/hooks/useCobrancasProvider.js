@@ -4,7 +4,7 @@ import useGlobal from "./useGlobal";
 
 function useCobrancasProvider() {
   const requisicao = useRequests();
-  const [ cobrancass, setCobrancas ] = useState(['ola']);
+  const [cobrancass, setCobrancas] = useState(['ola']);
   const { token } = useGlobal();
 
   useEffect(() => {

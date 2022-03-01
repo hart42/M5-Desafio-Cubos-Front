@@ -8,6 +8,23 @@ function ModalDetalhesCobrancas() {
     const { cobrancaSelecionada, setAbriModalDetalhesCobranca } = useGlobal()
     const data = new Date(cobrancaSelecionada.vencimento)
 
+    function verificarPendencia(data, status) {
+        const dataAtual = new Date().getTime()
+        const dataCobranca = new Date(data).getTime()
+
+        if (status === 'pago') {
+            return 'Pago'
+        }
+
+        if (dataCobranca - dataAtual > 0) {
+            return 'Pendente'
+        }
+
+        if (dataCobranca - dataAtual < 0) {
+            return 'Vencida'
+        }
+    }
+
     return (
         <div className='backdrop-modalDetalhes'>
             <div className='container-detalhes'>
@@ -37,7 +54,9 @@ function ModalDetalhesCobrancas() {
                     </div>
                     <div className='div-menor-detalhes'>
                         <p className='label-detalhes'>Status</p>
-                        <p>teste</p>
+                        <p className={"detalhes-status cobranca-" + verificarPendencia(cobrancaSelecionada.vencimento, cobrancaSelecionada.cobranca_status)}>
+                            {verificarPendencia(cobrancaSelecionada.vencimento, cobrancaSelecionada.cobranca_status)}
+                        </p>
                     </div>
                 </div>
             </div>

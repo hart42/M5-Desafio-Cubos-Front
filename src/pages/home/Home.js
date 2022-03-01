@@ -111,31 +111,27 @@ function Home() {
   const pegaClientes = async () => {
     try {
       const response = await fetch(`https://desafio-modulo-5.herokuapp.com/clientes/home`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
 
-    const data = await response.json();
-    console.log(data)
-    return setTodosClientes(data);
-    
+      const data = await response.json();
+      return setTodosClientes(data);
+
     } catch (error) {
       console.log(error)
     }
   };
 
-  
+
 
   const clientesEmDiaArray = todosClientes && todosClientes.adimplentes;
   const clienteInadimplenteArray = todosClientes && todosClientes.inadimplentes;
-  console.log(todosClientes);
-  console.log(clientesEmDiaArray)
-  console.log(clienteInadimplenteArray)
 
   useEffect(() => {
-    Promise.resolve(()=>pegaClientes()).then((data)=>setTodosClientes(data)).catch((e)=>console.log({e}))
+    Promise.resolve(() => pegaClientes()).then((data) => setTodosClientes(data)).catch((e) => console.log({ e }))
     /* void pegaClientes() */
   }, [])
 
