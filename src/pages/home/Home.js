@@ -127,12 +127,13 @@ function Home() {
       console.log(error);
     }
   };
-  console.log(propsResumoPendentes);
+
 
   const clientesEmDiaArray = todosClientes && todosClientes.adimplentes;
   const clienteInadimplenteArray = todosClientes && todosClientes.inadimplentes;
 
   useEffect(() => {
+
     Promise.resolve(() => pegaClientes())
       .then((data) => setTodosClientes(data))
       .catch((e) => console.log({ e }));
