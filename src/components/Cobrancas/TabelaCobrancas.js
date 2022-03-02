@@ -5,6 +5,7 @@ import iconEditar from '../../assets/cobrancas/icon-editar.svg';
 import iconExcluir from '../../assets/cobrancas/icon-excluir-rosa.svg';
 import useGlobal from '../../hooks/useGlobal';
 import { useEffect, useState, useMemo } from 'react';
+import PesquisaNotFound from '../ModalPesquisaNotFound/ModalPesquisaNotFound';
 
 function TabelaCobrancas(props) {
   const { cobrancas } = useClients();
@@ -12,6 +13,7 @@ function TabelaCobrancas(props) {
   const [ ordenaNome, setOrdenarNome ] = useState(false);
   const [ ordenarId, setOrdenarId ] = useState(false);
   const { pesquisa } = props;
+  const [ notFound, setNotFound ] = useState(false);
 
   const resultadoPesquisa = useMemo(() => {
     return cobrancas && cobrancas.filter(
@@ -53,8 +55,24 @@ function TabelaCobrancas(props) {
     };
   };
 
+  function verificaPesquisa() {
+    if (pesquisa.length !== 0) {
+      if (resultadoPesquisa.length > 0) {
+        setNotFound(false);
+      } else {
+        setNotFound(true);
+      }
+
+      if (pesquisa.length === 0) {
+        setNotFound(false);
+      }
+    };
+  };
+
   useEffect(()=> {
-  }, [cobrancas]);
+    verificaPesquisa();
+    // eslint-disable-next-line
+  }, [cobrancas, pesquisa]);
 
   function formatar(dataAPI) {
     let data = new Date(dataAPI);
@@ -92,7 +110,7 @@ function TabelaCobrancas(props) {
         <p> </p>
       </div>
 
-      {resultadoPesquisa.map((cobranca) => {
+      {!notFound && resultadoPesquisa.map((cobranca) => {
         return (
           <div className="linhas-tabela-cobrancas" key={cobranca.id} >
             <p onClick={() => {
@@ -132,6 +150,8 @@ function TabelaCobrancas(props) {
           </div>
         )
       })}
+
+      {notFound && <PesquisaNotFound />}
     </section>
   )
 }

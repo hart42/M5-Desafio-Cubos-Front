@@ -77,6 +77,7 @@ function ModalAddCliente() {
         if (resposta) {
             setAbrirModalAddCliente(false)
             setAbrirModalFeedbackAddCliente(true)
+            setTimeout(() => setAbrirModalFeedbackAddCliente(false), 5000)
             carregarClientes()
         }
     }

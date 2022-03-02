@@ -6,6 +6,7 @@ import useClients from '../../hooks/useClients';
 import { Link } from 'react-router-dom';
 import useGlobal from '../../hooks/useGlobal';
 import { useState, useEffect, useMemo } from 'react';
+import PesquisaNotFound from '../ModalPesquisaNotFound/ModalPesquisaNotFound';
 
 function TabelaClientes(props) {
     const { clientes, cobrancas } = useClients();
@@ -13,6 +14,7 @@ function TabelaClientes(props) {
     const [clienteCobranca, setClienteCobranca] = useState({});
     const [ ordenar, setOrdenar ] = useState(false);
     const { pesquisa } = props;
+    const [ notFound, setNotFound ] = useState(false);
 
     const resultadoPesquisa = useMemo(() => {
         return clientes && clientes.filter(
@@ -40,9 +42,25 @@ function TabelaClientes(props) {
         };
     }
 
+    
+  function verificaPesquisa() {
+    if (pesquisa.length !== 0) {
+      if (resultadoPesquisa.length > 0) {
+        setNotFound(false);
+      } else {
+        setNotFound(true);
+      }
+
+      if (pesquisa.length === 0) {
+        setNotFound(false);
+      }
+    };
+  };
+
     useEffect(()=> {
-        
-    }, [clientes]);
+        verificaPesquisa()
+        // eslint-disable-next-line
+    }, [clientes, pesquisa]);
 
     function verificarInadimplente(id) {
         const newData = new Date().getTime()
@@ -76,7 +94,7 @@ function TabelaClientes(props) {
                 <p>Criar Cobrança</p>
             </div>
 
-            {resultadoPesquisa.map((cliente) => {
+            {!notFound && resultadoPesquisa.map((cliente) => {
                 return (
                     <div className="linhas-tabela-clientes" key={cliente.id}>
                         <p onClick={() => setIdCliente(cliente.id)}><Link to={`/Clientes/cliente/${cliente.id}`}>{cliente.nome}</Link></p>
@@ -94,6 +112,8 @@ function TabelaClientes(props) {
                     </div>
                 )
             })}
+
+            {notFound && <PesquisaNotFound />}
 
             {abriModalAddCobranca &&
                 <ModalAddCobrancas

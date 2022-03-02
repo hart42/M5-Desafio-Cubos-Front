@@ -59,6 +59,7 @@ function ModalAddCobranca(props) {
     if (resposta) {
       setAbriModalAddCobranca(false);
       setAbrirModalFeedbackAddCliente('cobranca');
+      setTimeout(() => setAbrirModalFeedbackAddCliente(false), 5000)
     }
   }
 

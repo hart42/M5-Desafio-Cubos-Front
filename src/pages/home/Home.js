@@ -10,9 +10,13 @@ import cobrancaVencida from '../../assets/home/cobrancaVencida.svg';
 import clienteInadimplente from '../../assets/home/clientesInadimplentes.svg';
 import clientesEmDia from '../../assets/home/clienteEmDia.svg';
 import useClients from '../../hooks/useClients';
+import useGlobal from '../../hooks/useGlobal';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 function Home() {
   const { cobrancas } = useClients();
+  const { token } = useGlobal();
   function verificarPendencia(data, status) {
     const dataAtual = new Date().getTime();
     const dataCobranca = new Date(data).getTime();
@@ -52,7 +56,6 @@ function Home() {
     }
   });
   const propsResumoPagos = resumoPagos.filter((value) => value !== undefined);
-
   const vencidas = cobrancas.map((cobranca) => {
     if (
       verificarPendencia(cobranca.vencimento, cobranca.cobranca_status) ===
@@ -104,6 +107,39 @@ function Home() {
   const propsResumoPendentes = resumoPendentes.filter(
     (value) => value !== undefined
   );
+  const [todosClientes, setTodosClientes] = useState();
+  const pegaClientes = async () => {
+    try {
+      const response = await fetch(
+        `https://desafio-modulo-5.herokuapp.com/clientes/home`,
+        {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+      return setTodosClientes(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
+  const clientesEmDiaArray = todosClientes && todosClientes.adimplentes;
+  const clienteInadimplenteArray = todosClientes && todosClientes.inadimplentes;
+
+  useEffect(() => {
+
+    Promise.resolve(() => pegaClientes())
+      .then((data) => setTodosClientes(data))
+      .catch((e) => console.log({ e }));
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <main>
       <Header titulo="Resumo das cobranças" classname="home-header" />
@@ -134,22 +170,22 @@ function Home() {
             titulo={'Cobranças Pagas'}
             corBack={'#EEF6F6'}
             fontColor={'#1FA7AF'}
-            pagas={propsPagas.length}
-            resumoPagas={propsResumoPagos}
+            quantidade={propsPagas.length}
+            resumo={propsResumoPagos}
           />
           <Cobrancas
             titulo={'Cobranças Vencidas'}
             corBack={'#FFEFEF'}
             fontColor={'#971D1D'}
-            vencidas={propsVencidas.length}
-            resumoVencidas={propsResumoVencidas}
+            quantidade={propsVencidas.length}
+            resumo={propsResumoVencidas}
           />
           <Cobrancas
             titulo={'Cobranças Previstas'}
             corBack={'#FCF6DC'}
             fontColor={'#C5A605'}
-            pendentes={propsPendentes.length}
-            resumoVencidas={propsResumoPendentes}
+            quantidade={propsPendentes.length}
+            resumo={propsResumoPendentes}
           />
         </div>
         <div className="resumo-clientes">
@@ -158,16 +194,18 @@ function Home() {
             icone={clienteInadimplente}
             corBack={'#FFEFEF'}
             fontColor={'#971D1D'}
-            vencidas={propsVencidas.length}
-            resumoVencidas={propsResumoVencidas}
+            tamanho={
+              clienteInadimplenteArray && clienteInadimplenteArray.length
+            }
+            clientesHome={clienteInadimplenteArray}
           />
           <ClientesHome
             titulo={'Clientes em Dia'}
             icone={clientesEmDia}
             corBack={'#EEF6F6'}
             fontColor={'#1FA7AF'}
-            emDia={propsPagas.length + propsPendentes.length}
-            resumoEmDia={propsResumoPagos}
+            tamanho={clientesEmDiaArray && clientesEmDiaArray.length}
+            clientesHome={clientesEmDiaArray}
           />
         </div>
       </div>

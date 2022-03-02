@@ -56,6 +56,7 @@ function ModalEditCobrancas() {
         if (resposta) {
             setAbriModalEditCobranca(false);
             setAbrirModalFeedbackAddCliente('cobrancaEditada');
+            setTimeout(() => setAbrirModalFeedbackAddCliente(false), 5000)
             carregarCobrancas();
             carregarClientes();
         }

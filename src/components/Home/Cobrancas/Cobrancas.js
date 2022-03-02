@@ -1,6 +1,10 @@
+import { Link } from 'react-router-dom';
+import useClients from '../../../hooks/useClients';
 import './cobrancas.css';
 
 export default function CobrancasHome(props) {
+  const { setCobrancas } = useClients();
+
   return (
     <div className="card-cobrancas">
       <div className="titulo-tabela">
@@ -14,9 +18,7 @@ export default function CobrancasHome(props) {
             color: props.fontColor
           }}
         >
-          {props.pagas}
-          {props.vencidas}
-          {props.pendentes}
+          {props.quantidade}
         </span>
       </div>
       <div className="cabecalho-tabela">
@@ -24,28 +26,8 @@ export default function CobrancasHome(props) {
         <p>ID da Cob.</p>
         <p>Valor</p>
       </div>
-      {props.resumoPagas &&
-        props.resumoPagas.slice(0, 4).map((item) => {
-          return (
-            <div className="linha-tabela">
-              <p className="nome-cliente">{item.cliente_nome}</p>
-              <p>{item.id}</p>
-              <p className="valor-cliente">R$ {item.valor},00</p>
-            </div>
-          );
-        })}
-      {props.resumoVencidas &&
-        props.resumoVencidas.slice(0, 4).map((item) => {
-          return (
-            <div className="linha-tabela">
-              <p className="nome-cliente">{item.cliente_nome}</p>
-              <p>{item.id}</p>
-              <p className="valor-cliente">R$ {item.valor},00</p>
-            </div>
-          );
-        })}
-      {props.resumoPendentes &&
-        props.resumoPendentes.slice(0, 4).map((item) => {
+      {props.resumo &&
+        props.resumo.slice(0, 4).map((item) => {
           return (
             <div className="linha-tabela">
               <p className="nome-cliente">{item.cliente_nome}</p>
@@ -55,7 +37,14 @@ export default function CobrancasHome(props) {
           );
         })}
       <div className="final-tabela">
-        <p>Ver Todos</p>
+        <p
+          onClick={() => {
+            setCobrancas(() => props.resumo);
+            console.log(props.resumo);
+          }}
+        >
+          <Link to="/Cobrancas">Ver Todos</Link>
+        </p>
       </div>
     </div>
   );
