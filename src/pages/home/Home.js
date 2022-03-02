@@ -137,7 +137,7 @@ function Home() {
     Promise.resolve(() => pegaClientes())
       .then((data) => setTodosClientes(data))
       .catch((e) => console.log({ e }));
-    /* void pegaClientes() */
+    // eslint-disable-next-line
   }, []);
 
   return (

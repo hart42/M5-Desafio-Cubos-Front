@@ -59,6 +59,7 @@ function TabelaClientes(props) {
 
     useEffect(()=> {
         verificaPesquisa()
+        // eslint-disable-next-line
     }, [clientes, pesquisa]);
 
     function verificarInadimplente(id) {

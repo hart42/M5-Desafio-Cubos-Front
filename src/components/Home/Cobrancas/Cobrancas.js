@@ -3,7 +3,7 @@ import useClients from '../../../hooks/useClients';
 import './cobrancas.css';
 
 export default function CobrancasHome(props) {
-  const { cobrancas, setCobrancas } = useClients();
+  const { setCobrancas } = useClients();
 
   return (
     <div className="card-cobrancas">

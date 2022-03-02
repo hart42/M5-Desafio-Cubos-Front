@@ -19,7 +19,6 @@ function ModalEditCliente() {
     const { carregarClientes, clientes } = useClients();
     const requisicao = useRequests();
     const objErrors = {};
-    const history = useHistory()
 
 
 

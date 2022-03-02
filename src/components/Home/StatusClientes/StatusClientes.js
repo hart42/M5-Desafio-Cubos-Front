@@ -3,14 +3,8 @@ import useClients from '../../../hooks/useClients';
 import './statusClientes.css';
 
 export default function ClientesHome(props) {
-  function formatar(dataAPI) {
-    let data = new Date(dataAPI);
-    const dataFormatada = data.toLocaleDateString('pt-BR', { timeZone: 'UTC' });
 
-    return dataFormatada;
-  }
-
-  const { clientes , setClientes } = useClients()
+  const { setClientes } = useClients()
 
   return (
     <div className="card-clientes-home">

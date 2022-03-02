@@ -71,6 +71,7 @@ function TabelaCobrancas(props) {
 
   useEffect(()=> {
     verificaPesquisa();
+    // eslint-disable-next-line
   }, [cobrancas, pesquisa]);
 
   function formatar(dataAPI) {
