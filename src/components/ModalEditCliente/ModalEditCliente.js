@@ -4,7 +4,6 @@ import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
 import useClients from '../../hooks/useClients';
 import useRequests from '../../hooks/useRequests';
-import { useHistory } from 'react-router-dom';
 import './ModalEditCliente.css';
 
 
