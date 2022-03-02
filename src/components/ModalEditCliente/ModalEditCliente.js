@@ -81,8 +81,8 @@ function ModalEditCliente() {
         if (resposta) {
             setAbrirModalEditCliente(false)
             setAbrirModalFeedbackAddCliente('editado')
+            setTimeout(() => setAbrirModalFeedbackAddCliente(false), 5000)
             carregarClientes()
-            history.push('/Clientes')
         }
     }
 

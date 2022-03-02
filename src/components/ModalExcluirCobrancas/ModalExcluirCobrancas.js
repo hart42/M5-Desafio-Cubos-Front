@@ -21,6 +21,7 @@ function ModalExcluirCobrancas() {
             carregarClientes();
             setAbriModalExcluirCobranca(false);
             setAbrirModalFeedbackAddCliente('cobrancaDeletada');
+            setTimeout(() => setAbrirModalFeedbackAddCliente(false), 5000)
         }
     }
 
