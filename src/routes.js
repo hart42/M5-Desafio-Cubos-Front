@@ -1,12 +1,15 @@
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { ClientsProvider } from './context/ClientsContext';
 import { GlobalProvider } from './context/GlobalContext';
-import Clients from './pages/clients/Clients';
-import Home from './pages/home/Home';
+import useGlobal from './hooks/useGlobal';
 import Cadastro from './pages/cadastro/cadastro';
-import Login from './pages/login/login';
 import EscolherSenha from './pages/cadastro/escolherSenha';
 import Success from './pages/cadastro/success';
-import useGlobal from './hooks/useGlobal';
+import ClienteDetalhado from './pages/clienteDetalhado/clienteDetalhado';
+import Clients from './pages/clients/Clients';
+import Home from './pages/home/Home';
+import Login from './pages/login/login';
+import Cobrancas from './pages/cobrancas/cobranca';
 
 function Routes() {
 
@@ -14,7 +17,7 @@ function Routes() {
     const { token } = useGlobal();
     return (
       <Route
-        render={() => token ? (props.children) : (<Redirect to="/login" />)}
+        render={() => token ? (props.children) : (<Redirect to="/Login" />)}
       />
     )
   }
@@ -28,8 +31,12 @@ function Routes() {
           <Route path="/Escolhasenha" exact component={EscolherSenha} />
           <Route path="/Success" exact component={Success} />
           <RotasProtegidas>
-            <Route path="/Clientes" exact component={Clients} />
-            <Route path={['/', '/Home']} exact component={Home} />
+            <ClientsProvider>
+              <Route path={['/', '/Home']} exact component={Home} />
+              <Route path="/Clientes" exact component={Clients} />
+              <Route path="/Clientes/cliente/:id" exact component={ClienteDetalhado} />
+              <Route path="/Cobrancas" exact component={Cobrancas} />
+            </ClientsProvider>
           </RotasProtegidas>
         </GlobalProvider>
       </Switch>

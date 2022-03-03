@@ -2,15 +2,19 @@ import { useState } from 'react';
 import iconClienteCinza from '../../assets/icon-cliente-cinza.svg';
 import iconFechar from '../../assets/icon-fechar.svg';
 import useGlobal from '../../hooks/useGlobal';
+import useClients from '../../hooks/useClients';
+import useRequests from '../../hooks/useRequests';
 import './ModalAddCliente.css';
 
-const defaultValuesForm = { nome: '', email: '', cpf: '', telefone: '', endereco: ' ', complemento: ' ', cep: ' ', bairro: ' ', cidade: ' ', uf: ' ' };
-
+const defaultValuesForm = { nome: '', email: '', cpf: '', telefone: '', endereco: '', complemento: '', cep: '', bairro: '', cidade: '', uf: '' };
 
 function ModalAddCliente() {
-    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente, handleAdicionarCliente, clientes } = useGlobal()
+    const { setAbrirModalAddCliente, setAbrirModalFeedbackAddCliente } = useGlobal()
     const [form, setForm] = useState(defaultValuesForm);
-    const [errors, setErrors] = useState([])
+    const [errors, setErrors] = useState([]);
+    const { carregarClientes, clientes } = useClients();
+    const requisicao = useRequests();
+    const objErrors = {};
 
     function handleChange(target) {
         setForm({
@@ -19,13 +23,40 @@ function ModalAddCliente() {
         });
     }
 
+    async function handleViaCEP(cep) {
+        if (!cep) {
+            setErrors({ ...errors, errocep: false })
+            return
+        }
+
+        const resposta = await requisicao.getCEP(cep)
+
+        if (!resposta) {
+            setErrors({ ...errors, errocep: 'Cep invalido' })
+            return
+        }
+
+        setErrors({ ...errors, errocep: false })
+
+        setForm({
+            ...form,
+            endereco: resposta.logradouro,
+            bairro: resposta.bairro,
+            cidade: resposta.localidade,
+            uf: resposta.uf
+        });
+    }
+
     async function handleSubmit(event) {
         event.preventDefault();
+
         setErrors(validarFormulario(form))
 
         if (Object.keys(validarFormulario(form)).length !== 0) {
             return;
         }
+
+
 
         const cepBody = form.cep.trim() || 0;
 
@@ -42,17 +73,16 @@ function ModalAddCliente() {
             estado: form.uf
         };
 
-        const resposta = await handleAdicionarCliente(body)
-
-        if (resposta.status === 201) {
+        const resposta = await requisicao.post('clientes', body, true)
+        if (resposta) {
             setAbrirModalAddCliente(false)
             setAbrirModalFeedbackAddCliente(true)
+            setTimeout(() => setAbrirModalFeedbackAddCliente(false), 5000)
+            carregarClientes()
         }
     }
 
     function validarFormulario(values) {
-        const objErrors = {}
-
         if (!values.nome) {
             objErrors.nome = 'Este campo deve ser preenchido'
         }
@@ -103,6 +133,7 @@ function ModalAddCliente() {
                         <input type='text' name='nome' placeholder='Digite o nome'
                             value={form.nome}
                             onChange={(e) => handleChange(e.target)}
+                            onBlur={(e) => !e.target.value ? setErrors({ ...errors, nome: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, nome: false })}
                         />
                         {errors.nome && <span className="erro-form">{errors.nome}</span>}
                     </div>
@@ -110,7 +141,8 @@ function ModalAddCliente() {
                         <label htmlFor='email'>E-mail*</label>
                         <input type='email' name='email' placeholder='Digite o e-mail'
                             value={form.email}
-                            onChange={(e) => handleChange(e.target)} />
+                            onChange={(e) => handleChange(e.target)}
+                            onBlur={(e) => !e.target.value ? setErrors({ ...errors, email: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, email: false })} />
                         {errors.email && <span className="erro-form">{errors.email}</span>}
                         {errors.emailExiste && <span className="erro-form">{errors.emailExiste}</span>}
 
@@ -120,21 +152,38 @@ function ModalAddCliente() {
                             <label htmlFor='cpf'>CPF*</label>
                             <input type='number' name='cpf' placeholder='Digite o CPF'
                                 value={form.cpf}
-                                onChange={(e) => handleChange(e.target)} />
+                                onChange={(e) => handleChange(e.target)}
+                                onBlur={(e) => !e.target.value ? setErrors({ ...errors, cpf: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, cpf: false })} />
                             {errors.cpf && <span className="erro-form">{errors.cpf}</span>}
                             {errors.cpfValido && <span className="erro-form">{errors.cpfValido}</span>}
                             {errors.cpfExiste && <span className="erro-form">{errors.cpfExiste}</span>}
-
                         </div>
                         <div className='label-modalAddCliente'>
                             <label htmlFor='telefone'>Telefone*</label>
                             <input type='number' name='telefone' placeholder='Digite o telefone'
                                 value={form.telefone}
-                                onChange={(e) => handleChange(e.target)} />
+                                onChange={(e) => handleChange(e.target)}
+                                onBlur={(e) => !e.target.value ? setErrors({ ...errors, telefone: 'Este campo deve ser preenchido' }) : setErrors({ ...errors, telefone: false })} />
                             {errors.telefone && <span className="erro-form">{errors.telefone}</span>}
                         </div>
                     </div>
                     <div className='label-modalAddCliente'>
+                        <div className='dividir-label'>
+                            <div className='label-modalAddCliente'>
+                                <label htmlFor='cep'>CEP</label>
+                                <input type='number' name='cep' placeholder='Digite o CEP'
+                                    value={form.cep}
+                                    onChange={(e) => handleChange(e.target)}
+                                    onBlur={(e) => handleViaCEP(e.target.value)} />
+                                {errors.errocep && <span className="erro-form">{errors.errocep}</span>}
+                            </div>
+                            <div className='label-modalAddCliente'>
+                                <label htmlFor='bairro'>Bairro</label>
+                                <input type='text' name='bairro' placeholder='Digite o Bairro'
+                                    value={form.bairro}
+                                    onChange={(e) => handleChange(e.target)} />
+                            </div>
+                        </div>
                         <label htmlFor='endereco'>Endereço</label>
                         <input type='text' name='endereco' placeholder='Digite o endereço'
                             value={form.endereco}
@@ -145,20 +194,6 @@ function ModalAddCliente() {
                         <input type='text' name='complemento' placeholder='Digite o complemento'
                             value={form.complemento}
                             onChange={(e) => handleChange(e.target)} />
-                    </div>
-                    <div className='dividir-label'>
-                        <div className='label-modalAddCliente'>
-                            <label htmlFor='cep'>CEP</label>
-                            <input type='number' name='cep' placeholder='Digite o CEP'
-                                value={form.cep}
-                                onChange={(e) => handleChange(e.target)} />
-                        </div>
-                        <div className='label-modalAddCliente'>
-                            <label htmlFor='bairro'>Bairro</label>
-                            <input type='text' name='bairro' placeholder='Digite o Bairro'
-                                value={form.bairro}
-                                onChange={(e) => handleChange(e.target)} />
-                        </div>
                     </div>
                     <div className='dividir-label'>
                         <div className='label-modalAddCliente label-dif-maior'>
@@ -175,8 +210,8 @@ function ModalAddCliente() {
                         </div>
                     </div>
                     <div>
-                        <button className='btn-cancelar-modalAddCliente'>Cancelar</button>
-                        <button className='btn-aplicar-modalAddCliente'>Aplicar</button>
+                        <button onClick={() => setAbrirModalAddCliente(false)} className='btn-cancelar-modalAddCliente'>Cancelar</button>
+                        <button disabled={errors.nome || errors.email || errors.cpf || errors.telefone || errors.errocep} className='btn-aplicar-modalAddCliente'>Aplicar</button>
                     </div>
                 </form>
             </div >

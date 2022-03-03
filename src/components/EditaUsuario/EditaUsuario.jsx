@@ -1,17 +1,16 @@
 import { useState } from 'react';
 import './editaUsuario.css';
-import useGlobal from '../../hooks/useGlobal';
 import mostraSenha from '../../assets/header/mostraSenha.svg';
 import naoMostraSenha from '../../assets/header/naoMostraSenha.svg';
 import sucessoImg from '../../assets/header/sucesso.svg';
 import btnFechar from '../../assets/header/close.svg'
+import useRequests from '../../hooks/useRequests';
 
 
 export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, usuario, handleObeterUsuario }) {
-
+    const requisicao = useRequests();
     const [emailCpfRepetidos, setEmailCpfRepetidos] = useState(false);
     const [sucesso, setSucesso] = useState(false);
-    const { handleEditarUsuario } = useGlobal();
     const [usuarioLogado, setUsuarioLogado] = useState(usuario);
     const [novaSenha, setNovaSenha] = useState('');
     const [confirmaSenha, setConfirmaSenha] = useState('');
@@ -30,15 +29,12 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
             cpf: true,
             telefone: true,
         });
-
     }
 
-    async function handleAplicar() {
-
+    async function handleEditarUsuario() {
         setEmailCpfRepetidos(false);
         setSenhasIguais(true);
         resetaCampos();
-
 
         if (novaSenha !== confirmaSenha) {
             return setSenhasIguais(false);
@@ -74,9 +70,9 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
             telefone: usuarioLogado.telefone
         }
 
-        const resposta = await handleEditarUsuario(body);
+        const resposta = await requisicao.putOne('perfil', body)
 
-        if (resposta.status === 200) {
+        if (resposta) {
             setSucesso(true);
             setTimeout(() => {
                 setEditaUsuario(false)
@@ -106,7 +102,9 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
                             <span>Nome*</span>
                             <input type="text" id='nome' placeholder='Digite seu nome'
                                 value={usuarioLogado.nome}
-                                onChange={(e) => setUsuarioLogado({ ...usuarioLogado, nome: e.target.value })} />
+                                onChange={(e) => setUsuarioLogado({ ...usuarioLogado, nome: e.target.value })}
+                                onBlur={(e) => !e.target.value ? setCamposPreenchidos({ ...camposPreenchidos, nome: false }) : setCamposPreenchidos({ ...camposPreenchidos, nome: true })}
+                            />
                             {!camposPreenchidos.nome && (
                                 <span className='campo-faltando-edicao'>O campo nome é obrigatório</span>
                             )}
@@ -115,7 +113,8 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
                             <span>E-mail*</span>
                             <input type="email" name="email" id="email" placeholder='Digite seu e-mail'
                                 value={usuarioLogado.email}
-                                onChange={(e) => setUsuarioLogado({ ...usuarioLogado, email: e.target.value })} />
+                                onChange={(e) => setUsuarioLogado({ ...usuarioLogado, email: e.target.value })}
+                                onBlur={(e) => !e.target.value ? setCamposPreenchidos({ ...camposPreenchidos, email: false }) : setCamposPreenchidos({ ...camposPreenchidos, email: true })} />
                             {!camposPreenchidos.email && (
                                 <span className='campo-faltando-edicao'>O campo e-mail é obrigatório</span>
                             )}
@@ -128,9 +127,8 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
                                 CPF*
                                 <input type="number" name='cpf' placeholder='Digite seu CPF'
                                     value={usuarioLogado.cpf}
-                                    onChange={(e) => {
-                                        setUsuarioLogado({ ...usuarioLogado, cpf: e.target.value });
-                                    }} />
+                                    onChange={(e) => { setUsuarioLogado({ ...usuarioLogado, cpf: e.target.value }); }}
+                                    onBlur={(e) => !e.target.value ? setCamposPreenchidos({ ...camposPreenchidos, cpf: false }) : setCamposPreenchidos({ ...camposPreenchidos, cpf: true })} />
                                 {!camposPreenchidos.cpf && (
                                     <span className='campo-faltando-edicao'>O campo cpf é obrigatório</span>
                                 )}
@@ -143,7 +141,8 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
                                 <input type="number" name='telefone'
                                     placeholder='Digite seu telefone'
                                     value={usuarioLogado.telefone}
-                                    onChange={(e) => setUsuarioLogado({ ...usuarioLogado, telefone: e.target.value })} />
+                                    onChange={(e) => setUsuarioLogado({ ...usuarioLogado, telefone: e.target.value })}
+                                    onBlur={(e) => !e.target.value ? setCamposPreenchidos({ ...camposPreenchidos, telefone: false }) : setCamposPreenchidos({ ...camposPreenchidos, telefone: true })} />
                                 {!camposPreenchidos.telefone && (
                                     <span className='campo-faltando-edicao'>O campo telefone é obrigatório</span>
                                 )}
@@ -152,7 +151,8 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
                         <label htmlFor="nova-senha"
                             className='posicao-relativa'>
                             <span>Nova Senha</span>
-                            <input type={!mostraSenhaInput ? ("password") : ("text")} name="nova-senha" id="nova-senha" placeholder='Digite uma nova senha'
+                            <input
+                                type={!mostraSenhaInput ? ("password") : ("text")} name="nova-senha" id="nova-senha" placeholder='Digite uma nova senha'
                                 onChange={(e) => setNovaSenha(e.target.value)} />
                             {mostraSenhaInput ? (<img className='icone-senha-edita' src={mostraSenha} alt=""
                                 onClick={() => setMostraSenhaInput(false)} />
@@ -182,7 +182,7 @@ export default function EditaUsuario({ setEditaUsuario, setAbrirOpcoesPerfil, us
                         </label>
                     </div>
                     <div className="final-edita-usuario">
-                        <button className='botao-aplicar' onClick={handleAplicar}>Aplicar</button>
+                        <button disabled={!camposPreenchidos.nome || !camposPreenchidos.email || !camposPreenchidos.cpf || !camposPreenchidos.telefone ? true : false} className='botao-aplicar' onClick={handleEditarUsuario}>Aplicar</button>
                     </div>
                 </div>
             ) :
